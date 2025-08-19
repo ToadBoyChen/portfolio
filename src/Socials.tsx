@@ -2,25 +2,19 @@ import React from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Hamburger from 'hamburger-react';
-
-interface SocialItem {
-  name: string;
-  href: string;
-  icon?: React.ReactNode;
-}
+import { FaInstagram, FaGithub, FaYoutube, FaLinkedin } from 'react-icons/fa';
 
 interface SocialsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-const socialItems: SocialItem[] = [
-  { name: "Instagram", href: "#instagram" },
-  { name: "GitHub", href: "#github" },
-  { name: "YouTube", href: "#youtube" },
-  { name: "LinkedIn", href: "#linkedin" },
+const socialItems = [
+  { name: 'Instagram', href: '#instagram', icon: <FaInstagram /> },
+  { name: 'GitHub', href: '#github', icon: <FaGithub /> },
+  { name: 'YouTube', href: '#youtube', icon: <FaYoutube /> },
+  { name: 'LinkedIn', href: '#linkedin', icon: <FaLinkedin /> },
 ];
-
 const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -28,7 +22,7 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
         side="left"
         className="w-64 bg-accent text-background shadow-sm data-[state=open]:animate-in data-[state=closed]:animate-out p-4"
       >
-        <SheetHeader className="flex flex-row items-center justify-between px-2 py-14">
+        <SheetHeader className="flex flex-row items-center justify-between px-2 pt-14 pb-6">
           <SheetTitle className="text-5xl font-bold tracking-tighter absolute chango-regular knewave-shadow text-background">
             Socials
           </SheetTitle>
@@ -40,17 +34,36 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
             <Hamburger toggled={open} size={18} color="currentColor" />
           </SheetClose>
         </SheetHeader>
-        <div className="mt-6 flex flex-col gap-4">
+        <div className="flex flex-col items-center">
+          <img
+            src="src/assets/me.jpeg"
+            alt="A photo of Toby Chen"
+            className="w-40 h-40 rounded-full border-4 border-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1"
+          />
+
+          <p className="mt-6 text-foreground font-semibold">
+            Check out all of my socials! I'm always looking to connect with new people and share my work.
+          </p>
+        </div>
+        <div className="mt-8 flex flex-col gap-8">
           {socialItems.map((item) => (
             <Button
               key={item.name}
               variant="secondary"
               asChild
-              className="justify-start rounded-full"
-              onClick={() => onOpenChange(false)} // clicking a link also closes the panel
+              className="rounded-full text-primary bg-background shadow-md 
+                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold
+                        
+                        flex"
+              onClick={() => onOpenChange(false)} // closes panel on click
             >
-              <a href={item.href} target="_blank" rel="noopener noreferrer">
-                {item.icon ? <span className="mr-2">{item.icon}</span> : null}
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className=""
+              >
+                {item.icon && <span className="">{item.icon}</span>}
                 {item.name}
               </a>
             </Button>

@@ -18,7 +18,7 @@ const NavButtonRight: React.FC<NavButtonProps> = ({
       className={`flex items-center gap-2 p-6 rounded-full text-primary shadow-md hover:text-background border-0 bg-background hover:shadow-lg
         active:scale-90
         transition-all duration-300 ease-in-out
-        ${isOpen ? 'translate-x-26' : 'translate-x-0'}
+        ${isOpen ? 'translate-x-200' : 'translate-x-0'}
         fixed lg:relative
         bottom-4 right-4 lg:bottom-auto lg:right-auto
         z-50`}

@@ -6,6 +6,9 @@ const coffeeImages = [
   "src/assets/background/coffee.png",
   "src/assets/background/croissant.png",
   "src/assets/background/sandwich.png",
+  "src/assets/background/coffee0.png",
+  "src/assets/background/glove.png",
+  // "src/assets/background/book.png",
 ];
 
 const CoffeeCup = () => {
@@ -93,7 +96,7 @@ const CoffeeCup = () => {
     };
   }, []);
 
-  return <div ref={sceneRef} style={{ position: "fixed", top: 0, left: 0 }} />;
+  return <div ref={sceneRef} style={{ position: "fixed", top: 0, left: 0, zIndex: -1 }} />;
 };
 
 export default CoffeeCup;

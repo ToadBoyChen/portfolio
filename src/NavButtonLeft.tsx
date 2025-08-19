@@ -20,7 +20,7 @@ const NavButtonLeft: React.FC<NavButtonProps> = ({
         transition-all duration-300 ease-in-out
         lg:relative
         bottom-4 left-4 lg:bottom-auto lg:left-auto
-        ${isOpen ? '-translate-x-26' : 'translate-x-0'}`}
+        ${isOpen ? '-translate-x-200' : 'translate-x-0'}`}
     >
       <Hamburger toggled={isOpen} size={18} color="currentColor" />
       {!isOpen ? <span className="font-semibold tracking text-lg mr-2">{label}</span> : null}
