@@ -59,7 +59,7 @@ const CoffeeCup = () => {
           Math.random() * window.innerWidth,
           -100,
           8,
-          32,
+          16,
           {
             restitution: 0.8,
             friction: 0.3,
