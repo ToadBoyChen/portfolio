@@ -3,6 +3,7 @@ import Socials from './Socials.tsx';
 import Sections from './Sections.tsx';
 import NavButtonLeft from './NavButtonLeft.tsx';
 import NavButtonRight from './NavButtonRight.tsx';
+import AnimatedText from './AnimatedText.tsx';
 
 function Navbar() {
   const [showSocials, setShowSocials] = useState(false);
@@ -20,13 +21,10 @@ function Navbar() {
           onClick={() => setShowSocials(prev => !prev)}
         />
 
-        <p className="z-[101] absolute text-background font-semibold -translate-x-1/2 left-1/2 chango-regular knewave-shadow text-6xl tracking-widest -translate-y-9">
-          {"Toby Chen".split("").map((char, i) => (
-            <span key={i} className={`bounce-letter bounce-wave bounce-delay-${i}`}>
-              {char === " " ? "\u00A0" : char}
-            </span>
-          ))}
-        </p>
+        <AnimatedText className="z-[101] absolute text-background font-semibold -translate-x-1/2 left-1/2 chango-regular knewave-shadow text-6xl tracking-widest -translate-y-9"
+        text="Toby Chen"
+        delay={200}
+        />
 
         <NavButtonRight
           label="Navigation"
@@ -56,13 +54,10 @@ function Navbar() {
         </div>
         {/* Centered name for small screens */}
         <div className="lg:hidden w-full flex justify-center items-center absolute top-2 left-0 select-none">
-          <p className="z-[101] text-background font-semibold chango-regular knewave-shadow md:text-7xl sm:text-6xl text-5xl tracking-widest md:-translate-y-10 sm:-translate-y-8 -translate-y-5">
-            {"Toby Chen".split("").map((char, i) => (
-              <span key={i} className={`bounce-letter bounce-wave bounce-delay-${i}`}>
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
-          </p>
+          <AnimatedText className="z-[101] text-background font-semibold chango-regular knewave-shadow md:text-7xl sm:text-6xl text-5xl tracking-widest md:-translate-y-10 sm:-translate-y-8 -translate-y-5"
+          text="Toby Chen"
+          delay={200}
+          />
         </div>
       </>
 

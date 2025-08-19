@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/comp
 import { Button } from "@/components/ui/button";
 import Hamburger from 'hamburger-react';
 import { FaInstagram, FaGithub, FaYoutube, FaLinkedin } from 'react-icons/fa';
+import AnimatedText from "./AnimatedText";
 
 interface SocialsProps {
   open: boolean;
@@ -24,12 +25,12 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
       >
         <SheetHeader className="flex flex-row items-center justify-between px-2 pt-14 pb-6">
           <SheetTitle className="text-5xl font-bold tracking-tighter absolute chango-regular knewave-shadow text-background">
-            Socials
+            <AnimatedText text="Socials" direction="left" order="ltr"/>
           </SheetTitle>
           
           <SheetClose
             className={`flex items-center justify-center p-0 rounded-full text-primary bg-background shadow-md 
-                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out translate-x-52 -translate-y-14 border-0`}
+                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out translate-x-51 -translate-y-14 border-0`}
           >
             <Hamburger toggled={open} size={18} color="currentColor" />
           </SheetClose>
@@ -57,10 +58,7 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
               key={item.name}
               variant="secondary"
               asChild
-              className="rounded-full text-foreground bg-background shadow-md 
-                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold
-                        
-                        flex"
+              className="rounded-full text-foreground bg-background shadow-md hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold flex"
               onClick={() => onOpenChange(false)} // closes panel on click
             >
               <a
