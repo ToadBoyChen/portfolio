@@ -1,98 +1,99 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import Matter, { Engine, Render, Runner, Bodies, World, Body } from "matter-js";
 
+// Array of images to choose from
 const coffeeImages = [
   "src/assets/background/coffee.png",
   "src/assets/background/croissant.png",
   "src/assets/background/sandwich.png",
 ];
 
-interface Cup {
-  id: number;
-  x: number;
-  y: number;
-  vy: number;
-  img: string;
-  bounce: number; // unique per cup
-}
-
-const CoffeeCup: React.FC = () => {
-  const [cups, setCups] = useState<Cup[]>([]);
+const CoffeeCup = () => {
+  const sceneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const maxCups = 10;
+    const engine = Engine.create();
+    const world = engine.world;
+
+    // Renderer
+    const render = Render.create({
+      element: sceneRef.current!,
+      engine: engine,
+      options: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        wireframes: false,
+        background: "transparent",
+      },
+    });
+
+    Render.run(render);
+    const runner = Runner.create();
+    Runner.run(runner, engine);
+
+    // Ground
+    const groundHeight = 20;
+    const ground = Bodies.rectangle(
+      window.innerWidth / 2,
+      window.innerHeight,
+      window.innerWidth,
+      groundHeight,
+      { 
+        isStatic: true,
+        render: { visible: false } 
+      }
+    );
+    World.add(world, ground);
+
+    // Store cups in a rolling buffer
+    const cups: Body[] = [];
+    const MAX_CUPS = 40;
 
     const spawnCup = () => {
-      setCups((prev) => {
-        const newCup: Cup = {
-          id: Date.now(),
-          x: Math.random() * window.innerWidth,
-          y: -50,
-          vy: 0,
-          img: coffeeImages[Math.floor(Math.random() * coffeeImages.length)],
-          bounce: Math.random() * 0.5 + 0.3, // between 0.5 and 1.0
-        };
+      // Pick a random image
+      const img = coffeeImages[Math.floor(Math.random() * coffeeImages.length)];
 
-        return [...prev, newCup].slice(-maxCups);
-      });
+      const cup = Bodies.rectangle(
+        Math.random() * window.innerWidth,
+        -100,
+        32,
+        32,
+        {
+          restitution: 0.6,
+          friction: 0.3,
+          render: {
+            sprite: {
+              texture: img,
+              xScale: 1,
+              yScale: 1,
+            },
+          },
+        }
+      );
+
+      // Add cup to world & buffer
+      World.add(world, cup);
+      cups.push(cup);
+
+      // Remove oldest if exceeding max
+      if (cups.length > MAX_CUPS) {
+        const old = cups.shift()!;
+        World.remove(world, old);
+      }
     };
 
-    const spawnInterval = setInterval(spawnCup, 2000 + Math.random() * 2000);
-
-    const gravity = 0.5;
-
-    const physicsInterval = setInterval(() => {
-      setCups((prev) =>
-        prev.map((cup) => {
-          let newVy = cup.vy + gravity;
-          let newY = cup.y + newVy;
-
-          if (newY + 64 > window.innerHeight) {
-            newY = window.innerHeight - 64;
-            newVy = -1 * newVy * cup.bounce; // use the cup’s own bounce factor
-            if (Math.abs(newVy) < 1) newVy = 0;
-          }
-
-          return { ...cup, y: newY, vy: newVy };
-        })
-      );
-    }, 30);
+    const interval = setInterval(spawnCup, 2000);
 
     return () => {
-      clearInterval(spawnInterval);
-      clearInterval(physicsInterval);
+      clearInterval(interval);
+      Render.stop(render);
+      World.clear(world, false);
+      Engine.clear(engine);
+      render.canvas.remove();
     };
   }, []);
 
-  return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        pointerEvents: "none",
-        overflow: "hidden",
-        zIndex: -1,
-      }}
-    >
-      {cups.map((cup) => (
-        <img
-          key={cup.id}
-          src={cup.img}
-          alt="coffee cup"
-          style={{
-            position: "absolute",
-            left: cup.x,
-            top: cup.y,
-            width: "64px",
-            height: "64px",
-            userSelect: "none",
-          }}
-        />
-      ))}
-    </div>
-  );
+  return <div ref={sceneRef} style={{ position: "fixed", top: 0, left: 0 }} />;
 };
 
 export default CoffeeCup;
