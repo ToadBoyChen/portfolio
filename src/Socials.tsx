@@ -38,20 +38,26 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
           <img
             src="src/assets/me.jpeg"
             alt="A photo of Toby Chen"
-            className="w-40 h-40 rounded-full border-4 border-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1"
+            className="w-50 h-50 rounded-full border-4 border-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1"
           />
 
-          <p className="mt-6 text-foreground font-semibold">
+          <p className="pt-8 text-foreground font-semibold">
             Check out all of my socials! I'm always looking to connect with new people and share my work.
           </p>
         </div>
-        <div className="mt-8 flex flex-col gap-8">
+        <div className="flex items-center mb-4 mt-4 w-full">
+          <div className="flex-grow border-t border-foreground opacity-30"></div>
+          <span className="px-4 text-foreground font-semibold opacity-60">Links</span>
+          <div className="flex-grow border-t border-foreground opacity-30"></div>
+        </div>
+
+        <div className="flex flex-col gap-8">
           {socialItems.map((item) => (
             <Button
               key={item.name}
               variant="secondary"
               asChild
-              className="rounded-full text-primary bg-background shadow-md 
+              className="rounded-full text-foreground bg-background shadow-md 
                         hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold
                         
                         flex"

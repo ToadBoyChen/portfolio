@@ -15,10 +15,10 @@ interface SectionProps {
 }
 
 const sectionItems: SectionItem[] = [
-  { name: "Instagram", href: "#instagram" },
-  { name: "GitHub", href: "#github" },
-  { name: "YouTube", href: "#youtube" },
-  { name: "LinkedIn", href: "#linkedin" },
+  { name: "Introduction", href: "#introduction" },
+  { name: "About", href: "#about" },
+  { name: "Experience", href: "#experience" },
+  { name: "Contact", href: "#contact" },
 ];
 
 const Section: React.FC<SectionProps> = ({ open, onOpenChange }) => {
@@ -49,7 +49,7 @@ const Section: React.FC<SectionProps> = ({ open, onOpenChange }) => {
               className="justify-start rounded-full"
               onClick={() => onOpenChange(false)} // clicking a link also closes the panel
             >
-              <a href={item.href} target="_blank" rel="noopener noreferrer">
+              <a href={item.href}>
                 {item.icon ? <span className="mr-2">{item.icon}</span> : null}
                 {item.name}
               </a>

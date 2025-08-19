@@ -2,10 +2,7 @@
 function Introduction() {
   return (
     <>
-      <h1>Introduction</h1>
-      <div className="min-h-screen">
-        <p>hello</p>
-      </div>
+      <h1 id="introduction">Introduction</h1>
     </>
   )
 }
