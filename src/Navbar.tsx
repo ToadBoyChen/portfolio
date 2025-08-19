@@ -10,7 +10,7 @@ function Navbar() {
   const [showSections, setShowSections] = useState(false);
 
   return (
-    <nav className="top-0 bg-accent shadow-md z-50 px-0 py-2 mt-8 relative flex items-center justify-center w-full rounded-full h-16">
+    <nav className="top-0 left-0 right-0 fixed bg-accent shadow-md z-50 mx-8 mt-16 flex items-center justify-center rounded-full h-16">
       {/* <CoffeeCup/> */}
 
       {/* large screens */}

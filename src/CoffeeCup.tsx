@@ -104,7 +104,7 @@ const CoffeeCup = () => {
       };
   }, []);
 
-  return <div ref={sceneRef} style={{ position: "fixed", top: 0, left: 0, zIndex: -1 }} />;
+  return <div ref={sceneRef} style={{ position: "fixed", top: 0, left: 0, zIndex: 1 }} />;
 };
 
 export default CoffeeCup;

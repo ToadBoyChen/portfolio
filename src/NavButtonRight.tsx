@@ -21,7 +21,7 @@ const NavButtonRight: React.FC<NavButtonProps> = ({
         ${isOpen ? 'translate-x-200' : 'translate-x-0'}
         fixed lg:relative
         bottom-4 right-4 lg:bottom-auto lg:right-auto
-        z-50`}
+        z-50 hover:rotate-3`}
     >
       {!isOpen ? <span className="font-semibold tracking text-lg mr-2">{label}</span> : null}
       {!isOpen ? <Hamburger toggled={isOpen} size={18} color="currentColor" /> : <Hamburger

@@ -1,10 +1,9 @@
-
 function Introduction() {
   return (
-    <>
-      <h1 id="introduction">Introduction</h1>
-    </>
-  )
+    <p id="introduction" className="text-4xl font-bold mt-2">
+      Welcome to my Website
+    </p>
+  );
 }
 
-export default Introduction
+export default Introduction;

@@ -30,9 +30,9 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
           
           <SheetClose
             className={`flex items-center justify-center p-0 rounded-full text-primary bg-background shadow-md 
-                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out translate-x-51 -translate-y-14 border-0`}
+                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out translate-x-51 -translate-y-14 border-0 hover:rotate-12`}
           >
-            <Hamburger toggled={open} size={18} color="currentColor" />
+            <Hamburger toggled={open} size={18} color="currentColor"/>
           </SheetClose>
         </SheetHeader>
         <div className="flex flex-col items-center">
@@ -58,7 +58,7 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
               key={item.name}
               variant="secondary"
               asChild
-              className="rounded-full text-foreground bg-background shadow-md hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold flex"
+              className="rounded-full text-foreground bg-background shadow-md hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold flex hover:rotate-3"
               onClick={() => onOpenChange(false)} // closes panel on click
             >
               <a

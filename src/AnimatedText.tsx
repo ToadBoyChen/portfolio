@@ -14,7 +14,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
   className, 
   direction = "left", 
   order = "ltr", 
-  delay = 0
+  delay = 200
 }) => {
   const letters = Array.from(text);
   const [isVisible, setIsVisible] = useState(false);
@@ -54,7 +54,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
               x: direction === "left" ? -20 : 20, 
               opacity: 0,
               // Add scale for better effect
-              scale: 0.8
+              scale: 0.7
             }}
             animate={{ 
               x: 0, 
@@ -62,7 +62,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
               scale: 1
             }}
             transition={{ 
-              delay: delayIndex * 0.05, 
+              delay: delayIndex * 0.02, 
               type: "spring", 
               stiffness: 100,
               // Add mass and damping for smoother spring
