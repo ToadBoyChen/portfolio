@@ -3,7 +3,6 @@ import Socials from './Socials.tsx';
 import Sections from './Sections.tsx';
 import NavButtonLeft from './NavButtonLeft.tsx';
 import NavButtonRight from './NavButtonRight.tsx';
-import CoffeeCup from './CoffeeCup.tsx';
 
 function Navbar() {
   const [showSocials, setShowSocials] = useState(false);

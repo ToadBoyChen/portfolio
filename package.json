@@ -21,6 +21,7 @@
     "daisyui": "^5.0.50",
     "hamburger-react": "^2.5.2",
     "lucide-react": "^0.536.0",
+    "matter-js": "^0.20.0",
     "motion": "^12.23.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
