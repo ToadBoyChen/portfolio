@@ -10,26 +10,35 @@ import FallingObjects from './FallingObjects.tsx'
 import CoffeeCup from './CoffeeCup.tsx'
 import SectionCard from './SectionCard.tsx'
 
-const sections = [
-  { id: "about", content: <About /> },
-  { id: "experience", content: <Experience /> },
-  { id: "work", content: <Work /> },
-  { id: "contact", content: <Contact /> },
-];
-
 function App() {
 
   return (
     <>
-      {/* <CoffeeCup /> */}
+      <CoffeeCup />
       <FallingObjects />
       <Navbar />
       <Introduction />
-      {sections.map((section, index) => (
-        <SectionCard key={section.id} index={index}>
-          {section.content}
-        </SectionCard>
-      ))}
+
+      <SectionCard
+        color="bg-gradient-to-br from-white/10 to-purple-300"
+      >
+        <About />
+      </SectionCard>
+      <SectionCard
+        color="bg-gradient-to-br from-white/10 to-pink-300"
+      >
+        <Experience />
+      </SectionCard>
+      <SectionCard
+        color="bg-gradient-to-br from-white/10 to-red-300"
+      >
+        <Work />
+      </SectionCard>
+      <SectionCard
+        color="bg-gradient-to-br from-white/10 to-orange-300"
+      >
+        <Contact />
+      </SectionCard>
       <Footer />
     </>
   )

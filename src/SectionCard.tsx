@@ -3,10 +3,11 @@ import { useInView } from "react-intersection-observer";
 
 interface SectionCardProps {
   children: React.ReactNode;
-  index?: number; // for stagger
+  index?: number;
+  color?: string;
 }
 
-export default function SectionCard({ children, index = 0 }: SectionCardProps) {
+export default function SectionCard({ children, index = 0, color }: SectionCardProps) {
   const [ref, inView] = useInView({ threshold: 0.3 });
 
   return (
@@ -24,7 +25,13 @@ export default function SectionCard({ children, index = 0 }: SectionCardProps) {
         damping: 12,
         delay: index * 0.2,
       }}
-      className="bg-background rounded-2xl shadow-xl p-10 my-16 mx-auto max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl min-h-screen"
+      className={`
+        rounded-2xl shadow-xl p-10 my-16 mx-auto 
+        max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl 
+        min-h-screen
+        backdrop-blur-lg border border-white/20
+        ${color ?? "bg-gradient-to-br from-white/10 to-purple-300"}
+      `}
       style={{ perspective: 1000 }}
     >
       {children}
