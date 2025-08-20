@@ -21,7 +21,7 @@ function App() {
 
   return (
     <>
-      <CoffeeCup />
+      {/* <CoffeeCup /> */}
       <FallingObjects />
       <Navbar />
       <Introduction />

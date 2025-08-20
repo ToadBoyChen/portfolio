@@ -8,7 +8,6 @@ const coffeeImages = [
   "src/assets/fallingObjects/sandwich.png",
   "src/assets/fallingObjects/coffee0.png",
   "src/assets/fallingObjects/glove.png",
-  "src/assets/fallingObjects/book.png",
 ];
 
 const maxWidth = 800;
@@ -50,23 +49,29 @@ const FallingObjects = () => {
     );
     World.add(engine.world, ground);
 
+    engine.world.gravity.y = 0.6;
+
     const spawnCup = () => {
       const img = coffeeImages[Math.floor(Math.random() * coffeeImages.length)];
+      const scale = Math.random() + 0.8;
+      const bounce = Math.random() + 0.3;
+      const dense = Math.random() * 0.01 + 0.002;
       const cup = Bodies.polygon(
         Math.random() * Math.min(window.innerWidth, maxWidth),
         -100,
         8,
         16,
         {
-          restitution: 0.8,
+          restitution: bounce,
           friction: 0.3,
-          render: { sprite: { texture: img, xScale: 1, yScale: 1 } },
+          density: dense,
+          render: { sprite: { texture: img, xScale: scale, yScale: scale } },
         }
       );
       Body.setAngularVelocity(cup, (Math.random() - 0.5) * 0.2);
       
       // If we already have 80 cups, remove the oldest one
-      if (cupsRef.current.length >= 80) {
+      if (cupsRef.current.length >= 60) {
         const oldest = cupsRef.current.shift(); // remove first
         if (oldest) World.remove(engine.world, oldest);
       }
@@ -79,7 +84,7 @@ const FallingObjects = () => {
 
     const firstSpawnTimeout = setTimeout(() => {
       spawnCup();
-      const interval = setInterval(spawnCup, 2000);
+      const interval = setInterval(spawnCup, 1000);
       render.canvas.setAttribute("data-interval-id", String(interval));
     }, 1500);
 
@@ -95,7 +100,7 @@ const FallingObjects = () => {
     };
   }, []);
 
-  return <div ref={sceneRef} style={{ position: "absolute", top: 0, left: "50%", zIndex: 1, width: Math.min(window.innerWidth, maxWidth), transform: "translateX(-50%)" }} />;
+  return <div ref={sceneRef} style={{ position: "absolute", top: 0, left: "50%", zIndex: -1, width: Math.min(window.innerWidth, maxWidth), transform: "translateX(-50%)" }} />;
 };
 
 export default FallingObjects;
