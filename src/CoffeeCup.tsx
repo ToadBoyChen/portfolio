@@ -51,17 +51,31 @@ const CoffeeCup = () => {
     World.add(engine.world, ground);
 
     const spawnCup = () => {
-      if (cupsRef.current.length > 50) return; // smaller max
       const img = coffeeImages[Math.floor(Math.random() * coffeeImages.length)];
-      const cup = Bodies.polygon(Math.random() * window.innerWidth, -100, 8, 16, {
-        restitution: 0.8,
-        friction: 0.3,
-        render: { sprite: { texture: img, xScale: 1, yScale: 1 } },
-      });
+      const cup = Bodies.polygon(
+        Math.random() * Math.min(window.innerWidth, maxWidth),
+        -100,
+        8,
+        16,
+        {
+          restitution: 0.8,
+          friction: 0.3,
+          render: { sprite: { texture: img, xScale: 1, yScale: 1 } },
+        }
+      );
       Body.setAngularVelocity(cup, (Math.random() - 0.5) * 0.2);
+      
+      // If we already have 80 cups, remove the oldest one
+      if (cupsRef.current.length >= 80) {
+        const oldest = cupsRef.current.shift(); // remove first
+        if (oldest) World.remove(engine.world, oldest);
+      }
+
+      // Add the new cup
       World.add(engine.world, cup);
       cupsRef.current.push(cup);
     };
+
 
     const firstSpawnTimeout = setTimeout(() => {
       spawnCup();

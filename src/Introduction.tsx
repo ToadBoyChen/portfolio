@@ -18,7 +18,7 @@ function Introduction() {
           <p className="text-4xl font-semibold mt-8">
             I spend most of my time behind a <IntroScreen/> or <IntroTraining/>, but I promise this website is safe to visit. Dive in and enjoy!
           </p>
-          <div className="self-center mt-12 z-10">
+          <div className="self-center mt-24 z-10">
             <ScrollDownButton />
           </div>
         </div>

@@ -3,7 +3,7 @@
 function Footer() {
   return (
     <>
-      <h1 id="footer" className="p-12">Footer</h1>
+      <h1 id="footer" className="p-24">Footer</h1>
     </>
   )
 }

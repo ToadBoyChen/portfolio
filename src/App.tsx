@@ -10,7 +10,7 @@ import CoffeeCup from './CoffeeCup.tsx'
 import SectionCard from './SectionCard.tsx'
 
 const sections = [
-  // { id: "about", content: <About /> },
+  { id: "about", content: <About /> },
   { id: "experience", content: <Experience /> },
   { id: "work", content: <Work /> },
   { id: "contact", content: <Contact /> },
@@ -23,9 +23,6 @@ function App() {
       <CoffeeCup />
       <Navbar />
       <Introduction />
-      <SectionCard>
-        <About />
-      </SectionCard>
       {sections.map((section, index) => (
         <SectionCard key={section.id} index={index}>
           {section.content}
