@@ -19,7 +19,7 @@ function Navbar() {
           onClick={() => setShowSocials(prev => !prev)}
         />
 
-        <AnimatedText className="z-[101] absolute text-background font-semibold -translate-x-1/2 left-1/2 chango-regular knewave-shadow text-6xl tracking-widest -translate-y-9"
+        <AnimatedText className="z-[101] absolute text-background font-semibold -translate-x-1/2 left-1/2 chango-regular knewave-shadow text-6xl tracking-wide -translate-y-9"
         text="Toby Chen"
         delay={200}
         />
@@ -52,7 +52,7 @@ function Navbar() {
         </div>
         {/* Centered name for small screens */}
         <div className="lg:hidden w-full flex justify-center items-center absolute top-2 left-0 select-none">
-          <AnimatedText className="z-[101] text-background font-semibold chango-regular knewave-shadow md:text-7xl sm:text-6xl text-5xl tracking-widest md:-translate-y-10 sm:-translate-y-8 -translate-y-5"
+          <AnimatedText className="z-[101] text-background font-semibold chango-regular knewave-shadow md:text-7xl sm:text-6xl text-5xl tracking-wide md:-translate-y-10 sm:-translate-y-8 -translate-y-5"
           text="Toby Chen"
           delay={200}
           />
