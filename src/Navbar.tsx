@@ -11,8 +11,6 @@ function Navbar() {
 
   return (
     <nav className="top-0 left-0 right-0 fixed bg-accent shadow-md z-50 mx-8 mt-16 flex items-center justify-center rounded-full h-16">
-      {/* <CoffeeCup/> */}
-
       {/* large screens */}
       <div className="hidden lg:flex w-full justify-between px-4">
         <NavButtonLeft

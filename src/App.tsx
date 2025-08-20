@@ -10,21 +10,22 @@ import CoffeeCup from './CoffeeCup.tsx'
 import SectionCard from './SectionCard.tsx'
 
 const sections = [
-  { id: "introduction", content: <Introduction /> },
-  { id: "about", content: <About /> },
+  // { id: "about", content: <About /> },
   { id: "experience", content: <Experience /> },
   { id: "work", content: <Work /> },
   { id: "contact", content: <Contact /> },
 ];
 
 function App() {
+
   return (
     <>
-      <CoffeeCup/>
-      <div className='min-h-20'>
-
-      </div>
+      <CoffeeCup />
       <Navbar />
+      <Introduction />
+      <SectionCard>
+        <About />
+      </SectionCard>
       {sections.map((section, index) => (
         <SectionCard key={section.id} index={index}>
           {section.content}
