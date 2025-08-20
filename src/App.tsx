@@ -6,6 +6,7 @@ import Work from './Work.tsx'
 import Contact from './Contact.tsx'
 import Footer from './Footer.tsx'
 import Navbar from './Navbar.tsx'
+import FallingObjects from './FallingObjects.tsx'
 import CoffeeCup from './CoffeeCup.tsx'
 import SectionCard from './SectionCard.tsx'
 
@@ -21,6 +22,7 @@ function App() {
   return (
     <>
       <CoffeeCup />
+      <FallingObjects />
       <Navbar />
       <Introduction />
       {sections.map((section, index) => (
