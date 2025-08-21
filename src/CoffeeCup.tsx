@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
+// [Your existing image imports remain the same]
 import walk1 from "/src/assets/coffeeMan/walk/walk1.png";
 import walk2 from "/src/assets/coffeeMan/walk/walk2.png";
 import walk3 from "/src/assets/coffeeMan/walk/walk3.png";
@@ -55,6 +56,7 @@ import fall2 from "/src/assets/coffeeMan/fall/fall2.png";
 import fall3 from "/src/assets/coffeeMan/fall/fall3.png";
 import fall4 from "/src/assets/coffeeMan/fall/fall4.png";
 
+
 type CoffeeState =
   | "walking"
   | "climbing"
@@ -73,6 +75,7 @@ type CoffeeState =
   | "startClimb"
   | "finishClimb";
 
+// [Your spriteFrames object remains the same]
 const openFrames = [open1, open2, open3, open4];
 const readFrames = [read1, read1, read1, read2, read2, read2];
 const spawnConfusedFrames = [conf1, conf2, conf3, conf4, conf5, conf6, conf7, conf8, conf9, conf10, conf11, conf12, conf12, conf13, conf13];
@@ -113,148 +116,118 @@ const spriteFrames: Record<CoffeeState, string[]> = {
   finishClimb: [...finishClimb],
 };
 
-// [Your existing image imports remain the same]
 
 const CoffeeCup = () => {
   const [state, setState] = useState<CoffeeState>("idle");
   const [frameIndex, setFrameIndex] = useState(0);
   const [posY, setPosY] = useState(0);
   const [posX, setPosX] = useState(25);
+  const [direction, setDirection] = useState<"left" | "right">("right");
   const [scrollY, setScrollY] = useState(0);
-  const actionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
-  const physicsRef = useRef({
-    gravity: 0.5,
-    moveSpeed: 5,
-    friction: 0.85,
-    fallSpeed: 5,
-    climbSpeed: 3,
-  });
 
+  const actionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const climbIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const climbDataRef = useRef({ progress: 0, height: 0 });
+  
+  const physicsRef = useRef({ moveSpeed: 2, fallSpeed: 5, climbSpeed: 3 });
+
+  // Main physics loop for gravity and ground detection
   useEffect(() => {
     let animationFrameId: number;
-
     const updatePhysics = () => {
       const groundY = window.scrollY + window.innerHeight - 64;
-
-      // 🚨 Falling always has priority
       if (state === "falling") {
         setPosY(prev => {
           if (prev + physicsRef.current.fallSpeed >= groundY) {
             setState("idle");
-            return groundY; // landed
+            return groundY;
           }
           return prev + physicsRef.current.fallSpeed;
         });
-
-        animationFrameId = requestAnimationFrame(updatePhysics);
-        return; 
+      } else if (["climbing", "startClimb"].includes(state)) {
+        setPosY(prev => prev - physicsRef.current.climbSpeed / 6);
+      } else if (!["finishClimb"].includes(state)) {
+        setPosY(groundY);
       }
-
-      // If NOT falling, handle "ground shifting up" case
-      setPosY(prev => {
-        if (Math.abs(prev - groundY) < 2) {
-          return groundY; // already on floor
-        }
-        if (prev > groundY) {
-          return groundY;
-        }
-        return prev;
-      });
-
       animationFrameId = requestAnimationFrame(updatePhysics);
     };
-
     animationFrameId = requestAnimationFrame(updatePhysics);
     return () => cancelAnimationFrame(animationFrameId);
   }, [state]);
 
-  // Character behavior
+  // The "Brain": Decides what to do next ONLY when idle
   useEffect(() => {
-    const randomActionLength = Math.random() * 20000;
+    if (state !== 'idle') return;
 
-    const behaviorInterval = setInterval(() => {
-      if (["falling", "climbing", "startClimb", "finishClimb"].includes(state)) return;
-
-      const actions: CoffeeState[] = [
-        "walking", "sitting", "reading", "sleeping", "climbing"
-      ];
-
+    const thinkingTimeout = setTimeout(() => {
+      const actions: CoffeeState[] = ["walking", "sitting", "reading", "climbing"];
       const randomState = actions[Math.floor(Math.random() * actions.length)];
       
-      if (randomState === "walking") {
-        if (Math.random() >= 0.5) {
-          setPosX(prev => prev + physicsRef.current.moveSpeed);
-        } else {
-          setPosX(prev => prev - physicsRef.current.moveSpeed);
+      if (actionTimeoutRef.current) clearTimeout(actionTimeoutRef.current);
+      
+      if (["walking", "sitting", "reading"].includes(randomState)) {
+        if (randomState === 'walking') {
+          setDirection(Math.random() < 0.5 ? 'left' : 'right');
         }
-      }
-
-      if (actionTimeoutRef.current) {
-        clearTimeout(actionTimeoutRef.current);
-      }
-
-      setState("idle");
-
-      actionTimeoutRef.current = setTimeout(() => {
         setState(randomState);
-      }, randomActionLength * 0.25);
-    }, randomActionLength);
-
-    return () => {
-      clearInterval(behaviorInterval);
-      if (actionTimeoutRef.current) {
-        clearTimeout(actionTimeoutRef.current);
+        const duration = randomState === 'walking' 
+            ? Math.random() * 4000 + 2000 
+            : Math.random() * 5000 + 4000;
+        actionTimeoutRef.current = setTimeout(() => setState("idle"), duration);
+      } else {
+        setState(randomState);
       }
-    };
+    }, Math.random() * 3000 + 1000);
+
+    return () => clearTimeout(thinkingTimeout);
   }, [state]);
 
-  // Jump capability (space bar or touch)
+  // Handle walking movement and wall collision
   useEffect(() => {
-    const handleClick = () => {
-      if (isGrounded && state !== "climbing") {
-        setVelocityY(physicsRef.current.jumpPower);
-        setIsGrounded(false);
-        setState("jumping");
-      }
-    };
+    if (state !== "walking") return;
+    const moveInterval = setInterval(() => {
+      setPosX(prevX => {
+        const { moveSpeed } = physicsRef.current;
+        const nextX = direction === 'right' ? prevX + moveSpeed : prevX - moveSpeed;
+        const screenWidth = window.innerWidth;
+        const characterWidth = 64;
+        
+        if (nextX <= 0 || nextX >= screenWidth - characterWidth) {
+          if (actionTimeoutRef.current) clearTimeout(actionTimeoutRef.current);
+          setState("idle");
+          return nextX <= 0 ? 0 : screenWidth - characterWidth;
+        }
+        return nextX;
+      });
+    }, 50);
+    return () => clearInterval(moveInterval);
+  }, [state, direction]);
 
-    window.addEventListener("click", handleClick);
-    
-    return () => {
-      window.removeEventListener("click", handleClick);
-    };
-  }, [state]);
-
-  // Scroll handler
+  // Scroll handler to initiate falling
   useEffect(() => {
     const onScroll = () => {
       const newScrollY = window.scrollY;
       const isScrollingDown = newScrollY > scrollY;
-
-      // simulate "losing footing" -> lift him above ground before falling
-      if (state !== "falling" && isScrollingDown) {
+      if (state !== "falling" && isScrollingDown && Math.abs(newScrollY - scrollY) > 10) {
         if (actionTimeoutRef.current) {
           clearTimeout(actionTimeoutRef.current);
-          actionTimeoutRef.current = null; // Clear the ref
+          actionTimeoutRef.current = null;
         }
-
-        setPosY(prev => prev - Math.min(150, Math.abs(window.scrollY - scrollY)));
         setState("falling");
+        setPosY(prev => prev - 50);
       }
-
-      setScrollY(window.scrollY);
+      setScrollY(newScrollY);
     };
-
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [state, scrollY]);
-
+  
   // Animation frame updates
   useEffect(() => {
-    if (spriteFrames[state].length > 1) {
+    const frameCount = spriteFrames[state].length;
+    if (frameCount > 1) {
       const interval = setInterval(() => {
-        setFrameIndex((prev) => (prev + 1) % spriteFrames[state].length);
+        setFrameIndex(prev => (prev + 1) % frameCount);
       }, 180);
       return () => clearInterval(interval);
     } else {
@@ -262,42 +235,45 @@ const CoffeeCup = () => {
     }
   }, [state]);
 
-  // Handle climbing animation and physics
+  // Handle the complete climbing sequence
   useEffect(() => {
-    const climbHeight = Math.random() * 100 + 100;
+    if (state === "climbing") {
+      climbDataRef.current = {
+        progress: 0,
+        height: Math.random() * 150 + 100,
+      };
 
-    if (state === "startClimb") {
-      let climbProgress = 0;
-      const climbInterval = setInterval(() => {
-        setState("climbing");
-        climbProgress += 10;
-        setPosY(prev => prev - physicsRef.current.climbSpeed);
+      climbIntervalRef.current = setInterval(() => {
+        climbDataRef.current.progress += 30;
 
-        if (climbProgress > climbHeight) { 
-          clearInterval(climbInterval);
-          setState("finishClimb");
-          setTimeout(() => setState("falling"), 500);
+        if (climbDataRef.current.progress >= climbDataRef.current.height) {
+          setState("falling");
         }
       }, 300);
-      return () => clearInterval(climbInterval);
     }
+
+    return () => {
+      if (state === "startClimb" || state === "climbing") {
+        if (climbIntervalRef.current) {
+          clearInterval(climbIntervalRef.current);
+        }
+      }
+    };
   }, [state]);
 
   return (
     <div
-      className="absolute z-[100] transition-transform duration-100"
+      className="absolute z-[100]"
       style={{
         top: `${posY}px`,
         left: `${posX}px`,
         width: "64px",
         height: "auto",
+        transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
+        transition: "transform 0.1s linear"
       }}
     >
-      <img
-        src={spriteFrames[state][frameIndex]}
-        alt={state}
-        className="w-full h-full"
-      />
+      <img src={spriteFrames[state][frameIndex]} alt={state} className="w-full h-full" />
     </div>
   );
 };
