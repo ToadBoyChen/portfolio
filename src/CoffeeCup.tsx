@@ -166,7 +166,7 @@ const CoffeeCup = () => {
         setState(randomState);
         const duration = randomState === 'walking' 
             ? Math.random() * 4000 + 5000 
-            : Math.random() * 5000 + 8000;
+            : Math.random() * 5000 + 14000;
         actionTimeoutRef.current = setTimeout(() => setState("idle"), duration);
       } else {
         setState(randomState);
@@ -234,7 +234,7 @@ const CoffeeCup = () => {
     if (state === "climbing") {
       climbDataRef.current = {
         progress: 0,
-        height: Math.random() * 400 + 100,
+        height: Math.random() * 500 + 100,
       };
 
       climbIntervalRef.current = setInterval(() => {
