@@ -2,7 +2,6 @@ import './App.css'
 import Introduction from './Introduction.tsx'
 import About from './About.tsx'
 import Experience from './Experience.tsx'
-import Work from './Work.tsx'
 import Contact from './Contact.tsx'
 import Footer from './Footer.tsx'
 import Navbar from './Navbar.tsx'
@@ -29,11 +28,6 @@ function App() {
         color="bg-gradient-to-br from-white/10 to-pink-300"
       >
         <Experience />
-      </SectionCard>
-      <SectionCard
-        color="bg-gradient-to-br from-white/10 to-red-300"
-      >
-        <Work />
       </SectionCard>
       <SectionCard
         color="bg-gradient-to-br from-white/10 to-orange-300"
