@@ -1,5 +1,3 @@
-import Journey from './Journey';
-
 function About() {
   return (
     <div className="flex flex-col">
@@ -20,7 +18,6 @@ function About() {
           technologies and constantly strive to improve my skills.
         </p>
       </div>
-      <Journey/>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { FaHome } from "react-icons/fa";
 import { BsPersonArmsUp } from "react-icons/bs";
 import { MdOutlineWork } from "react-icons/md";
 import { RiContactsBook2Fill } from "react-icons/ri";
+import { GiJourney } from "react-icons/gi";
 
 interface SectionItem {
   name: string;
@@ -22,6 +23,7 @@ interface SectionProps {
 
 const sectionItems: SectionItem[] = [
   { name: "Introduction", href: "#introduction", description: "Get to know the purpose of this site.", icon: <FaHome /> },
+  { name: "Journey", href: "#journey", description: "Explore my journey and milestones.", icon: <GiJourney /> },
   { name: "About", href: "#about", description: "Learn more about me and my background.", icon: <BsPersonArmsUp /> },
   { name: "Experience", href: "#experience", description: "See the work I’ve done and my skills.", icon: <MdOutlineWork /> },
   { name: "Contact", href: "#contact", description: "Let’s get in touch — reach me here.", icon: <RiContactsBook2Fill /> },

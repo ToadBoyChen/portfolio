@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { useJourneyStore } from './journeyStore'; // 1. Import the global store
+import { useJourneyStore } from './journeyStore';
 
-// The data (JourneyStep interface and journeySteps array) remains the same...
+// --- JourneyStep interface and journeySteps data remain the same ---
 interface JourneyStep {
   title: string;
   date: string;
@@ -14,96 +14,68 @@ const journeySteps: JourneyStep[] = [
   { title: "Today", date: "Present", description: "Continuously learning new technologies and seeking exciting challenges to solve with code." },
 ];
 
-
 function Journey() {
-  // 2. Use the global store instead of local useState
   const { progress, setProgress } = useJourneyStore();
-  
-  const [isActive, setIsActive] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const touchStartY = useRef(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // The rest of the component logic remains almost identical
+  // The useEffect for handling scroll remains the same...
   useEffect(() => {
-    const handleScroll = (e: WheelEvent | TouchEvent) => {
-      if (!isActive) return;
+    const handleScroll = () => {
+      const el = scrollContainerRef.current;
+      if (!el) return;
+      const { top, height } = el.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const scrollDistance = height - viewportHeight;
+      const currentProgress = Math.min(1, Math.max(0, (-top) / scrollDistance));
+      setProgress(currentProgress * 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [setProgress]);
 
-      let deltaY = 0;
-      if (e instanceof WheelEvent) {
-        deltaY = e.deltaY;
-      } else if (e.type === 'touchmove') {
-        deltaY = touchStartY.current - e.touches[0].clientY;
-        touchStartY.current = e.touches[0].clientY;
-      }
-
-      if ((deltaY > 0 && progress < 100) || (deltaY < 0 && progress > 0)) {
-        e.preventDefault();
-        // 3. The setProgress call now updates the global store
-        setProgress(prev => Math.min(100, Math.max(0, prev + deltaY * 0.05)));
-      }
-    };
-    
-    const handleTouchStart = (e: TouchEvent) => {
-      if (!isActive) return;
-      touchStartY.current = e.touches[0].clientY;
-    };
-    
-    window.addEventListener("wheel", handleScroll, { passive: false });
-    window.addEventListener("touchstart", handleTouchStart, { passive: false });
-    window.addEventListener("touchmove", handleScroll, { passive: false });
-    
-    return () => {
-      window.removeEventListener("wheel", handleScroll);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleScroll);
-    };
-  }, [isActive, progress, setProgress]);
-
-  // IntersectionObserver to activate/deactivate the scroll-jacking (no changes here)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsActive(entry.isIntersecting && entry.intersectionRatio >= 0.5),
-      { threshold: 0.5 }
-    );
-    if (containerRef.current) observer.observe(containerRef.current);
-    return () => {
-      if (containerRef.current) observer.unobserve(containerRef.current);
-    };
-  }, []);
-  
   const timelineWidth = journeySteps.length * 100;
   const translateX = -((timelineWidth - 100) * (progress / 100));
 
-  // The JSX remains identical
   return (
-    <div
-      ref={containerRef}
-      className="h-screen bg-slate-900 text-white sticky top-0 overflow-hidden"
-    >
-      <div
-        className="h-full flex items-center transition-transform duration-300 ease-out"
-        style={{
-          width: `${timelineWidth}vw`,
-          transform: `translateX(${translateX}vw)`,
-          willChange: 'transform',
-        }}
-      >
-        {journeySteps.map((step, i) => (
-          <div key={i} className="w-screen h-full flex flex-col items-center justify-center p-8 md:p-16">
-            <div className="w-full max-w-md text-center bg-slate-800/50 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 shadow-2xl">
-              <p className="text-lg text-cyan-400 font-bold">{step.date}</p>
-              <h3 className="text-3xl md:text-4xl font-bold my-2">{step.title}</h3>
-              <p className="text-md md:text-lg text-slate-300">{step.description}</p>
-            </div>
+    // IMPROVEMENT #4: Reduced height for a better feel on mobile
+    <div id="journey" ref={scrollContainerRef} className="relative" style={{ height: '250vh' }}>
+      
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+        <div 
+          // IMPROVEMENT #2: Reduced padding on mobile (p-6), larger on desktop (md:p-10)
+          className="h-auto w-full rounded-2xl shadow-xl p-6 md:p-10 
+                     mx-4 sm:mx-auto max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl 
+                     backdrop-blur-lg border border-white/20 bg-gradient-to-br from-white/10 to-rose-300"
+        >
+          <div
+            className="h-full flex items-center transition-transform duration-100 ease-linear"
+            style={{
+              width: `${timelineWidth}vw`,
+              transform: `translateX(${translateX}vw)`,
+              willChange: 'transform',
+            }}
+          >
+            {journeySteps.map((step, i) => (
+              <div key={i} className="w-screen h-full flex flex-col items-center justify-center p-4">
+                {/* IMPROVEMENT #2: Reduced padding on mobile */}
+                <div className="w-full max-w-md text-center border border-white/20 bg-gradient-to-br from-white/10 to-red-300 p-4 sm:p-6 rounded-3xl">
+                  {/* IMPROVEMENT #3: Responsive positioning for the date */}
+                  <p className="absolute text-base md:text-lg font-bold text-primary tracking-wider -translate-y-10 md:-translate-y-14">{step.date}</p>
+                  {/* IMPROVEMENT #1: Responsive font sizes for the title and description */}
+                  <p className="text-3xl md:text-4xl font-bold my-4 md:my-6 text-background chango-regular knewave-shadow">{step.title}</p>
+                  <p className="text-base md:text-lg text-foreground">{step.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-slate-700 rounded-full">
-        <div
-          className="h-1 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full"
-          style={{ width: `${progress}%` }}
-        />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-1/2 md:w-1/3 h-1 bg-yellow-950 rounded-full">
+          <div
+            className="h-1 bg-gradient-to-r from-red-300 to-violet-300 rounded-full"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
     </div>
   );
