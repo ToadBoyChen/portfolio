@@ -71,9 +71,7 @@ type CoffeeState =
   | "closingBook"
   | "reading"
   | "fallingAsleep"
-  | "wakingUp"
-  | "startClimb"
-  | "finishClimb";
+  | "wakingUp";
 
 // [Your spriteFrames object remains the same]
 const openFrames = [open1, open2, open3, open4];
@@ -83,16 +81,14 @@ const confusedFrames = [conf12, conf12, conf12, conf12, conf13, conf13, conf13];
 const sitFrames = [sit1, sit2, sit3, sit4];
 
 const fallAsleepFrames = [sleep1, sleep2, sleep3, sleep4, sleep5];
-const sleepFrames = [sleep4, sleep5]
+const sleepFrames = [sleep4, sleep4, sleep4, sleep5, sleep5, sleep5];
 
 const idleFrames = [idle1, idle2, idle3, idle4];
 
-const startClimbFrames = [climb1, climb2, climb3, climb4, climb5, climb6];
 const climbFrames = [climb3, climb4];
 
 const fallFrames = [fall1, fall2, fall3, fall4];
 
-const finishClimb = [...startClimbFrames].reverse();
 const wakeUpFrames = [...fallAsleepFrames].reverse();
 const closeFrames = [...openFrames].reverse();
 const unconfusedFrames = [...spawnConfusedFrames].reverse();
@@ -112,8 +108,6 @@ const spriteFrames: Record<CoffeeState, string[]> = {
   reading: [...readFrames],
   fallingAsleep: [...fallAsleepFrames],
   wakingUp: [...wakeUpFrames],
-  startClimb: [...startClimbFrames],
-  finishClimb: [...finishClimb],
 };
 
 
@@ -128,7 +122,7 @@ const CoffeeCup = () => {
   const actionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const climbIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const climbDataRef = useRef({ progress: 0, height: 0 });
-  
+
   const physicsRef = useRef({ moveSpeed: 2, fallSpeed: 5, climbSpeed: 3 });
 
   // Main physics loop for gravity and ground detection
@@ -144,9 +138,9 @@ const CoffeeCup = () => {
           }
           return prev + physicsRef.current.fallSpeed;
         });
-      } else if (["climbing", "startClimb"].includes(state)) {
+      } else if (state === "climbing") {
         setPosY(prev => prev - physicsRef.current.climbSpeed / 6);
-      } else if (!["finishClimb"].includes(state)) {
+      } else {
         setPosY(groundY);
       }
       animationFrameId = requestAnimationFrame(updatePhysics);
@@ -171,8 +165,8 @@ const CoffeeCup = () => {
         }
         setState(randomState);
         const duration = randomState === 'walking' 
-            ? Math.random() * 4000 + 2000 
-            : Math.random() * 5000 + 4000;
+            ? Math.random() * 4000 + 5000 
+            : Math.random() * 5000 + 8000;
         actionTimeoutRef.current = setTimeout(() => setState("idle"), duration);
       } else {
         setState(randomState);
@@ -224,7 +218,7 @@ const CoffeeCup = () => {
   
   // Animation frame updates
   useEffect(() => {
-    const frameCount = spriteFrames[state].length;
+    const frameCount = spriteFrames[state]?.length;
     if (frameCount > 1) {
       const interval = setInterval(() => {
         setFrameIndex(prev => (prev + 1) % frameCount);
@@ -240,23 +234,23 @@ const CoffeeCup = () => {
     if (state === "climbing") {
       climbDataRef.current = {
         progress: 0,
-        height: Math.random() * 150 + 100,
+        height: Math.random() * 400 + 100,
       };
 
       climbIntervalRef.current = setInterval(() => {
         climbDataRef.current.progress += 30;
 
         if (climbDataRef.current.progress >= climbDataRef.current.height) {
+          if (climbIntervalRef.current) clearInterval(climbIntervalRef.current);
           setState("falling");
         }
       }, 300);
     }
 
+    // This cleanup function kills the "zombie" timer.
     return () => {
-      if (state === "startClimb" || state === "climbing") {
-        if (climbIntervalRef.current) {
-          clearInterval(climbIntervalRef.current);
-        }
+      if (climbIntervalRef.current) {
+        clearInterval(climbIntervalRef.current);
       }
     };
   }, [state]);
@@ -273,7 +267,7 @@ const CoffeeCup = () => {
         transition: "transform 0.1s linear"
       }}
     >
-      <img src={spriteFrames[state][frameIndex]} alt={state} className="w-full h-full" />
+      <img src={spriteFrames[state]?.[frameIndex] ?? idle1} alt={state} className="w-full h-full" />
     </div>
   );
 };
