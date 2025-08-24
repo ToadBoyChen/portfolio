@@ -18,14 +18,37 @@ function Experience() {
         </SectionCard>
       </div>
       <Journey />
-      <p className="text-lg mt-8">
-        Hi, I'm Toby Chen, a passionate software developer with a love for creating
-        interactive and engaging web applications. I enjoy working with the latest
-        technologies and constantly strive to improve my skills.
-      </p>
+      {/* <div className="flex flex-row justify-around mt-8 text-lg gap-9 text-center">
+          <div>
+            <SectionCard>
+              <AnimatedText
+                text="Education"
+                className="text-4xl font-bold text-background chango-regular knewave-shadow mb-4 absolute z-50 -translate-y-16 left-1/2 -translate-x-[50%]"
+              />
+              <p>
+                Hi, I'm Toby Chen, a passionate software developer with a love for creating
+                interactive and engaging web applications. I enjoy working with the latest
+                technologies and constantly strive to improve my skills.
+              </p>
+            </SectionCard>
+          </div>
+        <div>
+          <SectionCard>
+            <AnimatedText
+              text="Achievements"
+              className="text-4xl font-bold text-background chango-regular knewave-shadow mb-4 absolute z-50 -translate-y-16 left-1/2 -translate-x-[50%]"
+            />
+            <p>
+              Hi, I'm Toby Chen, a passionate software developer with a love for creating
+              interactive and engaging web applications. I enjoy working with the latest
+              technologies and constantly strive to improve my skills.
+            </p>
+          </SectionCard>
+        </div>
+      </div> */}
       <AnimatedText
       text="Want My CV?"
-      className="text-4xl font-bold text-background chango-regular knewave-shadow mt-54 self-center"
+      className="text-4xl font-bold text-background chango-regular knewave-shadow mt-24 self-center"
       />
       <div className="mt-6">
         <SectionCard>

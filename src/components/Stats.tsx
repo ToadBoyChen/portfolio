@@ -1,9 +1,7 @@
 import { motion } from "framer-motion";
 import StatBar from "./StatsBar";
+import Radar from "./Radar";
 
-// Define your personal stats here!
-// The 'value' is the number that will be displayed.
-// The 'percentage' is how full the bar will be (0-100).
 const statsData = [
   { label: "Cups of Coffee", value: 1387, percentage: 85 },
   { label: "Lines of Code Written", value: 454393, percentage: 95 },
@@ -24,22 +22,24 @@ const containerVariants = {
 
 const Stats = () => {
   return (
-    <motion.div
-      className="flex flex-col gap-4 w-full min-w-[300px] lg:min-w-[400px] "
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.5 }} // Animate when it comes into view
-    >
-      {statsData.map((stat, index) => (
-        <StatBar
-          key={index}
-          label={stat.label}
-          value={stat.value}
-          percentage={stat.percentage}
-        />
-      ))}
-    </motion.div>
+    <div>
+      <motion.div
+        className="flex flex-col gap-4 min-w-[400px]"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }} // Animate when it comes into view
+      >
+        {statsData.map((stat, index) => (
+          <StatBar
+            key={index}
+            label={stat.label}
+            value={stat.value}
+            percentage={stat.percentage}
+          />
+        ))}
+      </motion.div>
+    </div>
   );
 };
 

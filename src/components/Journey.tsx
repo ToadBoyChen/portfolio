@@ -50,7 +50,7 @@ function JourneyStepCard({ step, index }: { step: JourneyStep; index: number }) 
       <div className={`w-1/2 ${isRightSide ? "pl-8" : "pr-8 ml-auto"}`}>
         <div
           style={{ willChange: "transform" }}
-          className="relative w-full max-w-md text-center bg-gradient-to-br from-blue-200/40 to-purple-300/50 py-8 px-2 rounded-3xl backdrop-blur-lg shadow-md z-10 flex-col justify-center"
+          className="text-center bg-gradient-to-br from-blue-200/40 to-purple-300/50 py-8 px-2 rounded-3xl backdrop-blur-lg shadow-md z-10 flex-col justify-center"
         >
           {/* Title */}
           <p className="text-4xl font-bold text-background chango-regular knewave-shadow -translate-y-14 absolute -translate-x-[50%] left-1/2 min-w-xl z-50">

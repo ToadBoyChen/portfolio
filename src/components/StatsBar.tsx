@@ -39,7 +39,7 @@ function StatBar({ label, value, percentage }: StatBarProps) {
       <div className="w-full bg-white/20 rounded-full h-2.5">
         {/* The animated, gradient-filled bar */}
         <motion.div
-          className="bg-gradient-to-r from-rose-400/70 via-amber-500/70 to-yellow-500/70 h-2.5 rounded-full right-0"
+          className="bg-gradient-to-r from-rose-400/70 via-amber-500/70 to-yellow-500/70 h-2.5 rounded-full text-lg text-foreground"
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
           transition={{ duration: 1.5, ease: "easeOut" }}
