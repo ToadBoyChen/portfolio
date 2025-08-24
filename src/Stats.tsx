@@ -25,7 +25,7 @@ const containerVariants = {
 const Stats = () => {
   return (
     <motion.div
-      className="flex flex-col gap-4 w-full max-w-sm" // Control width and spacing
+      className="flex flex-col gap-4 w-full min-w-[300px] lg:min-w-[400px] "
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"

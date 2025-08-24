@@ -8,7 +8,7 @@ interface SectionCardProps {
 }
 
 export default function SectionCard({ children, index = 0, color }: SectionCardProps) {
-  const [ref, inView] = useInView({ threshold: 0.3 });
+  const [ref, inView] = useInView({ threshold: 0.2 });
 
   return (
     <motion.div
@@ -26,9 +26,7 @@ export default function SectionCard({ children, index = 0, color }: SectionCardP
         delay: index * 0.2,
       }}
       className={`
-        rounded-2xl shadow-xl p-10 my-16 mx-auto 
-        max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl
-        backdrop-blur-lg
+        rounded-2xl shadow-xl p-10 my-16 mx-6 backdrop-blur-lg
         ${color ?? "bg-gradient-to-br from-white/10 to-purple-300"}
       `}
       style={{ perspective: 1000 }}
