@@ -29,10 +29,10 @@ const containerVariants = {
 
 const Skills = () => {
   return (
-    <div className="mt-16 text-center">
-      <h3 className="text-3xl font-bold mb-8 chango-regular knewave-shadow text-background">
+    <div className="mt-12 text-center">
+      <p className="text-3xl font-bold mb-8 chango-regular knewave-shadow text-background">
         My Best Technologies
-      </h3>
+      </p>
       <motion.div
         variants={containerVariants}
         initial="hidden"
