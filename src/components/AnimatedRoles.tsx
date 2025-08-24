@@ -23,12 +23,13 @@ export default function AnimatedRoles() {
   return (
     <div className="flex justify-center items-center">
       <AnimatedText
-        key={index} // <-- important so it re-triggers animation each time
+        key={index}
         text={roles[index]}
         className="text-5xl chango-regular knewave-shadow text-background"
         direction="left"
         order="ltr"
-        delay={50}
+        delay={0.0}
+        alwaysAnimate={true}
       />
     </div>
   );

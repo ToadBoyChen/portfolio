@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import StatBar from "./components/StatsBar";
+import StatBar from "./StatsBar";
 
 // Define your personal stats here!
 // The 'value' is the number that will be displayed.

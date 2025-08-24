@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/comp
 import { Button } from "@/components/ui/button";
 import Hamburger from 'hamburger-react';
 import { FaInstagram, FaGithub, FaYoutube, FaLinkedin } from 'react-icons/fa';
-import AnimatedText from "./components/AnimatedText";
+import AnimatedText from "./AnimatedText";
 
 interface SocialsProps {
   open: boolean;

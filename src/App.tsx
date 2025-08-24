@@ -5,9 +5,8 @@ import Experience from './Experience.tsx'
 import Contact from './Contact.tsx'
 import Footer from './Footer.tsx'
 import Navbar from './Navbar.tsx'
-import FallingObjects from './FallingObjects.tsx'
-import CoffeeCup from './CoffeeCup.tsx'
-import SectionCard from './components/SectionCard.tsx'
+import FallingObjects from './components/FallingObjects.tsx'
+import CoffeeCup from './components/CoffeeCup.tsx'
 
 function App() {
 
@@ -17,21 +16,9 @@ function App() {
       <FallingObjects />
       <Navbar />
       <Introduction />
-      <SectionCard
-        color="bg-gradient-to-br from-white/10 to-purple-300"
-      >
-        <About />
-      </SectionCard>
-      <SectionCard
-        color="bg-gradient-to-br from-white/10 to-pink-300"
-      >
-        <Experience />
-      </SectionCard>
-      <SectionCard
-        color="bg-gradient-to-br from-white/10 to-orange-300"
-      >
-        <Contact />
-      </SectionCard>
+      <About />
+      <Experience />
+      <Contact />
       <Footer />
     </>
   )

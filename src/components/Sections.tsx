@@ -2,12 +2,11 @@ import React from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Hamburger from "hamburger-react";
-import AnimatedText from "./components/AnimatedText";
+import AnimatedText from "./AnimatedText";
 import { FaHome } from "react-icons/fa";
 import { BsPersonArmsUp } from "react-icons/bs";
 import { MdOutlineWork } from "react-icons/md";
 import { RiContactsBook2Fill } from "react-icons/ri";
-import { GiJourney } from "react-icons/gi";
 
 interface SectionItem {
   name: string;

@@ -1,7 +1,5 @@
 import ScrollDownButton from "./components/ScrollDownButton";
 import AnimatedRoles from "./components/AnimatedRoles";
-import IntroScreen from "./components/IntroScreen";
-import IntroTraining from "./components/IntroTraining";
 
 function Introduction() {
   return (
@@ -16,7 +14,7 @@ function Introduction() {
             <span className="mr-2">I'm a</span> <AnimatedRoles />
           </p>
           <p className="text-4xl font-semibold mt-8">
-            I spend most of my time behind a <IntroScreen/> or <IntroTraining/>, but I promise this website is safe to visit. Dive in and enjoy!
+            I spend most of my time behind a screen or training, but I promise this website is safe to visit. Dive in and enjoy!
           </p>
           <div className="self-center mt-24 z-10">
             <ScrollDownButton />

@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 export default function ScrollDownButton() {
   const handleScroll = () => {
     window.scrollBy({
-      top: window.innerHeight, // scroll down by 1 screen
+      top: window.innerHeight - 100,
       behavior: "smooth",
     });
   };

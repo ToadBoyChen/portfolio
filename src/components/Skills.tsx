@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import SkillCard from "./components/SkillCard";
+import SkillCard from "./SkillCard";
 import { FaReact, FaNodeJs, FaFigma, FaGitAlt } from "react-icons/fa";
 import { SiTailwindcss, SiTypescript, SiPostgresql, SiPrisma } from "react-icons/si";
 
@@ -29,16 +29,13 @@ const containerVariants = {
 
 const Skills = () => {
   return (
-    <div className="mt-12 text-center">
-      <p className="text-3xl font-bold mb-8 chango-regular knewave-shadow text-background">
-        My Best Technologies
-      </p>
+    <div className="text-center min-w-3/5 mr-4">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 max-w-2xl mx-auto"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-w-2xl mx-auto"
       >
         {skillsData.map((skill) => (
           // Pass the new tier prop to the SkillCard

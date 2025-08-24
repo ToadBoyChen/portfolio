@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Socials from './Socials.tsx';
-import Sections from './Sections.tsx';
+import Socials from './components/Socials.tsx';
+import Sections from './components/Sections.tsx';
 import NavButtonLeft from './components/NavButtonLeft.tsx';
 import NavButtonRight from './components/NavButtonRight.tsx';
 import AnimatedText from './components/AnimatedText.tsx';
@@ -21,7 +21,8 @@ function Navbar() {
 
         <AnimatedText className="z-[101] absolute text-background font-semibold -translate-x-1/2 left-1/2 chango-regular knewave-shadow text-6xl tracking-wide -translate-y-9"
         text="Toby Chen"
-        delay={200}
+        delay={0.5}
+        alwaysAnimate={true}
         />
 
         <NavButtonRight
@@ -54,7 +55,8 @@ function Navbar() {
         <div className="lg:hidden w-full flex justify-center items-center absolute top-2 left-0 select-none">
           <AnimatedText className="z-[101] text-background font-semibold chango-regular knewave-shadow md:text-7xl sm:text-6xl text-5xl tracking-wide md:-translate-y-10 sm:-translate-y-8 -translate-y-5"
           text="Toby Chen"
-          delay={200}
+          delay={0.5}
+          alwaysAnimate={true}
           />
         </div>
       </>
