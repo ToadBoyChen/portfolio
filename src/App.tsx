@@ -7,8 +7,7 @@ import Footer from './Footer.tsx'
 import Navbar from './Navbar.tsx'
 import FallingObjects from './FallingObjects.tsx'
 import CoffeeCup from './CoffeeCup.tsx'
-import SectionCard from './SectionCard.tsx'
-import Journey from './Journey.tsx'
+import SectionCard from './components/SectionCard.tsx'
 
 function App() {
 
@@ -18,7 +17,6 @@ function App() {
       <FallingObjects />
       <Navbar />
       <Introduction />
-      <Journey />
       <SectionCard
         color="bg-gradient-to-br from-white/10 to-purple-300"
       >

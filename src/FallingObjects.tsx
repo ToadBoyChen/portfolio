@@ -49,7 +49,7 @@ const FallingObjects = () => {
     );
     World.add(engine.world, ground);
 
-    engine.world.gravity.y = 0.6;
+    engine.world.gravity.y = 0.5;
 
     const spawnCup = () => {
       const img = coffeeImages[Math.floor(Math.random() * coffeeImages.length)];
@@ -69,9 +69,8 @@ const FallingObjects = () => {
         }
       );
       Body.setAngularVelocity(cup, (Math.random() - 0.5) * 0.2);
-      
-      // If we already have 80 cups, remove the oldest one
-      if (cupsRef.current.length >= 60) {
+
+      if (cupsRef.current.length >= 20) {
         const oldest = cupsRef.current.shift(); // remove first
         if (oldest) World.remove(engine.world, oldest);
       }
@@ -84,9 +83,9 @@ const FallingObjects = () => {
 
     const firstSpawnTimeout = setTimeout(() => {
       spawnCup();
-      const interval = setInterval(spawnCup, 1000);
+      const interval = setInterval(spawnCup, 2000);
       render.canvas.setAttribute("data-interval-id", String(interval));
-    }, 1500);
+    }, 2000);
 
     return () => {
       clearTimeout(firstSpawnTimeout);

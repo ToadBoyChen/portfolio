@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from "react";
-import { useJourneyStore } from './journeyStore';
+import { motion } from "framer-motion";
 
-// --- JourneyStep interface and journeySteps data remain the same ---
+// The JourneyStep interface and data array remain the same
 interface JourneyStep {
   title: string;
   date: string;
@@ -14,69 +13,59 @@ const journeySteps: JourneyStep[] = [
   { title: "Today", date: "Present", description: "Continuously learning new technologies and seeking exciting challenges to solve with code." },
 ];
 
-function Journey() {
-  const { progress, setProgress } = useJourneyStore();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // The useEffect for handling scroll remains the same...
-  useEffect(() => {
-    const handleScroll = () => {
-      const el = scrollContainerRef.current;
-      if (!el) return;
-      const { top, height } = el.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const scrollDistance = height - viewportHeight;
-      const currentProgress = Math.min(1, Math.max(0, (-top) / scrollDistance));
-      setProgress(currentProgress * 100);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [setProgress]);
+// JourneyStepCard component remains EXACTLY the same as your last version.
+function JourneyStepCard({ step, index }: { step: JourneyStep; index: number }) {
+  const isRightSide = index % 2 === 0;
 
-  const timelineWidth = journeySteps.length * 100;
-  const translateX = -((timelineWidth - 100) * (progress / 100));
+  const containerVariants = {
+    hidden: { opacity: 0, x: isRightSide ? 100 : -100, },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.2 }
+    },
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   return (
-    // IMPROVEMENT #4: Reduced height for a better feel on mobile
-    <div id="journey" ref={scrollContainerRef} className="relative" style={{ height: '250vh' }}>
-      
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        <div 
-          // IMPROVEMENT #2: Reduced padding on mobile (p-6), larger on desktop (md:p-10)
-          className="h-auto w-full rounded-2xl shadow-xl p-6 md:p-10 
-                     mx-4 sm:mx-auto max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl 
-                     backdrop-blur-lg border border-white/20 bg-gradient-to-br from-white/10 to-rose-300"
-        >
-          <div
-            className="h-full flex items-center transition-transform duration-100 ease-linear"
-            style={{
-              width: `${timelineWidth}vw`,
-              transform: `translateX(${translateX}vw)`,
-              willChange: 'transform',
-            }}
+    <motion.div
+      className="relative w-full flex my-20"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ amount: 0.5 }}
+    >
+      <div className={`w-1/2 ${isRightSide ? 'pl-8' : 'pr-8 ml-auto'}`}>
+          <div 
+            style={{ willChange: 'transform' }}
+            className="w-full max-w-md text-center border border-white/20 bg-gradient-to-br from-white/10 to-red-300/20 p-4 sm:p-6 rounded-3xl backdrop-blur-lg shadow-xl"
           >
-            {journeySteps.map((step, i) => (
-              <div key={i} className="w-screen h-full flex flex-col items-center justify-center p-4">
-                {/* IMPROVEMENT #2: Reduced padding on mobile */}
-                <div className="w-full max-w-md text-center border border-white/20 bg-gradient-to-br from-white/10 to-red-300 p-4 sm:p-6 rounded-3xl">
-                  {/* IMPROVEMENT #3: Responsive positioning for the date */}
-                  <p className="absolute text-base md:text-lg font-bold text-primary tracking-wider -translate-y-10 md:-translate-y-14">{step.date}</p>
-                  {/* IMPROVEMENT #1: Responsive font sizes for the title and description */}
-                  <p className="text-3xl md:text-4xl font-bold my-4 md:my-6 text-background chango-regular knewave-shadow">{step.title}</p>
-                  <p className="text-base md:text-lg text-foreground">{step.description}</p>
-                </div>
-              </div>
-            ))}
+            <p className="absolute text-base md-text-lg font-bold text-primary tracking-wider -translate-y-10 md:-translate-y-12">{step.date}</p>
+            <motion.p variants={itemVariants} className="text-3xl md:text-4xl font-bold my-4 md:my-6 text-background chango-regular knewave-shadow">
+              {step.title}
+            </motion.p>
+            <motion.p variants={itemVariants} className="text-base md:text-lg text-foreground">
+              {step.description}
+            </motion.p>
           </div>
-        </div>
-
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-1/2 md:w-1/3 h-1 bg-yellow-950 rounded-full">
-          <div
-            className="h-1 bg-gradient-to-r from-red-300 to-violet-300 rounded-full"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
       </div>
+    </motion.div>
+  );
+}
+
+
+// The Journey component is now just a simple container
+function Journey() {
+  return (
+    <div id="journey" className="relative sm:px-8">
+      {journeySteps.map((step, index) => (
+        <JourneyStepCard key={index} step={step} index={index} />
+      ))}
     </div>
   );
 }

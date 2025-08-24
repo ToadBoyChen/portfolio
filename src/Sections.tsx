@@ -2,7 +2,7 @@ import React from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Hamburger from "hamburger-react";
-import AnimatedText from "./AnimatedText";
+import AnimatedText from "./components/AnimatedText";
 import { FaHome } from "react-icons/fa";
 import { BsPersonArmsUp } from "react-icons/bs";
 import { MdOutlineWork } from "react-icons/md";
@@ -23,7 +23,7 @@ interface SectionProps {
 
 const sectionItems: SectionItem[] = [
   { name: "Introduction", href: "#introduction", description: "Get to know the purpose of this site.", icon: <FaHome /> },
-  { name: "Journey", href: "#journey", description: "Explore my journey and milestones.", icon: <GiJourney /> },
+  // { name: "Journey", href: "#journey", description: "Explore my journey and milestones.", icon: <GiJourney /> },
   { name: "About", href: "#about", description: "Learn more about me and my background.", icon: <BsPersonArmsUp /> },
   { name: "Experience", href: "#experience", description: "See the work I’ve done and my skills.", icon: <MdOutlineWork /> },
   { name: "Contact", href: "#contact", description: "Let’s get in touch — reach me here.", icon: <RiContactsBook2Fill /> },

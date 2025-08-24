@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Socials from './Socials.tsx';
 import Sections from './Sections.tsx';
-import NavButtonLeft from './NavButtonLeft.tsx';
-import NavButtonRight from './NavButtonRight.tsx';
-import AnimatedText from './AnimatedText.tsx';
+import NavButtonLeft from './components/NavButtonLeft.tsx';
+import NavButtonRight from './components/NavButtonRight.tsx';
+import AnimatedText from './components/AnimatedText.tsx';
 
 function Navbar() {
   const [showSocials, setShowSocials] = useState(false);

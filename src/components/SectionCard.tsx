@@ -28,7 +28,7 @@ export default function SectionCard({ children, index = 0, color }: SectionCardP
       className={`
         rounded-2xl shadow-xl p-10 my-16 mx-auto 
         max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl
-        backdrop-blur-lg border border-white/20
+        backdrop-blur-lg
         ${color ?? "bg-gradient-to-br from-white/10 to-purple-300"}
       `}
       style={{ perspective: 1000 }}

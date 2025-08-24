@@ -1,7 +1,7 @@
-import ScrollDownButton from "./ScrollDownButton";
-import AnimatedRoles from "./AnimatedRoles";
-import IntroScreen from "./IntroScreen";
-import IntroTraining from "./IntroTraining";
+import ScrollDownButton from "./components/ScrollDownButton";
+import AnimatedRoles from "./components/AnimatedRoles";
+import IntroScreen from "./components/IntroScreen";
+import IntroTraining from "./components/IntroTraining";
 
 function Introduction() {
   return (
