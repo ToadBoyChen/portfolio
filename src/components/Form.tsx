@@ -6,9 +6,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 
-import AnimatedText from "../components/AnimatedText.tsx";
-import SectionCard from "../components/SectionCard.tsx";
-
 // 1. Define the validation schema with Zod
 const formSchema = z.object({
   from_name: z.string().min(2, 'Name must be at least 2 characters.'),
@@ -49,13 +46,7 @@ function Contact() {
   };
 
   return (
-    <div className="flex flex-col items-center text-center mt-32 md:mt-54" id="contact">
-      <AnimatedText 
-        text="Get In Touch" 
-        className="text-5xl font-bold chango-regular text-background knewave-shadow mb-12" 
-      />
-      {/* 3. The Form UI */}
-      <SectionCard>
+    <div className="flex flex-col items-center text-center text-lg" id="contact">
         <div className="max-w-xl mx-auto p-4 text-left">
           <p className="text-foreground/80 mb-6 text-center">
             Have a question or want to work together? Leave your details and I'll get back to you!
@@ -89,8 +80,6 @@ function Contact() {
             </button>
           </form>
         </div>
-      </SectionCard>
-      {/* 4. Toaster for notifications */}
       <Toaster position="bottom-center" toastOptions={{
         style: {
           background: '#333',

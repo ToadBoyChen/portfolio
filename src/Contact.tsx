@@ -1,12 +1,12 @@
-import AnimatedText from "./components/AnimatedText.tsx";
-import Form from "./components/Form.tsx";
-import SectionCard from "./components/SectionCard.tsx";
+import AnimatedText from "./components/AnimatedText";
+import Form from "./components/Form";
+import SectionCard from "./components/SectionCard";
 
 function Contact() {
   return (
-      <div className="flex flex-col items-center text-center mt-54" id="contact">
+    <div className="flex flex-col items-center text-center mt-54" id="contact">
       <AnimatedText 
-        text="Contact" 
+        text="Get In Touch" 
         className="text-5xl font-bold chango-regular text-background knewave-shadow" 
       />
       <div className="mt-8">
@@ -24,8 +24,12 @@ function Contact() {
             </p>
           </SectionCard>
         </div>
-        <Form />
-      </div>
+        <div className="mt-8">
+          <SectionCard>
+            <Form />
+          </SectionCard>
+        </div>
+      </div> 
     </div>
   )
 }

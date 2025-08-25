@@ -33,21 +33,22 @@ const Section: React.FC<SectionProps> = ({ open, onOpenChange }) => {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-64 bg-accent text-background shadow-sm data-[state=open]:animate-in data-[state=closed]:animate-out p-4"
+        className="w-80 bg-accent text-background shadow-sm data-[state=open]:animate-in data-[state=closed]:animate-out p-4"
       >
-        <SheetHeader className="flex flex-row items-center justify-between px-2 py-14">
-          <SheetTitle className="text-5xl font-bold tracking-tighter absolute chango-regular knewave-shadow text-background -translate-x-10">
-            <AnimatedText text="Sections" direction="right" order="rtl" />
-          </SheetTitle>
-
+        <SheetHeader className="flex flex-col items-center">
           <SheetClose
-            className={`flex items-center justify-center p-0 rounded-full text-primary bg-background shadow-md 
-                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out -translate-x-13 -translate-y-14 border-0 hover:-rotate-12`}
+            className={`rounded-full text-primary bg-background shadow-md 
+                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out hover:rotate-12 -translate-x-40`}
           >
-            <Hamburger toggled={open} size={18} color="currentColor" />
+            <Hamburger toggled={open} size={18} color="currentColor"/>
           </SheetClose>
+          <SheetTitle className="text-5xl font-bold tracking-tighter  chango-regular knewave-shadow text-background">
+            <AnimatedText 
+              text="Sections" 
+              direction="left"
+            />
+          </SheetTitle>
         </SheetHeader>
-
         <div>
           <p className="text-foreground font-semibold">
             Ever get lost? Come here for navigation 😊!

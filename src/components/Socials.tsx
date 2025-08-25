@@ -21,23 +21,25 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="left"
-        className="w-64 bg-accent text-background shadow-sm data-[state=open]:animate-in data-[state=closed]:animate-out p-4"
+        className="w-80 bg-accent text-background shadow-sm data-[state=open]:animate-in data-[state=closed]:animate-out p-4"
       >
-        <SheetHeader className="flex flex-row items-center justify-between px-2 pt-14 pb-6">
-          <SheetTitle className="text-5xl font-bold tracking-tighter absolute chango-regular knewave-shadow text-background">
-            <AnimatedText text="Socials" direction="left" order="ltr"/>
-          </SheetTitle>
-          
+        <SheetHeader className="flex flex-col items-center">
           <SheetClose
-            className={`flex items-center justify-center p-0 rounded-full text-primary bg-background shadow-md 
-                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out translate-x-51 -translate-y-14 border-0 hover:rotate-12`}
+            className={`rounded-full text-primary bg-background shadow-md 
+                        hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out hover:rotate-12 translate-x-40`}
           >
             <Hamburger toggled={open} size={18} color="currentColor"/>
-          </SheetClose>
+          </SheetClose> 
+          <SheetTitle className="text-5xl font-bold tracking-tighter  chango-regular knewave-shadow text-background">
+            <AnimatedText 
+              text="Socials" 
+              direction="left"
+            />
+          </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col items-center">
           <img
-            src="src/assets/me.jpeg"
+            src="src/assets/me/me.jpeg"
             alt="A photo of Toby Chen"
             className="w-48 h-48 object-cover relative p-1 rounded-full bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border"
           />
