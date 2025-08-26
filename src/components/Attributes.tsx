@@ -4,11 +4,12 @@ import { GiBrain, GiStrong } from 'react-icons/gi';
 import { FaShieldAlt, FaUsers, FaLightbulb } from 'react-icons/fa';
 
 const attributesData = [
-  { icon: <GiBrain />, label: 'Creativity', value: 9 },
+  { icon: <GiBrain />, label: 'Creativity', value: 7 },
   { icon: <GiStrong />, label: 'Resilience', value: 8 },
-  { icon: <FaShieldAlt />, label: 'Discipline', value: 7 },
+  { icon: <FaLightbulb />, label: 'Analysis', value: 10 },
+  { icon: <FaShieldAlt />, label: 'Discipline', value: 5 },
   { icon: <FaUsers />, label: 'Teamwork', value: 9 },
-  { icon: <FaLightbulb />, label: 'Adaptability', value: 10 },
+  { icon: <FaLightbulb />, label: 'Adaptability', value: 7 },
 ];
 
 const AttributeItem = ({ icon, label, value, index }: { icon: React.ReactNode; label: string; value: number; index: number }) => {
@@ -39,16 +40,25 @@ const AttributeItem = ({ icon, label, value, index }: { icon: React.ReactNode; l
 
 function Attributes() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-4">
-      {attributesData.map((attr, index) => (
-        <AttributeItem
-          key={attr.label}
-          icon={attr.icon}
-          label={attr.label}
-          value={attr.value}
-          index={index}
-        />
-      ))}
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-4">
+        {attributesData.map((attr, index) => (
+          <AttributeItem
+            key={attr.label}
+            icon={attr.icon}
+            label={attr.label}
+            value={attr.value}
+            index={index}
+          />
+        ))}
+      </div>
+      <div>
+        <p className='text-sm mt-12 p-4'>
+          105 Action Points Spent. 1337 Exp until next action point.
+        </p>
+        <p>
+        </p>
+      </div>
     </div>
   );
 }

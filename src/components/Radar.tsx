@@ -7,11 +7,11 @@ const PRIMARY_COLOR_RGB = '163, 119, 100';
 const FOREGROUND_COLOR_RGB = '86, 69, 63';
 
 const data = {
-  labels: ['Frontend', 'Backend', 'DevOps', 'Databases', 'UI/UX', 'Testing'],
+  labels: ['Python', 'Trading', 'React', 'Java', 'Stats', 'C++'],
   datasets: [
     {
       label: 'Proficiency',
-      data: [90, 85, 70, 80, 75, 85],
+      data: [90, 75, 50, 70, 95, 85],
       backgroundColor: `rgba(${PRIMARY_COLOR_RGB}, 0.2)`,
       borderColor: `rgba(${PRIMARY_COLOR_RGB}, 1)`,
       borderWidth: 2,
@@ -43,6 +43,7 @@ const options = {
     },
   },
 };
+
 
 function RadarChart() {
   return (
