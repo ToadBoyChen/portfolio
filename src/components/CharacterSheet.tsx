@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
-import { FaReact, FaNodeJs } from "react-icons/fa";
-import { SiTypescript } from "react-icons/si";
+import { FaReact, FaNodeJs, FaPython, FaPrescription } from "react-icons/fa";
+import { SiCplusplus, SiTypescript } from "react-icons/si";
 import RadarChart from "./Radar.tsx";
 import SpriteAnimator from "./SpriteAnimator.tsx";
 import Attributes from "./Attributes.tsx";
@@ -16,17 +16,28 @@ const animationFrames = [me1, me2, me3, me4, me5];
 
 const characterData = {
     name: "Toby Chen",
-    title: "Full-Stack Developer",
-    level: 28, // Added level
-    alignment: "Lawful Good", // Added alignment
-    types: [{ icon: <FaReact />, name: "React" }, { icon: <FaNodeJs />, name: "Node.js" }, { icon: <SiTypescript />, name: "TypeScript" },],
-    description: "A developer with a passion for creating engaging and interactive web applications. Constantly learning and striving to improve.",
-    baseStats: [{ id: "head", label: "Intelligence", value: "Creative Problem Solving", barPercentage: "90%", targetPosition: { top: "12%", left: "23%" } }, { id: "arm-right", label: "Power", value: "Frontend Development", barPercentage: "95%", targetPosition: { top: "45%", left: "28%" } }, { id: "chest", label: "Core", value: "Backend & DevOps", barPercentage: "85%", targetPosition: { top: "35%", left: "23%" } }, { id: "legs", label: "Foundation", value: "3+ Years Experience", barPercentage: "80%", targetPosition: { top: "70%", left: "24%" } }, { id: "projects", label: "Stamina", value: "40+ Projects Completed", barPercentage: "98%", targetPosition: { top: "55%", left: "20%" } },],
+    title: "Mathematician & Programmer",
+    level: 21, 
+    alignment: "Lawful Good",
+    types: [{ icon: <FaReact />, name: "React" }, { icon: <FaPython />, name: "Python" }, { icon: <SiTypescript />, name: "TypeScript" }, { icon: <SiCplusplus />, name: "C++" }],
+    description: "3rd year Pure Mathematics student at Queen Mary  University of London. Growing programmer, math practitioner. Aspiring to obtain job that uses mathematical and programming skills.",
+    baseStats: [
+      { id: "head", label: "Intelligence", value: "Pure Mathematics Fanatic", barPercentage: "90%", targetPosition: { top: "30%", left: "50%" } }, 
+      { id: "arm-right", label: "Power", value: "Athlete", barPercentage: "60%", targetPosition: { top: "60%", left: "20%" } }, 
+      { id: "chest", label: "Core", value: "Programmer", barPercentage: "70%", targetPosition: { top: "70%", left: "50%" } }, { id: "legs", label: "Foundation", value: "Mathematician", barPercentage: "80%", targetPosition: { top: "70%", left: "70%" } }, { id: "projects", label: "Stamina", value: "Growing portfolio", barPercentage: "50%", targetPosition: { top: "60%", left: "70%" } },
+    ],
+    xp: 7500,
+    xpToNextLevel: 10000,
 };
 
 const TargetReticule = ({ position }: { position: { top: string; left: string } }) => (
-    // THEME UPDATE
-    <motion.div className="absolute w-8 h-8 rounded-full border-2 border-primary bg-primary/30 pointer-events-none" style={{...position}} initial={{scale:0.5,opacity:0}} animate={{scale:1,opacity:1}} exit={{scale:0.5,opacity:0}} transition={{type:"spring",stiffness:400,damping:20}}/>
+    <motion.div 
+      className="absolute w-8 h-8 rounded-full border-2 border-primary bg-primary/30 pointer-events-none" 
+      style={{...position}} 
+      initial={{scale:0.5,opacity:0}} 
+      animate={{scale:1,opacity:1}} 
+      exit={{scale:0.5,opacity:0}} 
+      transition={{type:"spring",stiffness:400,damping:20}}/>
 );
 
 function CharacterSheet() {
@@ -42,33 +53,39 @@ function CharacterSheet() {
         transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
     >
       <div className="relative w-full md:w-1/3 h-[500px] p-4 flex items-center justify-center">
-        <div className="absolute top-4 left-4 flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-red-500 border-2 border-white/50"><div className="w-full h-full rounded-full bg-red-500 animate-ping"/></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-white/50"/>
-            <div className="w-3 h-3 rounded-full bg-green-400 border-2 border-white/50"/>
+
+
+        <div className="flex flex-col mt-8 gap-8">
+          <SpriteAnimator 
+            images={animationFrames} 
+            fps={3} 
+            className="object-contain filter drop-shadow-[0_0_15px_rgba(192,132,252,0.4)] w-full h-full bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border border-4 border-foreground rounded-lg"
+          />
+
+          {/* Character MMORPG Stats */}
+          <div className="bottom-4 left-4 right-4 bg-background/70 backdrop-blur-sm p-3 rounded-lg text-center">
+              <p className="text-2xl font-bold text-foreground drop-shadow-sm mb-8">
+                  Toby Chen
+              </p>
+              <div className="mt-1 text-sm font-semibold">
+                <div className=" gap-2 flex justify-center">
+                    <span className="bg-primary/20 text-foreground px-3 py-1 border-2 border-foreground rounded-xl">
+                        Lv. {characterData.level} Alchemist & Artificer
+                    </span>
+                    <span className="bg-green-500/20 border-2 border-green-800/50 text-green-800 px-3 py-1 rounded-xl">
+                        {characterData.alignment}
+                    </span>
+                </div>
+                <div>
+                <p 
+                  className="bg-primary/20 border-2 border-primary/50 text-primary px-3 py-1 rounded-xl mt-2">  
+                    0 Rebirths
+                  </p>
+                </div>
+              </div>
+          </div>
         </div>
-
-        <SpriteAnimator images={animationFrames} fps={3} className="h-full object-contain filter drop-shadow-[0_0_15px_rgba(192,132,252,0.4)]"/>
-
-        <div className="absolute bottom-4 left-4 right-4 bg-background/50 backdrop-blur-sm p-3 rounded-lg border border-primary/20 text-center">
-            <p className="text-2xl font-bold text-foreground drop-shadow-sm">
-                {characterData.name}
-            </p>
-            <div className="flex justify-center gap-3 mt-1">
-                <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
-                    Lv. {characterData.level} Background Character
-                </span>
-                <span className="bg-primary/20 border border-primary/50 text-primary text-xs font-semibold px-3 py-1 rounded-full">
-                    {characterData.alignment}
-                </span>
-            </div>
-        </div>
-
-        <AnimatePresence>
-          {highlightedStat && view === 'base' && <TargetReticule position={highlightedStat.targetPosition} />}
-        </AnimatePresence>
       </div>
-
       <div className="w-full md:w-2/3 p-6 flex flex-col">
         <div className="flex justify-between items-start mb-4">
           <div><h2 className="text-4xl font-bold text-foreground">{characterData.name}</h2><p className="text-primary font-semibold">{characterData.title}</p></div>
