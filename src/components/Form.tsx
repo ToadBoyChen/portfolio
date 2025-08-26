@@ -5,6 +5,7 @@ import emailjs from '@emailjs/browser';
 import toast, { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
+import { Button } from './ui/button';
 
 // 1. Define the validation schema with Zod
 const formSchema = z.object({
@@ -73,11 +74,16 @@ function Contact() {
               {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
             </div>
 
-            {/* Submit Button */}
-            <button type="submit" disabled={isSubmitting} className="w-full flex items-center justify-center gap-2 p-3 bg-primary text-primary-foreground font-bold rounded-md hover:bg-primary/90 transition-colors disabled:bg-primary/50 disabled:cursor-not-allowed">
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-              {!isSubmitting && <FaPaperPlane />}
-            </button>
+            <div className='flex justify-center'>
+              <Button 
+                type="submit" 
+                disabled={isSubmitting} 
+                className="flex py-8 px-16 justify-center items-center hover:bg-primary text-primary hover:text-background shadow-md border-0 bg-background hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out font-bold text-xl rounded-full mt-6 disabled:bg-primary/50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {!isSubmitting && <FaPaperPlane />}
+              </Button>
+            </div>
           </form>
         </div>
       <Toaster position="bottom-center" toastOptions={{
