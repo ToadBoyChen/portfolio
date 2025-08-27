@@ -5,8 +5,66 @@ import {
   FaSchool, FaCode, FaUniversity, FaChartLine, FaLaptopCode, FaBug, FaHtml5, FaShieldAlt,
   FaStar, FaFistRaised, FaBrain, FaBookOpen
 } from 'react-icons/fa';
-import { IoClose } from "react-icons/io5";
 import { Button } from "./ui/button";
+import SpriteAnimator from "./SpriteAnimator";
+
+const quest1 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
+const quest2 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
+const quest3 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
+const quest4 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
+
+const special1 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
+const special2 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
+const special3 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
+const special4 = [
+  './src/assets/me/ani/me1.png',
+  './src/assets/me/ani/me2.png',
+  './src/assets/me/ani/me3.png',
+  './src/assets/me/ani/me4.png',
+  './src/assets/me/ani/me5.png',
+];
 
 import {
   Tooltip,
@@ -18,6 +76,7 @@ import Hamburger from "hamburger-react";
 
 type Difficulty = "Trivial" | "Easy" | "Normal" | "Hard" | "Heroic";
 type QuestType = "Main Story" | "Side Quest" | "Skill Quest";
+type Rarity = "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary";
 
 export interface JourneyStep {
   title: string;
@@ -30,16 +89,19 @@ export interface JourneyStep {
   recommendedLevel: number;
   recommendedSkills: string[];
   progress: number;
+  animationFrames: string[];
   rewards: {
     type: "XP" | "Skill" | "Item";
     name: string;
     amount?: number;
     icon: React.ReactElement;
   }[];
+  specialItem: string;
+  specialItemFrames: string[];
+  specialItemRarity: Rarity;
 }
 
 const journeySteps: JourneyStep[] = [
-  // ... journeySteps data is unchanged
   {
     title: "School Starts",
     date: "2015",
@@ -51,10 +113,14 @@ const journeySteps: JourneyStep[] = [
     recommendedLevel: 1,
     recommendedSkills: ["Curiosity"],
     progress: 100,
+    animationFrames: quest1,
     rewards: [
       { type: "XP", name: "Experience", amount: 500, icon: <FaStar /> },
       { type: "Skill", name: "Python (Basic)", icon: <FaCode /> },
-    ]
+    ],
+    specialItem: "Raspberry Pi",
+    specialItemFrames: special1,
+    specialItemRarity: "Legendary",
   },
   {
     title: "The First Trade",
@@ -67,10 +133,14 @@ const journeySteps: JourneyStep[] = [
     recommendedLevel: 16,
     recommendedSkills: ["Risk Analysis", "Pattern Recognition"],
     progress: 100,
+    animationFrames: quest2,
     rewards: [
       { type: "XP", name: "Experience", amount: 2500, icon: <FaStar /> },
       { type: "Item", name: "Tome of Market Analysis", icon: <FaBookOpen /> },
-    ]
+    ],
+    specialItem: "yFinance Bible",
+    specialItemFrames: special2,
+    specialItemRarity: "Legendary",
   },
   {
     title: "The Gauntlet of London",
@@ -83,10 +153,14 @@ const journeySteps: JourneyStep[] = [
     recommendedLevel: 18,
     recommendedSkills: ["Abstract Algebra", "Complex Analysis", "Resilience"],
     progress: 100,
+    animationFrames: quest3,
     rewards: [
       { type: "XP", name: "Experience", amount: 10000, icon: <FaStar /> },
       { type: "Skill", name: "Mathematical Maturity", icon: <FaBrain /> },
-    ]
+    ],
+    specialItem: "Tome of Real Analysis",
+    specialItemFrames: special3,
+    specialItemRarity: "Legendary",
   },
   {
     title: "Trial by Code: Algorithmic Trading",
@@ -99,11 +173,15 @@ const journeySteps: JourneyStep[] = [
     recommendedLevel: 21,
     recommendedSkills: ["Python (Advanced)", "API Integration", "Statistical Modeling"],
     progress: 75,
+    animationFrames: quest4,
     rewards: [
       { type: "XP", name: "Experience", amount: 15000, icon: <FaStar /> },
       { type: "Item", name: "The Quant's Ledger", icon: <FaBookOpen /> },
       { type: "Skill", name: "Algorithmic Trading", icon: <FaChartLine /> },
-    ]
+    ],
+    specialItem: "Lesser Norm Spell",
+    specialItemFrames: special4,
+    specialItemRarity: "Legendary",
   },
 ];
 
@@ -116,7 +194,27 @@ const difficultyColor: Record<Difficulty, string> = {
   "Heroic": "text-red-600",
 };
 
+const rarityColor: Record<Rarity, string> = {
+  "Common": "text-gray-400",
+  "Uncommon": "text-green-500",
+  "Rare": "text-blue-500",
+  "Epic": "text-purple-500",
+  "Legendary": "text-orange-500",
+};
+
 const QuestModal: FC<{ step: JourneyStep; onClose: () => void }> = ({ step, onClose }) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, Math.round);
+
+  useEffect(() => {
+    const animation = animate(count, step.progress, {
+      duration: 1.5,
+      ease: "easeOut",
+      delay: 0.5,
+    });
+    return () => animation.stop();
+  }, [count, step.progress]);
+
   return (
     <>
       <motion.div
@@ -132,67 +230,126 @@ const QuestModal: FC<{ step: JourneyStep; onClose: () => void }> = ({ step, onCl
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       >
-        <div
-          className="bg-gradient-to-br from-blue-100/90 to-purple-400/90 backdrop-blur-lg rounded-2xl overflow-hidden"
-        >
+        <div className="bg-gradient-to-br from-blue-100/90 to-purple-400/90 backdrop-blur-lg rounded-2xl overflow-hidden">
           <div className="p-6 bg-black/10">
             <div className="flex justify-between items-start">
               <div className="flex flex-col items-start w-full">
-                <span className="px-3 py-1 text-xs font-bold text-primary bg-primary/20 rounded-full">
-                  {step.questType}
-                </span>
+                <div className="flex justify-between w-full">
+                  <span 
+                    className="p-3 px-4 text-xs font-bold text-primary bg-primary/20 rounded-full self-start">
+                    {step.questType}
+                  </span>
+                  <Button
+                    onClick={onClose} 
+                    className={`self-end rounded-full text-primary bg-background shadow-md hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out hover:rotate-12`}
+                    >
+                      <Hamburger toggled={true} size={18} color="currentColor"/>
+                  </Button>
+                </div>
                 <p className="text-3xl font-bold text-background my-2 chango-regular knewave-shadow-small ">
                   {step.title}
                 </p>
-                <div className="text-primary font-semibold flex flex-row justify-between w-full">
-                  <p className="self-start">
-                    {step.location}
-                  </p>
-                  <p className="self-end">
-                    {step.date}
-                  </p>
-                </div>
-              </div>
-              <Button
-                onClick={onClose} 
-                className={`rounded-full text-primary bg-background shadow-md hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out hover:rotate-12 translate-x-40`}
-              >
-                <Hamburger size={18} color="background"/>
-              </Button>
-            </div>
-          </div>
-          <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2">
-              <h3 className="font-bold text-foreground">Objectives</h3>
-              <p className="mt-2 text-foreground/80 leading-relaxed">{step.description}</p>
-            </div>
-            <div className="space-y-4 bg-black/10 p-4 rounded-lg">
-              <div>
-                <h4 className="text-xs font-bold text-primary uppercase tracking-wider">Difficulty</h4>
-                <p className={`font-bold text-lg ${difficultyColor[step.difficulty]}`}>{step.difficulty}</p>
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-primary uppercase tracking-wider">Rec. Level</h4>
-                <p className="font-bold text-lg text-foreground">{step.recommendedLevel}</p>
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-primary uppercase tracking-wider">Required Skills</h4>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {step.recommendedSkills.map(skill => <span key={skill} className="text-xs bg-background/50 text-foreground px-2 py-0.5 rounded">{skill}</span>)}
+                <div className="text-primary font-semibold flex flex-row justify-between min-w-full">
+                  <div>
+                    <p className="flex flex-row self-end">{step.location}</p>
+                  </div>
+                  <div className="flex flex-col gap-8">
+                    <p className="self-end">{step.date}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="p-6 bg-black/10">
+          <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+            <div className="flex justify-center items-center row-start-2 md:row-start-1">
+              <SpriteAnimator 
+                images={step.animationFrames} 
+                fps={4}
+                className="w-64 h-auto object-contain drop-shadow-lg" 
+              />
+            </div>
+            
+            <div className="md:col-span-2 flex flex-col gap-4">
+              <div>
+                <h3 className="font-bold text-foreground text-right">Objectives</h3>
+                <p className="mt-2 text-foreground/80 leading-relaxed text-right">{step.description}</p>
+              </div>
+
+              {/* Flex container to enforce equal height for the two cards below */}
+              <div className="flex gap-4">
+                
+                {/* CARD 1: SPECIAL ITEM */}
+                <div className="w-1/2 bg-black/10 p-4 rounded-lg flex flex-col items-center justify-between gap-2">
+                  <p className="text-sm text-primary font-semibold">
+                    Special Item
+                  </p>
+                  <p className={`text-lg font-bold text-center ${rarityColor[step.specialItemRarity]}`}>
+                    {step.specialItem}
+                  </p>
+                  <SpriteAnimator 
+                    images={step.specialItemFrames} 
+                    fps={4}
+                    className="w-32 h-auto object-contain drop-shadow-lg" 
+                  />
+                </div>
+                
+                {/* CARD 2: DETAILS */}
+                <div className="w-1/2 bg-black/10 p-4 rounded-lg flex flex-col justify-between text-right gap-4">
+                  <div>
+                    <h4 className="text-xs font-bold text-primary uppercase tracking-wider">Difficulty</h4>
+                    <p className={`font-bold text-lg ${difficultyColor[step.difficulty]}`}>{step.difficulty}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-primary uppercase tracking-wider">Rec. Level</h4>
+                    <p className="font-bold text-lg text-foreground">{step.recommendedLevel}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-primary uppercase tracking-wider">
+                      Required Skills
+                    </h4>
+                    <div className="flex flex-wrap justify-end gap-1 mt-1">
+                      {step.recommendedSkills.map(skill => 
+                        <span key={skill} className="text-xs bg-background/50 text-foreground px-2 py-0.5 rounded">
+                          {skill}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* --- BOTTOM SECTION --- */}
+          <div className="bg-black/10 p-4">
             <h3 className="font-bold text-foreground">Rewards</h3>
-            <div className="flex flex-wrap gap-4 mt-2">
+            <div className="flex flex-row justify-evenly gap-4 mt-2">
               {step.rewards.map(reward => (
-                <div key={reward.name} className="flex items-center gap-2 bg-background/50 p-2 rounded-md">
-                  <div className="text-yellow-400 text-lg">{reward.icon}</div>
+                <div key={reward.name} className="flex items-center gap-2 p-2 rounded-md bg-yellow-100/50">
+                  <div className="text-yellow-500 text-lg">{reward.icon}</div>
                   <p className="text-foreground font-semibold text-sm">{reward.name} {reward.amount && `+${reward.amount.toLocaleString()}`}</p>
                 </div>
               ))}
             </div>
+              <div className="mt-4">
+                <div className="flex justify-between items-center mb-1 text-xs">
+                  <span className={`font-bold ${step.progress === 100 ? 'text-green-400' : 'text-cyan-400'}`}>
+                    {step.progress === 100 ? "Completed" : "Active"}
+                  </span>
+                </div>
+                <div className="w-full bg-black/20 rounded-full h-2 relative overflow-hidden">
+                  <motion.div
+                    className={`h-full rounded-full ${step.progress === 100 ? 'bg-green-500' : 'bg-gradient-to-r from-cyan-400 to-purple-500'}`}
+                    initial={{ width: "0%" }}
+                    animate={{ width: `${step.progress}%` }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+                  />
+                  <div className="absolute inset-0 flex justify-center items-center">
+                    <motion.span className="text-white text-[10px] font-bold drop-shadow-sm">{rounded}</motion.span>
+                    <span className="text-white text-[10px] font-bold drop-shadow-sm">%</span>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
       </motion.div>
@@ -200,8 +357,6 @@ const QuestModal: FC<{ step: JourneyStep; onClose: () => void }> = ({ step, onCl
   );
 };
 
-
-// --- JourneyStepCard DRAMATICALLY SIMPLIFIED ---
 const JourneyStepCard: FC<{
   step: JourneyStep;
   index: number;
@@ -214,59 +369,35 @@ const JourneyStepCard: FC<{
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);
 
-  // --- This useEffect is now only for the number animation ---
   useEffect(() => {
     if (inView) {
       const animation = animate(count, step.progress, {
         duration: 1.5,
         ease: "easeOut",
-        delay: 0.5, // Delay this slightly so it starts after the card is in place
+        delay: 0.5,
       });
       return () => animation.stop();
     }
   }, [inView, count, step.progress]);
 
-  // --- Simplified variants for direct use ---
-  const containerVariants = {
-    hidden: { opacity: 0, x: isRightSide ? 100 : -100 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] },
-    },
-  };
-
-  const nodeVariants = {
-    hidden: { scale: 0 },
-    visible: {
-      scale: 1,
-      transition: { type: "spring", stiffness: 300, damping: 20, delay: 0.2 },
-    },
-  };
-
   return (
-    <div ref={ref} className="relative w-full flex my-10 px-4 items-center">
-      <motion.div
+    <div ref={ref} className="flex my-10 items-center">
+      <div
         className="absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-background rounded-full border-4 border-primary flex items-center justify-center z-40"
-        variants={nodeVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"} // Animate when in view
       >
         <div className="text-primary text-xl">{step.icon}</div>
-      </motion.div>
-
-      <div className={`w-1/2 ${isRightSide ? "pl-16" : "pr-16 ml-auto"}`}>
+      </div>
+      <div className={`w-1/2 ${isRightSide ? "pl-8" : "pr-8 ml-auto"}`}>
         <TooltipProvider>
-          <Tooltip open={isTooltipVisible} delayDuration={100}>
+          <Tooltip
+            open={isTooltipVisible}
+            delayDuration={100}
+          >
             <TooltipTrigger asChild>
-              <motion.div
-                className="relative text-left bg-gradient-to-br from-blue-200/40 to-purple-300/50 p-4 rounded-xl backdrop-blur-lg shadow-md cursor-pointer transition-all duration-300 hover:brightness-90"
-                variants={containerVariants}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"} // Animate when in view
+              <div
+                className="text-left bg-gradient-to-br from-blue-200/40 to-purple-300/50 p-4 rounded-xl backdrop-blur-lg shadow-md cursor-pointer transition-all duration-300 hover:brightness-90"
                 onClick={() => onSelect(step)}
               >
-                {/* Card content is unchanged */}
                 <div className={`flex flex-col ${isRightSide ? 'items-start' : 'items-end'}`}>
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full bg-primary/20 text-primary`}>{step.questType}</span>
                   <h3 className="text-xl font-bold text-foreground mt-1">{step.title}</h3>
@@ -283,7 +414,6 @@ const JourneyStepCard: FC<{
                     <motion.div
                       className={`h-full rounded-full ${step.progress === 100 ? 'bg-green-500' : 'bg-gradient-to-r from-cyan-400 to-purple-500'}`}
                       initial={{ width: "0%" }}
-                      // Animate the width directly when the card is in view
                       animate={{ width: inView ? `${step.progress}%` : "0%" }}
                       transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
                     />
@@ -293,7 +423,7 @@ const JourneyStepCard: FC<{
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </TooltipTrigger>
             <TooltipContent><p>Click a quest to see details!</p></TooltipContent>
           </Tooltip>
@@ -330,7 +460,10 @@ function Journey() {
       id="journey"
       className="relative py-10 mt-8"
     >
-      <div className="absolute left-1/2 top-0 h-full w-0.5 bg-gradient-to-b from-blue-500/0 via-purple-500/50 to-purple-500/0 -translate-x-1/2"></div>
+      <div 
+        className="absolute left-1/2 top-0 h-full w-0.5 bg-gradient-to-b from-blue-500/0 via-purple-500/50 to-purple-500/0 -translate-x-1/2"
+      >
+      </div>
       {journeySteps.map((step, index) => (
         <div ref={index === 0 ? firstCardRef : null} key={step.title}>
           <JourneyStepCard

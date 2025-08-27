@@ -69,7 +69,7 @@ function CharacterSheet() {
                   <div>
                   <p 
                     className="bg-primary/20 border-2 border-primary/50 text-primary px-3 py-1 rounded-xl mt-2">  
-                      0 Rebirths
+                      Member of Thinkpad Guild
                     </p>
                   </div>
                 </div>
