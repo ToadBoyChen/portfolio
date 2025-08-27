@@ -31,6 +31,11 @@ html {
   font-style: normal;
 }
 
+.chango-regular-small {
+  font-family: "Chango", sans-serif;
+  font-weight: 100;
+}
+
 .knewave-regular {
   font-family: "Knewave", system-ui;
   font-weight: 400;
@@ -60,6 +65,18 @@ html {
     1px 0px 0 var(--color-primary),
     3px 4px 0 var(--color-primary),
     2px 2px 1px var(--color-primary);
+}
+
+.knewave-shadow-xsmall {
+  -webkit-font-smoothing: antialiased; /* Chrome, Safari, Edge */
+  -moz-osx-font-smoothing: grayscale;  /* Firefox on Mac */
+  text-shadow:
+    1px 1px 1px var(--color-primary),
+    1px 1px 1px var(--color-primary),
+    1px 1px 1px var(--color-primary),
+    2px 2px 1px var(--color-primary),
+    2px 2px 1px var(--color-primary),
+    3px 3px 1px var(--color-primary);
 }
 
 .chicle-regular {
