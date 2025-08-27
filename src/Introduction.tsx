@@ -1,5 +1,5 @@
 import ScrollDownButton from "./components/ScrollDownButton";
-import AnimatedRoles from "./components/AnimatedRoles";
+import AnimatedRoles from "./animation/AnimatedRoles";
 
 function Introduction() {
   return (

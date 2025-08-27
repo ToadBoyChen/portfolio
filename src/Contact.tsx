@@ -1,4 +1,4 @@
-import AnimatedText from "./components/AnimatedText";
+import AnimatedText from "./animation/AnimatedText";
 import Form from "./components/Form";
 import SectionCard from "./components/SectionCard";
 

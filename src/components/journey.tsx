@@ -1,6 +1,13 @@
 import type { ReactElement } from 'react';
 
-// All your type definitions now live here, clean and reusable.
+export interface SpriteSheetData {
+  spriteSheet: string;
+  frameCount: number;
+  frameWidth: number;
+  frameHeight: number;
+  fps?: number;
+}
+
 export type Difficulty = "Trivial" | "Easy" | "Normal" | "Hard" | "Heroic";
 export type Rarity = "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary";
 
@@ -14,7 +21,7 @@ export interface JourneyStep {
   recommendedLevel: number;
   recommendedSkills: string[];
   progress: number;
-  animationFrames: string[];
+  animationFrames: SpriteSheetData;
   rewards: {
     type: "XP" | "Skill" | "Item";
     name: string;
@@ -22,6 +29,6 @@ export interface JourneyStep {
     icon: ReactElement;
   }[];
   specialItem: string;
-  specialItemFrames: string[];
+  specialItemFrames: SpriteSheetData;
   specialItemRarity: Rarity;
 }

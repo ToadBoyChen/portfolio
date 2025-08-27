@@ -6,67 +6,18 @@ import {
   FaBook
 } from 'react-icons/fa';
 import { PiBoxingGloveFill, PiLinuxLogoFill } from "react-icons/pi";
-import type { JourneyStep } from './journey';
+import type { JourneyStep, SpriteSheetData } from './journey';
 import { GiClothes, GiLaptop, GiSolarSystem } from 'react-icons/gi';
 
+import me from '../animation/me-spritesheet.png'; 
 
-const quest1 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
-
-const quest2 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
-const quest3 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
-const quest4 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
-const special1 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
-const special2 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
-const special3 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
-const special4 = [ 
-    './src/assets/me/ani/me1.png', 
-    './src/assets/me/ani/me2.png', 
-    './src/assets/me/ani/me3.png', 
-    './src/assets/me/ani/me4.png', 
-    './src/assets/me/ani/me5.png' 
-];
+const meAnimation: SpriteSheetData = {
+  spriteSheet: me,
+  frameCount: 4,
+  frameWidth: 96,
+  frameHeight: 96,
+  fps: 5,
+};
 
 export const journeySteps: JourneyStep[] = [
   {
@@ -79,7 +30,7 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 14,
     recommendedSkills: ["Curiosity", "Creativity", "Tome Inscription"],
     progress: 100,
-    animationFrames: quest1,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 500, icon: <FaStar /> },
       { type: "Skill", name: "STEM Disciple", icon: <GiSolarSystem /> },
@@ -87,7 +38,7 @@ export const journeySteps: JourneyStep[] = [
       { type: "Skill", name: "PE Buff", icon: <PiBoxingGloveFill /> }
     ],
     specialItem: "GCSE Scroll",
-    specialItemFrames: special1,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Common",
   },
   {
@@ -100,7 +51,7 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 15,
     recommendedSkills: ["CLI curses", "Freedom Fighter", "Oppose Window Imperialist", "Oppose MacOS Empire"],
     progress: 100,
-    animationFrames: quest2,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 2500, icon: <FaStar /> },
       { type: "Item", name: "Mastery of Terminal Buffs", icon: <FaBookOpen /> },
@@ -108,7 +59,7 @@ export const journeySteps: JourneyStep[] = [
       { type: "Skill", name: "Linux Loyalist", icon: <PiLinuxLogoFill /> },
     ],
     specialItem: "Raspberry Pi",
-    specialItemFrames: special2,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
   {
@@ -121,14 +72,14 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 12,
     recommendedSkills: ["Common Incantation Table", "Member of Wizards Guild", "Earthly Network Caster"],
     progress: 100,
-    animationFrames: quest3,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 1000, icon: <FaStar /> },
       { type: "Skill", name: "Interpreter Spells", icon: <FaBrain /> },
       { type: "Skill", name: "Lesser Incantation Mastery", icon: <FaLaptopCode /> },
     ],
     specialItem: "Tome of Py",
-    specialItemFrames: special3,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Common",
   },
   {
@@ -141,7 +92,7 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 16,
     recommendedSkills: ["Strong STEM Curses", "Lesser Incantation Mastery", "Greater Tome Inscription"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 15000, icon: <FaStar /> },
       { type: "Item", name: "Improved Fashion Sense", icon: <GiClothes /> },
@@ -150,7 +101,7 @@ export const journeySteps: JourneyStep[] = [
       { type: "Skill", name: "Lesser Biology Spells", icon: <FaBiohazard /> },
     ],
     specialItem: "Advanced Spell Tome",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
   {
@@ -163,14 +114,14 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 15,
     recommendedSkills: ["Good Incantation Mastery", "Tome of Py", "Incantation Table"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 1000, icon: <FaStar /> },
       { type: "Item", name: "VS Spell Buffs", icon: <GiClothes /> },
       { type: "Skill", name: "Lesser Tome of C", icon: <FaBook /> },
     ],
     specialItem: "OOP Spellbook",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
   {
@@ -183,7 +134,7 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 18,
     recommendedSkills: ["Advanced Spell Casting", "Acquainted With Math Members", "Greater Tome Inscription"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 5000, icon: <FaStar /> },
       { type: "Item", name: "Secrets Spell Casting", icon: <GiClothes /> },
@@ -191,7 +142,7 @@ export const journeySteps: JourneyStep[] = [
       { type: "Skill", name: "Advanced Athletic Abilities", icon: <FaBook /> },
     ],
     specialItem: "The Mathematicians Manifesto",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Epic",
   },
   {
@@ -204,14 +155,14 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 15,
     recommendedSkills: ["Good Incantation Mastery", "Tome of Py", "Incantation Table"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 1000, icon: <FaStar /> },
       { type: "Item", name: "VS Spell Buffs", icon: <GiClothes /> },
       { type: "Skill", name: "Lesser Tome of C", icon: <FaBook /> },
     ],
     specialItem: "OOP Spellbook",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
   {
@@ -224,14 +175,14 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 15,
     recommendedSkills: ["Good Incantation Mastery", "Tome of Py", "Incantation Table"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 1000, icon: <FaStar /> },
       { type: "Item", name: "VS Spell Buffs", icon: <GiClothes /> },
       { type: "Skill", name: "Lesser Tome of C", icon: <FaBook /> },
     ],
     specialItem: "OOP Spellbook",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
   {
@@ -244,14 +195,14 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 15,
     recommendedSkills: ["Good Incantation Mastery", "Tome of Py", "Incantation Table"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 1000, icon: <FaStar /> },
       { type: "Item", name: "VS Spell Buffs", icon: <GiClothes /> },
       { type: "Skill", name: "Lesser Tome of C", icon: <FaBook /> },
     ],
     specialItem: "OOP Spellbook",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
   {
@@ -264,14 +215,14 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 15,
     recommendedSkills: ["Good Incantation Mastery", "Tome of Py", "Incantation Table"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 1000, icon: <FaStar /> },
       { type: "Item", name: "VS Spell Buffs", icon: <GiClothes /> },
       { type: "Skill", name: "Lesser Tome of C", icon: <FaBook /> },
     ],
     specialItem: "OOP Spellbook",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
   {
@@ -284,14 +235,14 @@ export const journeySteps: JourneyStep[] = [
     recommendedLevel: 15,
     recommendedSkills: ["Good Incantation Mastery", "Tome of Py", "Incantation Table"],
     progress: 100,
-    animationFrames: quest4,
+    animationFrames: meAnimation,
     rewards: [
       { type: "XP", name: "Experience", amount: 1000, icon: <FaStar /> },
       { type: "Item", name: "VS Spell Buffs", icon: <GiClothes /> },
       { type: "Skill", name: "Lesser Tome of C", icon: <FaBook /> },
     ],
     specialItem: "OOP Spellbook",
-    specialItemFrames: special4,
+    specialItemFrames: meAnimation,
     specialItemRarity: "Rare",
   },
 ];

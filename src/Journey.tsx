@@ -1,12 +1,13 @@
 import { useState, useEffect, type FC } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Button } from "./ui/button";
-import SpriteAnimator from "./SpriteAnimator";
+import { Button } from "./components/ui/button";
+import SpriteAnimator from "./animation/SpriteAnimator";
 
-import { journeySteps } from './journeyData';
-import type { JourneyStep, Difficulty, Rarity } from './journey';
+import { journeySteps } from './components/journeyData';
+import type { JourneyStep, Difficulty, Rarity } from './components/journey';
 import Hamburger from "hamburger-react";
+import SpriteSheetAnimator from "./animation/SpriteSheetAnimator";
 
 const difficultyColor: Record<Difficulty, string> = {
   "Trivial": "text-gray-600",
@@ -84,10 +85,12 @@ const QuestModal: FC<{ step: JourneyStep; onClose: () => void }> = ({ step, onCl
           </div>
           <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             <div className="flex justify-center items-center row-start-2 md:row-start-1">
-              <SpriteAnimator 
-                images={step.animationFrames} 
-                fps={4}
-                className="w-64 h-auto object-contain drop-shadow-lg" 
+              <SpriteSheetAnimator
+                spriteSheet={step.animationFrames.spriteSheet}
+                frameCount={step.animationFrames.frameCount}
+                frameWidth={step.animationFrames.frameWidth}
+                frameHeight={step.animationFrames.frameHeight}
+                fps={step.animationFrames.fps}
               />
             </div>
             
@@ -108,11 +111,15 @@ const QuestModal: FC<{ step: JourneyStep; onClose: () => void }> = ({ step, onCl
                   <p className={`text-lg font-bold text-center ${rarityColor[step.specialItemRarity]}`}>
                     {step.specialItem}
                   </p>
-                  <SpriteAnimator 
-                    images={step.specialItemFrames} 
-                    fps={4}
-                    className="w-32 h-auto object-contain drop-shadow-lg" 
-                  />
+                  <div className="w-24">
+                    <SpriteSheetAnimator
+                      spriteSheet={step.specialItemFrames.spriteSheet}
+                      frameCount={step.specialItemFrames.frameCount}
+                      frameWidth={step.specialItemFrames.frameWidth}
+                      frameHeight={step.specialItemFrames.frameHeight}
+                      fps={step.specialItemFrames.fps}
+                    />
+                  </div>
                 </div>
                 
                 {/* CARD 2: DETAILS */}
@@ -201,12 +208,18 @@ const QuestGridItem: FC<{ step: JourneyStep; onSelect: (step: JourneyStep) => vo
       onClick={() => onSelect(step)}
     >
       <div className="flex flex-row items-center gap-4">
-        <div className="bg-background/80 text-primary text-2xl p-3 rounded-lg border-2 border-primary/60">
-          <SpriteAnimator 
-            images={step.animationFrames} 
-            fps={4}
-            className="w-16 h-auto object-contain drop-shadow-lg" 
-          />
+        <div className="bg-background/80 border-primary/60">
+          <div
+            className="w-20 h-auto object-contain drop-shadow-lg border-2"
+          >
+            <SpriteSheetAnimator
+              spriteSheet={step.animationFrames.spriteSheet}
+              frameCount={step.animationFrames.frameCount}
+              frameWidth={step.animationFrames.frameWidth}
+              frameHeight={step.animationFrames.frameHeight}
+              fps={step.animationFrames.fps}
+            />
+          </div>
         </div>
         <div className="flex-1">
         <p className="text-md text-background chango-regular-small knewave-shadow-xsmall">
@@ -277,7 +290,6 @@ function Journey() {
           />
         ))}
       </div>
-
       <AnimatePresence>
         {selectedStep && (
           <QuestModal step={selectedStep} onClose={() => setSelectedStep(null)} />

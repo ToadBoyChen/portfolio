@@ -1,4 +1,4 @@
-import AnimatedText from "./components/AnimatedText.tsx";
+import AnimatedText from "./animation/AnimatedText.tsx";
 import CharacterSheet from "./components/CharacterSheet.tsx";
 
 function About() {

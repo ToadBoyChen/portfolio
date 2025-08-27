@@ -1,7 +1,7 @@
-import AnimatedText from "./components/AnimatedText"
+import AnimatedText from "./animation/AnimatedText"
 import SectionCard from "./components/SectionCard"
 import { Button } from "./components/ui/button"
-import Journey from "./components/Journey"
+import Journey from "./Journey"
 
 
 function Experience() {

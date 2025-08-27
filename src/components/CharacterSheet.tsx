@@ -3,16 +3,10 @@ import { useState } from "react";
 import { FaReact, FaPython } from "react-icons/fa";
 import { SiCplusplus, SiTypescript } from "react-icons/si";
 import RadarChart from "./Radar.tsx";
-import SpriteAnimator from "./SpriteAnimator.tsx";
 import Attributes from "./Attributes.tsx";
+import SpriteSheetAnimator from "../animation/SpriteSheetAnimator.tsx";
 
-import me1 from '/src/assets/me/ani/me1.png';
-import me2 from '/src/assets/me/ani/me2.png';
-import me3 from '/src/assets/me/ani/me3.png';
-import me4 from '/src/assets/me/ani/me4.png';
-import me5 from '/src/assets/me/ani/me5.png';
-
-const animationFrames = [me1, me2, me3, me4, me5];
+import spriteSheet from '/src/animation/me-spritesheet.png';
 
 const characterData = {
     name: "Toby Chen",
@@ -32,27 +26,27 @@ const characterData = {
 
 function CharacterSheet() {
   const [view, setView] = useState<'base' | 'attributes' | 'radar'>('base');
-  const [highlightedStatId, setHighlightedStatId] = useState<string | null>(null);
-  const highlightedStat = characterData.baseStats.find(s => s.id === highlightedStatId);
 
   return (
     <motion.div 
-        /* CHANGE #1: Add `relative` for positioning context and `pb-16` for padding */
         className="relative flex flex-col md:flex-row w-full max-w-6xl mx-auto gap-0 my-12 bg-gradient-to-br from-blue-200/40 to-purple-300/50 backdrop-blur-lg rounded-2xl shadow-md overflow-hidden pb-16"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
     >
-      {/* This wrapper now holds both columns */}
       <div className="flex flex-col md:flex-row w-full">
-        {/* Left Column (Sprite) */}
         <div className="w-full md:w-1/3 p-4 flex items-center justify-center">
           <div className="flex flex-col mt-8 gap-8">
-            <SpriteAnimator 
-              images={animationFrames} 
-              fps={3} 
-              className="object-contain filter drop-shadow-[0_0_15px_rgba(192,132,252,0.4)] w-full h-full bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border border-4 border-foreground rounded-lg pt-8"
-            />
+            <div className="pt-8 bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border border-4 border-foreground rounded-lg filter flex justify-center items-center">
+              <SpriteSheetAnimator
+                spriteSheet={spriteSheet}
+                frameCount={4}
+                frameWidth={96}
+                frameHeight={96}
+                fps={4}
+              />
+              
+            </div>
             <div className="bottom-4 left-4 right-4 bg-background/60 backdrop-blur-sm p-4 rounded-lg text-center">
                 <p className="text-2xl font-bold text-foreground drop-shadow-sm mb-8">
                     Toby Chen
@@ -137,8 +131,7 @@ function CharacterSheet() {
                     {characterData.baseStats.map((stat) => ( 
                       <div 
                         key={stat.id} 
-                        className="grid grid-cols-3 gap-2 items-center text-left" 
-                        onMouseEnter={() => setHighlightedStatId(stat.id)} onMouseLeave={() => setHighlightedStatId(null)}>
+                        className="grid grid-cols-3 gap-2 items-center text-left">
                         <p className="font-bold text-foreground/90">{stat.label}</p>
                         <div className="col-span-2">
                           <p className="text-foreground font-semibold text-sm mb-1">{stat.value}</p>

@@ -3,7 +3,7 @@ import Socials from './components/Socials.tsx';
 import Sections from './components/Sections.tsx';
 import NavButtonLeft from './components/NavButtonLeft.tsx';
 import NavButtonRight from './components/NavButtonRight.tsx';
-import AnimatedText from './components/AnimatedText.tsx';
+import AnimatedText from './animation/AnimatedText.tsx';
 
 function Navbar() {
   const [showSocials, setShowSocials] = useState(false);
