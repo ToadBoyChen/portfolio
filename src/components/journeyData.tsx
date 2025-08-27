@@ -1,13 +1,11 @@
 import {
-  FaSchool, FaCode, FaStar, FaBrain, FaBookOpen,
+  FaCode, FaStar, FaBrain, FaBookOpen,
   FaRaspberryPi,
-  FaPython,
   FaLaptopCode,
   FaBiohazard,
   FaBook
 } from 'react-icons/fa';
-import { PiBoxingGloveFill, PiFileCSharp, PiLinuxLogoFill } from "react-icons/pi";
-import { BiMath } from "react-icons/bi";
+import { PiBoxingGloveFill, PiLinuxLogoFill } from "react-icons/pi";
 import type { JourneyStep } from './journey';
 import { GiClothes, GiLaptop, GiSolarSystem } from 'react-icons/gi';
 
@@ -76,7 +74,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2015",
     location: "Priestlands School",
     description: "The journey begins! Choose your faction whether that's the Humanities cultist or STEM disciples. This will begin to shape your character build. Certain spells are unlocked depending on the faction you choose.",
-    icon: <FaSchool />,
     questType: "Main Story",
     difficulty: "Trivial",
     recommendedLevel: 14,
@@ -98,7 +95,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2017",
     location: "Hampshire",
     description: "An unexpected encounter with a group called the Linuxites opens a new path. It's not easy, many spells are closed to you, but they claim they can show you a new and better way. They say their leader is a Warlock called Linus. He has mastery over the Open Source domain. Maybe I can learn from him...",
-    icon: <PiLinuxLogoFill />,
     questType: "Linux Story Line",
     difficulty: "Easy",
     recommendedLevel: 15,
@@ -120,7 +116,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2019",
     location: "Southampton",
     description: "You find yourself in the depths of the library after meeting several Linux Loyalists. They speak of a serpent that guards ancient knowledge. This serpent can create incantations that manipulate the fabric of reality. You must seek its wisdom to unlock new powers.",
-    icon: <FaPython />,
     questType: "Coding Story Line",
     difficulty: "Easy",
     recommendedLevel: 12,
@@ -141,7 +136,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2020",
     location: "Brockenhurst",
     description: "You have obtained the GCSE Scroll which has unlocked new spells and abilities. During celebrations with your fellow STEM disciples an ominous presence looms. 'Hello, young scholar. Meet me and my party outside - we are members of the Mathematics Society'. You finish your drink and step outside...",
-    icon: <BiMath />,
     questType: "Main Story",
     difficulty: "Hard",
     recommendedLevel: 16,
@@ -164,7 +158,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2020",
     location: "Brockenhurst",
     description: "You converse with a Wizard within the Mathematics Society casually. They mention an ancient scroll that they have been working on. The wizard claims that they've translated it into 'C#'. You enquire more. To understand the Wizards translation you secretly meet up with Windows Imperialists - the Linuxites best not see this...",
-    icon: <PiFileCSharp />,
     questType: "Coding Story Line",
     difficulty: "Normal",
     recommendedLevel: 15,
@@ -185,7 +178,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2022",
     location: "Edinburgh",
     description: "After obtaining the Advanced Spell Tome during your time in whimsical Brockenhurst, you set out on a journey to the North. There were rumours that the Mathematical Society lay refuge there. You set out, anxious but determined.",
-    icon: <PiFileCSharp />,
     questType: "Main Story",
     difficulty: "Hard",
     recommendedLevel: 18,
@@ -207,7 +199,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2020",
     location: "Brockenhurst",
     description: "You converse with a Wizard within the Mathematics Society casually. They mention an ancient scroll that they have been working on. The wizard claims that they've translated it into 'C#'. You enquire more. To understand the Wizards translation you secretly meet up with Windows Imperialists - the Linuxites best not see this...",
-    icon: <PiFileCSharp />,
     questType: "Coding Story Line",
     difficulty: "Normal",
     recommendedLevel: 15,
@@ -228,7 +219,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2020",
     location: "Brockenhurst",
     description: "You converse with a Wizard within the Mathematics Society casually. They mention an ancient scroll that they have been working on. The wizard claims that they've translated it into 'C#'. You enquire more. To understand the Wizards translation you secretly meet up with Windows Imperialists - the Linuxites best not see this...",
-    icon: <PiFileCSharp />,
     questType: "Coding Story Line",
     difficulty: "Normal",
     recommendedLevel: 15,
@@ -249,7 +239,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2020",
     location: "Brockenhurst",
     description: "You converse with a Wizard within the Mathematics Society casually. They mention an ancient scroll that they have been working on. The wizard claims that they've translated it into 'C#'. You enquire more. To understand the Wizards translation you secretly meet up with Windows Imperialists - the Linuxites best not see this...",
-    icon: <PiFileCSharp />,
     questType: "Coding Story Line",
     difficulty: "Normal",
     recommendedLevel: 15,
@@ -270,7 +259,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2020",
     location: "Brockenhurst",
     description: "You converse with a Wizard within the Mathematics Society casually. They mention an ancient scroll that they have been working on. The wizard claims that they've translated it into 'C#'. You enquire more. To understand the Wizards translation you secretly meet up with Windows Imperialists - the Linuxites best not see this...",
-    icon: <PiFileCSharp />,
     questType: "Coding Story Line",
     difficulty: "Normal",
     recommendedLevel: 15,
@@ -291,7 +279,6 @@ export const journeySteps: JourneyStep[] = [
     date: "2020",
     location: "Brockenhurst",
     description: "You converse with a Wizard within the Mathematics Society casually. They mention an ancient scroll that they have been working on. The wizard claims that they've translated it into 'C#'. You enquire more. To understand the Wizards translation you secretly meet up with Windows Imperialists - the Linuxites best not see this...",
-    icon: <PiFileCSharp />,
     questType: "Coding Story Line",
     difficulty: "Normal",
     recommendedLevel: 15,

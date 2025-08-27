@@ -9,7 +9,6 @@ export interface JourneyStep {
   date: string;
   location: string;
   description: string;
-  icon: ReactElement;
   questType: string;
   difficulty: Difficulty;
   recommendedLevel: number;

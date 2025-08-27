@@ -202,7 +202,11 @@ const QuestGridItem: FC<{ step: JourneyStep; onSelect: (step: JourneyStep) => vo
     >
       <div className="flex flex-row items-center gap-4">
         <div className="bg-background/80 text-primary text-2xl p-3 rounded-lg border-2 border-primary/60">
-          {step.icon}
+          <SpriteAnimator 
+            images={step.animationFrames} 
+            fps={4}
+            className="w-16 h-auto object-contain drop-shadow-lg" 
+          />
         </div>
         <div className="flex-1">
         <p className="text-md text-background chango-regular-small knewave-shadow-xsmall">
