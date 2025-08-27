@@ -60,7 +60,7 @@ export const journeySteps: JourneyStep[] = [
     ],
     specialItem: "Raspberry Pi",
     specialItemFrames: meAnimation,
-    specialItemRarity: "Rare",
+    specialItemRarity: "Uncommon",
   },
   {
     title: "The Library Serpent",
@@ -102,7 +102,7 @@ export const journeySteps: JourneyStep[] = [
     ],
     specialItem: "Advanced Spell Tome",
     specialItemFrames: meAnimation,
-    specialItemRarity: "Rare",
+    specialItemRarity: "Uncommon",
   },
   {
     title: "Ancient Scriptures Recovered",
@@ -132,7 +132,7 @@ export const journeySteps: JourneyStep[] = [
     questType: "Main Story",
     difficulty: "Hard",
     recommendedLevel: 18,
-    recommendedSkills: ["Advanced Spell Casting", "Acquainted With Math Members", "Greater Tome Inscription"],
+    recommendedSkills: ["Advanced Spell Casting", "Meet Mathematicians", "Greater Tome Inscription"],
     progress: 100,
     animationFrames: meAnimation,
     rewards: [
@@ -140,6 +140,7 @@ export const journeySteps: JourneyStep[] = [
       { type: "Item", name: "Secrets Spell Casting", icon: <GiClothes /> },
       { type: "Skill", name: "Advanced Maths Casting", icon: <FaBook /> },
       { type: "Skill", name: "Advanced Athletic Abilities", icon: <FaBook /> },
+      { type: "Skill", name: "Befriended Grand Wizard", icon: <FaBook /> },
     ],
     specialItem: "The Mathematicians Manifesto",
     specialItemFrames: meAnimation,

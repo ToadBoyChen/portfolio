@@ -2,7 +2,6 @@ import { useState, useEffect, type FC } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "./components/ui/button";
-import SpriteAnimator from "./animation/SpriteAnimator";
 
 import { journeySteps } from './components/journeyData';
 import type { JourneyStep, Difficulty, Rarity } from './components/journey';
