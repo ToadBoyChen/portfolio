@@ -1,18 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import SpriteSheetAnimator from "../animation/SpriteSheetAnimator";
 
 
 import walkSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import idleSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import sitSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import openBookSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import readSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import getConfusedSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import confusedSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import fallAsleepSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import idleSpriteSheet from "/src/animation/coffee/coffee-idle-6frame.png";
+import sitSpriteSheet from "/src/animation/coffee/coffee-sit-4frame.png";
+import readSpriteSheet from "/src/animation/coffee/coffee-read-3frame.png";
 import sleepSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import climbSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
-import fallSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import climbSpriteSheet from "/src/animation/coffee/coffee-climb-2frame.png";
+import fallSpriteSheet from "/src/animation/coffee/coffee-fall-2frame.png";
 
 type CoffeeState =
   | "walking"
@@ -21,17 +17,10 @@ type CoffeeState =
   | "sleeping"
   | "idle"
   | "sitting"
-  | "gettingConfused"
-  | "understanding"
-  | "confused"
-  | "openingBook"
-  | "closingBook"
-  | "reading"
-  | "fallingAsleep"
-  | "wakingUp";
+  | "reading";
 
-const FRAME_WIDTH = 48;
-const FRAME_HEIGHT = 48;
+const FRAME_WIDTH = 64;
+const FRAME_HEIGHT = 64;
 const DEFAULT_FPS = 4;
 
 type AnimationData = {
@@ -44,19 +33,12 @@ type AnimationData = {
 
 const animations: Record<CoffeeState, AnimationData> = {
   walking: { spriteSheet: walkSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
-  climbing: { spriteSheet: climbSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
-  falling: { spriteSheet: fallSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
-  sleeping: { spriteSheet: sleepSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 }, // Slower FPS to match original
-  idle: { spriteSheet: idleSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  climbing: { spriteSheet: climbSpriteSheet, frameCount: 2, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  falling: { spriteSheet: fallSpriteSheet, frameCount: 2, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  sleeping: { spriteSheet: sleepSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 },
+  idle: { spriteSheet: idleSpriteSheet, frameCount: 6, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
   sitting: { spriteSheet: sitSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
-  gettingConfused: { spriteSheet: getConfusedSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
-  understanding: { spriteSheet: getConfusedSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS }, // Requires a reversed sprite sheet for accuracy
-  confused: { spriteSheet: confusedSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 },
-  openingBook: { spriteSheet: openBookSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
-  closingBook: { spriteSheet: openBookSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS }, // Requires a reversed sprite sheet
-  reading: { spriteSheet: readSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 },
-  fallingAsleep: { spriteSheet: fallAsleepSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
-  wakingUp: { spriteSheet: fallAsleepSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  reading: { spriteSheet: readSpriteSheet, frameCount: 3, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 },
 };
 
 
@@ -72,7 +54,7 @@ const CoffeeCup = () => {
   const climbIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const climbDataRef = useRef({ progress: 0, height: 0 });
 
-  const physicsRef = useRef({ moveSpeed: 2, fallSpeed: 5, climbSpeed: 3 });
+  const physicsRef = useRef({ moveSpeed: 4, fallSpeed: 3, climbSpeed: 3 });
 
   useEffect(() => {
     let animationFrameId: number;
@@ -196,8 +178,8 @@ const CoffeeCup = () => {
       style={{
         top: `${posY}px`,
         left: `${posX}px`,
-        width: `${FRAME_WIDTH}px`,
-        height: `${FRAME_HEIGHT}px`,
+        width: `${64}px`,
+        height: `${64}px`,
         transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
         transition: "transform 0.1s linear"
       }}
@@ -206,8 +188,8 @@ const CoffeeCup = () => {
         key={state}
         spriteSheet={currentAnimation.spriteSheet}
         frameCount={currentAnimation.frameCount}
-        frameWidth={FRAME_WIDTH}
-        frameHeight={FRAME_HEIGHT}
+        frameWidth={64}
+        frameHeight={64}
         fps={4}
         className="w-full h-full"
       />
