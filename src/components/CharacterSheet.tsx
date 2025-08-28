@@ -6,7 +6,7 @@ import RadarChart from "./Radar.tsx";
 import Attributes from "./Attributes.tsx";
 import SpriteSheetAnimator from "../animation/SpriteSheetAnimator.tsx";
 
-import spriteSheet from '/src/animation/me-5frame.png';
+import spriteSheet from '/src/animation/quests/me-5frame.png';
 
 const characterData = {
     name: "Toby Chen",

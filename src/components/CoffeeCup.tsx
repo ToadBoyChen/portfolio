@@ -1,61 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import SpriteSheetAnimator from "../animation/SpriteSheetAnimator";
 
-// [Your existing image imports remain the same]
-import walk1 from "/src/assets/coffeeMan/walk/walk1.png";
-import walk2 from "/src/assets/coffeeMan/walk/walk2.png";
-import walk3 from "/src/assets/coffeeMan/walk/walk3.png";
-import walk4 from "/src/assets/coffeeMan/walk/walk4.png";
 
-import idle1 from "/src/assets/coffeeMan/idle/idle1.png";
-import idle2 from "/src/assets/coffeeMan/idle/idle2.png";
-import idle3 from "/src/assets/coffeeMan/idle/idle3.png";
-import idle4 from "/src/assets/coffeeMan/idle/idle4.png";
-
-import sit1 from "/src/assets/coffeeMan/sit/sit1.png";
-import sit2 from "/src/assets/coffeeMan/sit/sit2.png";
-import sit3 from "/src/assets/coffeeMan/sit/sit3.png";
-import sit4 from "/src/assets/coffeeMan/sit/sit4.png";
-
-import open1 from "/src/assets/coffeeMan/study/open/open1.png";
-import open2 from "/src/assets/coffeeMan/study/open/open2.png";
-import open3 from "/src/assets/coffeeMan/study/open/open3.png";
-import open4 from "/src/assets/coffeeMan/study/open/open4.png";
-
-import read1 from "/src/assets/coffeeMan/study/read/read1.png";
-import read2 from "/src/assets/coffeeMan/study/read/read2.png";
-
-import conf1 from "/src/assets/coffeeMan/study/read/confuse/conf1.png";
-import conf2 from "/src/assets/coffeeMan/study/read/confuse/conf2.png";
-import conf3 from "/src/assets/coffeeMan/study/read/confuse/conf3.png";
-import conf4 from "/src/assets/coffeeMan/study/read/confuse/conf4.png";
-import conf5 from "/src/assets/coffeeMan/study/read/confuse/conf5.png";
-import conf6 from "/src/assets/coffeeMan/study/read/confuse/conf6.png";
-import conf7 from "/src/assets/coffeeMan/study/read/confuse/conf7.png";
-import conf8 from "/src/assets/coffeeMan/study/read/confuse/conf8.png";
-import conf9 from "/src/assets/coffeeMan/study/read/confuse/conf9.png";
-import conf10 from "/src/assets/coffeeMan/study/read/confuse/conf10.png";
-import conf11 from "/src/assets/coffeeMan/study/read/confuse/conf11.png";
-import conf12 from "/src/assets/coffeeMan/study/read/confuse/conf12.png";
-import conf13 from "/src/assets/coffeeMan/study/read/confuse/conf13.png";
-
-import sleep1 from "/src/assets/coffeeMan/sleep/sleep1.png";
-import sleep2 from "/src/assets/coffeeMan/sleep/sleep2.png";
-import sleep3 from "/src/assets/coffeeMan/sleep/sleep3.png";
-import sleep4 from "/src/assets/coffeeMan/sleep/sleep4.png";
-import sleep5 from "/src/assets/coffeeMan/sleep/sleep5.png";
-
-import climb1 from "/src/assets/coffeeMan/climb/climb1.png";
-import climb2 from "/src/assets/coffeeMan/climb/climb2.png";
-import climb3 from "/src/assets/coffeeMan/climb/climb3.png";
-import climb4 from "/src/assets/coffeeMan/climb/climb4.png";
-import climb5 from "/src/assets/coffeeMan/climb/climb5.png";
-import climb6 from "/src/assets/coffeeMan/climb/climb6.png";
-
-import fall1 from "/src/assets/coffeeMan/fall/fall1.png";
-import fall2 from "/src/assets/coffeeMan/fall/fall2.png";
-import fall3 from "/src/assets/coffeeMan/fall/fall3.png";
-import fall4 from "/src/assets/coffeeMan/fall/fall4.png";
-
+import walkSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import idleSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import sitSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import openBookSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import readSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import getConfusedSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import confusedSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import fallAsleepSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import sleepSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import climbSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
+import fallSpriteSheet from "/src/animation/coffee/coffee-walk-4frame.png";
 
 type CoffeeState =
   | "walking"
@@ -73,47 +30,39 @@ type CoffeeState =
   | "fallingAsleep"
   | "wakingUp";
 
-// [Your spriteFrames object remains the same]
-const openFrames = [open1, open2, open3, open4];
-const readFrames = [read1, read1, read1, read2, read2, read2];
-const spawnConfusedFrames = [conf1, conf2, conf3, conf4, conf5, conf6, conf7, conf8, conf9, conf10, conf11, conf12, conf12, conf13, conf13];
-const confusedFrames = [conf12, conf12, conf12, conf12, conf13, conf13, conf13];
-const sitFrames = [sit1, sit2, sit3, sit4];
+const FRAME_WIDTH = 32;
+const FRAME_HEIGHT = 32;
+const DEFAULT_FPS = 4;
 
-const fallAsleepFrames = [sleep1, sleep2, sleep3, sleep4, sleep5];
-const sleepFrames = [sleep4, sleep4, sleep4, sleep5, sleep5, sleep5];
+type AnimationData = {
+  spriteSheet: string;
+  frameCount: number;
+  frameWidth: number;
+  frameHeight: number;
+  fps?: number;
+};
 
-const idleFrames = [idle1, idle2, idle3, idle4];
-
-const climbFrames = [climb3, climb4];
-
-const fallFrames = [fall1, fall2, fall3, fall4];
-
-const wakeUpFrames = [...fallAsleepFrames].reverse();
-const closeFrames = [...openFrames].reverse();
-const unconfusedFrames = [...spawnConfusedFrames].reverse();
-
-const spriteFrames: Record<CoffeeState, string[]> = {
-  walking: [walk1, walk2, walk3, walk4],
-  climbing: [...climbFrames],
-  falling: [...fallFrames],
-  sleeping: [...sleepFrames],
-  idle: [...idleFrames],
-  sitting: [...sitFrames],
-  gettingConfused: [...spawnConfusedFrames],
-  understanding: [...unconfusedFrames],
-  confused: [...confusedFrames],
-  openingBook: [...openFrames],
-  closingBook: [...closeFrames],
-  reading: [...readFrames],
-  fallingAsleep: [...fallAsleepFrames],
-  wakingUp: [...wakeUpFrames],
+const animations: Record<CoffeeState, AnimationData> = {
+  walking: { spriteSheet: walkSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  climbing: { spriteSheet: climbSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  falling: { spriteSheet: fallSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  sleeping: { spriteSheet: sleepSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 }, // Slower FPS to match original
+  idle: { spriteSheet: idleSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  sitting: { spriteSheet: sitSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  gettingConfused: { spriteSheet: getConfusedSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  understanding: { spriteSheet: getConfusedSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS }, // Requires a reversed sprite sheet for accuracy
+  confused: { spriteSheet: confusedSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 },
+  openingBook: { spriteSheet: openBookSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  closingBook: { spriteSheet: openBookSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS }, // Requires a reversed sprite sheet
+  reading: { spriteSheet: readSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: 2 },
+  fallingAsleep: { spriteSheet: fallAsleepSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
+  wakingUp: { spriteSheet: fallAsleepSpriteSheet, frameCount: 4, frameWidth: FRAME_WIDTH, frameHeight: FRAME_HEIGHT, fps: DEFAULT_FPS },
 };
 
 
 const CoffeeCup = () => {
   const [state, setState] = useState<CoffeeState>("idle");
-  const [frameIndex, setFrameIndex] = useState(0);
+
   const [posY, setPosY] = useState(0);
   const [posX, setPosX] = useState(25);
   const [direction, setDirection] = useState<"left" | "right">("right");
@@ -125,11 +74,10 @@ const CoffeeCup = () => {
 
   const physicsRef = useRef({ moveSpeed: 2, fallSpeed: 5, climbSpeed: 3 });
 
-  // Main physics loop for gravity and ground detection
   useEffect(() => {
     let animationFrameId: number;
     const updatePhysics = () => {
-      const groundY = window.scrollY + window.innerHeight - 64;
+      const groundY = window.scrollY + window.innerHeight - FRAME_HEIGHT; // Use frame height
       if (state === "falling") {
         setPosY(prev => {
           if (prev + physicsRef.current.fallSpeed >= groundY) {
@@ -139,7 +87,7 @@ const CoffeeCup = () => {
           return prev + physicsRef.current.fallSpeed;
         });
       } else if (state === "climbing") {
-        setPosY(prev => prev - physicsRef.current.climbSpeed / 6);
+        // This movement is handled by the climb logic useEffect
       } else {
         setPosY(groundY);
       }
@@ -149,7 +97,6 @@ const CoffeeCup = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, [state]);
 
-  // The "Brain": Decides what to do next ONLY when idle
   useEffect(() => {
     if (state !== 'idle') return;
 
@@ -176,7 +123,6 @@ const CoffeeCup = () => {
     return () => clearTimeout(thinkingTimeout);
   }, [state]);
 
-  // Handle walking movement and wall collision
   useEffect(() => {
     if (state !== "walking") return;
     const moveInterval = setInterval(() => {
@@ -184,7 +130,7 @@ const CoffeeCup = () => {
         const { moveSpeed } = physicsRef.current;
         const nextX = direction === 'right' ? prevX + moveSpeed : prevX - moveSpeed;
         const screenWidth = window.innerWidth;
-        const characterWidth = 64;
+        const characterWidth = FRAME_WIDTH;
         
         if (nextX <= 0 || nextX >= screenWidth - characterWidth) {
           if (actionTimeoutRef.current) clearTimeout(actionTimeoutRef.current);
@@ -197,7 +143,7 @@ const CoffeeCup = () => {
     return () => clearInterval(moveInterval);
   }, [state, direction]);
 
-  // Scroll handler to initiate falling
+  // Scroll handler to initiate falling (NO CHANGES)
   useEffect(() => {
     const onScroll = () => {
       const newScrollY = window.scrollY;
@@ -215,21 +161,7 @@ const CoffeeCup = () => {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [state, scrollY]);
-  
-  // Animation frame updates
-  useEffect(() => {
-    const frameCount = spriteFrames[state]?.length;
-    if (frameCount > 1) {
-      const interval = setInterval(() => {
-        setFrameIndex(prev => (prev + 1) % frameCount);
-      }, 180);
-      return () => clearInterval(interval);
-    } else {
-      setFrameIndex(0);
-    }
-  }, [state]);
 
-  // Handle the complete climbing sequence
   useEffect(() => {
     if (state === "climbing") {
       climbDataRef.current = {
@@ -239,15 +171,16 @@ const CoffeeCup = () => {
 
       climbIntervalRef.current = setInterval(() => {
         climbDataRef.current.progress += 30;
+        
+        setPosY(prev => prev - physicsRef.current.climbSpeed);
 
         if (climbDataRef.current.progress >= climbDataRef.current.height) {
           if (climbIntervalRef.current) clearInterval(climbIntervalRef.current);
           setState("falling");
         }
-      }, 300);
+      }, 100);
     }
 
-    // This cleanup function kills the "zombie" timer.
     return () => {
       if (climbIntervalRef.current) {
         clearInterval(climbIntervalRef.current);
@@ -255,19 +188,29 @@ const CoffeeCup = () => {
     };
   }, [state]);
 
+  const currentAnimation = animations[state] ?? animations.idle;
+
   return (
     <div
       className="absolute z-[100]"
       style={{
         top: `${posY}px`,
         left: `${posX}px`,
-        width: "64px",
-        height: "auto",
+        width: `${FRAME_WIDTH}px`,
+        height: `${FRAME_HEIGHT}px`,
         transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
         transition: "transform 0.1s linear"
       }}
     >
-      <img src={spriteFrames[state]?.[frameIndex] ?? idle1} alt={state} className="w-full h-full" />
+      <SpriteSheetAnimator
+        key={state}
+        spriteSheet={currentAnimation.spriteSheet}
+        frameCount={currentAnimation.frameCount}
+        frameWidth={FRAME_WIDTH}
+        frameHeight={FRAME_HEIGHT}
+        fps={4}
+        className="w-full h-full"
+      />
     </div>
   );
 };

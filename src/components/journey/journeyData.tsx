@@ -16,7 +16,7 @@ import { TbBrandVscode, TbMathSymbols, TbTopologyStar3 } from "react-icons/tb";
 import { SiLetsencrypt, SiCplusplus, SiReact, SiTypescript } from "react-icons/si";
 import { MdOutlineSportsKabaddi } from "react-icons/md";
 
-import me from '../../animation/me-5frame.png';
+import me from '../../animation/quests/me-5frame.png';
 
 const meAnimation: SpriteSheetData = {
   spriteSheet: me,
