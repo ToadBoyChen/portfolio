@@ -54,6 +54,93 @@ html {
     4px 4px 2px var(--color-primary);
 }
 
+/* Add these animations to your global CSS file or as a style tag in Journey component */
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 30s linear infinite;
+}
+
+/* Improved button transitions */
+.hover\:rotate-12:hover {
+  transform: rotate(12deg);
+}
+
+.active\:scale-90:active {
+  transform: scale(0.9);
+}
+
+/* Background patterns for depth */
+.bg-space-pattern {
+  background-image: 
+    radial-gradient(white 1px, transparent 1px),
+    radial-gradient(white 1px, transparent 1px);
+  background-size: 50px 50px, 80px 80px;
+  background-position: 0 0, 40px 40px;
+  background-color: transparent;
+  opacity: 0.03;
+}
+
+/* Shimmer effect for progress bars */
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 2s linear infinite;
+}
+
+/* Improved nebula effects */
+.nebula-glow {
+  filter: blur(60px);
+  opacity: 0.4;
+  mix-blend-mode: screen;
+}
+
+/* Star twinkle effect */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
 
 .knewave-shadow-small {
   -webkit-font-smoothing: antialiased; /* Chrome, Safari, Edge */

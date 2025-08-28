@@ -23,7 +23,6 @@ export interface JourneyStep {
   progress: number;
   animationFrames: SpriteSheetData;
   rewards: {
-    type: "XP" | "Skill" | "Item";
     name: string;
     amount?: number;
     icon: ReactElement;
@@ -31,4 +30,5 @@ export interface JourneyStep {
   specialItem: string;
   specialItemFrames: SpriteSheetData;
   specialItemRarity: Rarity;
+  prerequisites?: string[];
 }

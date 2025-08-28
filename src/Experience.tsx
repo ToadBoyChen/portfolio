@@ -1,7 +1,7 @@
 import AnimatedText from "./animation/AnimatedText"
 import SectionCard from "./components/SectionCard"
 import { Button } from "./components/ui/button"
-import Journey from "./Journey"
+import Journey from "./components/journey/Journey"
 
 
 function Experience() {
@@ -11,13 +11,13 @@ function Experience() {
       className="mt-54 flex flex-col"
     >
       <AnimatedText 
-        text="Quests" 
+        text="Experience" 
         className="text-5xl font-bold chango-regular text-background knewave-shadow self-center"
       />
       <div className="mt-6">
         <SectionCard>
           <p className="text-lg">
-            I'm always doing stuff, whether that's personal projects, getting an education or work experience. Below is a timeline of my journey so far.
+            I'm always doing stuff, whether that's personal projects, getting an education or work experience. Maybe you want to see what I've been up to. Enter the Quest Universe Below.
           </p>
         </SectionCard>
       </div>
