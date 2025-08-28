@@ -30,8 +30,8 @@ type CoffeeState =
   | "fallingAsleep"
   | "wakingUp";
 
-const FRAME_WIDTH = 32;
-const FRAME_HEIGHT = 32;
+const FRAME_WIDTH = 48;
+const FRAME_HEIGHT = 48;
 const DEFAULT_FPS = 4;
 
 type AnimationData = {
