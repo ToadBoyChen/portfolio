@@ -8,7 +8,7 @@ export interface SpriteSheetData {
   fps?: number;
 }
 
-export type Difficulty = "Trivial" | "Easy" | "Normal" | "Hard" | "Heroic";
+export type Difficulty = "Trivial" | "Easy" | "Normal" | "Hard" | "Heroic" | "Deadly";
 export type Rarity = "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary";
 
 export interface JourneyStep {

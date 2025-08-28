@@ -6,7 +6,7 @@ import RadarChart from "./Radar.tsx";
 import Attributes from "./Attributes.tsx";
 import SpriteSheetAnimator from "../animation/SpriteSheetAnimator.tsx";
 
-import spriteSheet from '/src/animation/me-spritesheet.png';
+import spriteSheet from '/src/animation/me-5frame.png';
 
 const characterData = {
     name: "Toby Chen",
@@ -40,10 +40,10 @@ function CharacterSheet() {
             <div className="pt-8 bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border border-4 border-foreground rounded-lg filter flex justify-center items-center">
               <SpriteSheetAnimator
                 spriteSheet={spriteSheet}
-                frameCount={4}
+                frameCount={5}
                 frameWidth={96}
                 frameHeight={96}
-                fps={4}
+                fps={3}
               />
               
             </div>

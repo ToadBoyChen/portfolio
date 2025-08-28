@@ -1,4 +1,4 @@
-import { useState, useEffect, type FC } from "react";
+import { useState, useEffect, useMemo, type FC } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "./components/ui/button";
@@ -7,6 +7,9 @@ import { journeySteps } from './components/journeyData';
 import type { JourneyStep, Difficulty, Rarity } from './components/journey';
 import Hamburger from "hamburger-react";
 import SpriteSheetAnimator from "./animation/SpriteSheetAnimator";
+import { FaBookOpen, FaProjectDiagram, FaStar } from "react-icons/fa";
+import { GiCrystalBall, GiGoldBar, GiScrollQuill } from "react-icons/gi";
+import { MdOutlineSportsKabaddi } from "react-icons/md";
 
 const difficultyColor: Record<Difficulty, string> = {
   "Trivial": "text-gray-600",
@@ -14,6 +17,7 @@ const difficultyColor: Record<Difficulty, string> = {
   "Normal": "text-blue-500",
   "Hard": "text-orange-500",
   "Heroic": "text-red-600",
+  "Deadly": "text-purple-600",
 };
 
 const rarityColor: Record<Rarity, string> = {
@@ -22,6 +26,16 @@ const rarityColor: Record<Rarity, string> = {
   "Rare": "text-blue-500",
   "Epic": "text-purple-500",
   "Legendary": "text-orange-500",
+};
+
+const questTypeIcons = {
+  "All": <FaStar />,
+  "The Scholar's Path": <FaBookOpen />,
+  "The Arcane Arts": <GiCrystalBall />,
+  "Paths of Discovery": <FaProjectDiagram />,
+  "The Way of the Warrior": <MdOutlineSportsKabaddi />,
+  "The Gold-Spinner's Gambit": <GiGoldBar />,
+  "The Chronicler's Task": <GiScrollQuill />,
 };
 
 const QuestModal: FC<{ step: JourneyStep; onClose: () => void }> = ({ step, onClose }) => {
@@ -258,9 +272,22 @@ function Journey() {
 
   const questTypes = ["All", ...Array.from(new Set(journeySteps.map(step => step.questType)))];
 
-  const filteredQuests = activeTab === "All"
-    ? journeySteps
-    : journeySteps.filter(step => step.questType === activeTab);
+  const questsByYear = useMemo(() => {
+    const filteredSteps = activeTab === "All"
+      ? journeySteps
+      : journeySteps.filter(step => step.questType === activeTab);
+
+    return filteredSteps.reduce<Record<string, JourneyStep[]>>((acc, step) => {
+      const year = step.date;
+      if (!acc[year]) {
+        acc[year] = [];
+      }
+      acc[year].push(step);
+      return acc;
+    }, {});
+  }, [activeTab]);
+
+  const years = Object.keys(questsByYear).sort((a, b) => parseInt(a) - parseInt(b));
 
   const handleSelectStep = (step: JourneyStep) => {
     setSelectedStep(step);
@@ -268,26 +295,90 @@ function Journey() {
 
   return (
     <div id="journey" className="py-10 mt-8">
-      <div className="flex flex-wrap justify-center gap-2 mb-8">
-        {questTypes.map(type => (
-          <Button
-            key={type}
-            onClick={() => setActiveTab(type)}
-            variant={activeTab === type ? "default" : "outline"}
-            className={`transition-all duration-200 border-0 ${activeTab === type ? 'shadow-lg shadow-primary/30' : ''}`}
-          >
-            {type}
-          </Button>
-        ))}
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-        {filteredQuests.map((step) => (
-          <QuestGridItem
-            key={step.title}
-            step={step}
-            onSelect={handleSelectStep}
-          />
-        ))}
+      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row gap-8 md:gap-12">
+        
+        {/* --- LEFT COLUMN: Quest Type Selector --- */}
+        <aside className="md:w-1/4 lg:w-1/5">
+          <div className="sticky top-24">
+            <h3 className="text-2xl font-bold text-background mb-4 text-center md:text-left chango-regular knewave-shadow-small">
+              Storylines
+            </h3>
+            <div className="flex flex-col gap-2">
+              {questTypes.map(type => (
+                <button
+                  key={type}
+                  onClick={() => setActiveTab(type)}
+                  className={`flex items-center gap-4 w-full p-3 rounded-lg text-left font-bold transition-all duration-300 ease-in-out transform
+                    ${activeTab === type 
+                      ? 'bg-primary text-background shadow-lg scale-105' 
+                      : 'bg-background/20 text-primary hover:bg-primary/30 hover:text-background'
+                    }`
+                  }
+                >
+                  <span className="text-xl">{questTypeIcons[type as keyof typeof questTypeIcons]}</span>
+                  <span className="chango-regular-small">{type}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        {/* --- RIGHT COLUMN: The Timeline --- */}
+        <main className="flex-1 min-h-[600px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab} // This key is crucial for the animation
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+              {years.length > 0 ? (
+                <div className="relative">
+                  {/* The vertical line */}
+                  <div className="absolute left-4 md:left-1/2 top-0 h-full w-0.5 bg-primary/20 transform md:-translate-x-1/2"></div>
+  
+                  {/* Map over the years to create timeline sections */}
+                  {years.map((year, index) => (
+                    <div key={year} className="relative pl-12 md:pl-0 pb-12">
+                      {/* Year Marker */}
+                      <div className="absolute left-4 md:left-1/2 top-1 -translate-x-1/2 bg-background p-2 rounded-full border-2 border-primary z-10">
+                          <div className="w-4 h-4 bg-primary rounded-full"></div>
+                      </div>
+  
+                      {/* Year Content */}
+                      <div className="md:flex items-center md:gap-8">
+                          {/* Year Heading (alternating sides on desktop) */}
+                          <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:order-1' : 'md:order-2'}`}>
+                              <h2 className={`chango-regular knewave-shadow-small text-4xl text-background mb-4 md:mb-0 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
+                                  {year}
+                              </h2>
+                          </div>
+                          
+                          {/* Quest Grid */}
+                          <div className={`w-full md:w-7/12 mt-4 md:mt-0 ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
+                              <div className="grid grid-cols-1 gap-4">
+                                  {questsByYear[year].map(step => (
+                                      <QuestGridItem
+                                          key={step.title}
+                                          step={step}
+                                          onSelect={handleSelectStep}
+                                      />
+                                  ))}
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-full min-h-[400px]">
+                   <p className="text-xl text-primary/50 font-semibold">No quests found for this storyline.</p>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </main>
       </div>
       <AnimatePresence>
         {selectedStep && (
