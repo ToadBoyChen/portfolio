@@ -1,4 +1,6 @@
-import { useState, useMemo } from "react";
+// src/components/journey/QuestUniverse.tsx
+
+import { useState, useMemo, type FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { Button } from "../ui/button";
@@ -12,6 +14,46 @@ import { ConstellationView } from './ConstellationView';
 import { journeySteps } from "./journeyData";
 import { QuestModal } from "./QuestModal";
 
+interface StardustParticleProps {
+  minSize?: number;
+  maxSize?: number;
+  color?: string;
+}
+
+const StardustParticle: FC<StardustParticleProps> = ({ 
+  minSize = 0.5, 
+  maxSize = 1.0, 
+  color = "#ffffff" 
+}) => {
+  const x = Math.random() * 100;
+  const y = Math.random() * 100;
+  const duration = 2 + Math.random() * 3;
+  const delay = Math.random() * 3;
+  const scale = minSize + Math.random() * (maxSize - minSize);
+
+  return (
+    <motion.div
+      className="absolute rounded-full"
+      style={{
+        left: `${x}%`,
+        top: `${y}%`,
+        width: `${scale * 2}px`,
+        height: `${scale * 2}px`,
+        backgroundColor: color,
+      }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: [0, 0.7, 0], y: -20 }}
+      transition={{
+        duration,
+        delay,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+    />
+  );
+};
+
+
 const questTypeIcons = { "": <FaStar />, "The Scholar's Path": <FaBookOpen />, "The Arcane Arts": <GiCrystalBall />, "Paths of Discovery": <FaProjectDiagram />, "The Way of the Warrior": <MdOutlineSportsKabaddi />, "The Gold-Spinner's Gambit": <GiGoldBar />, "The Chronicler's Task": <GiScrollQuill /> };
 
 const GALAXY_NAMES = [
@@ -23,23 +65,29 @@ const GALAXY_NAMES = [
   "The Chronicler's Task",
 ];
 
-const StarryBackground = () => (
-    <div className="fixed inset-0 z-0 bg-gray-900">
-        <div className="absolute inset-0 bg-[url('/path-to-your/star-bg.svg')] bg-repeat opacity-20" />
+const DynamicStarryBackground = () => (
+    <div 
+      className="fixed inset-0 z-0 overflow-hidden"
+      style={{
+        backgroundImage: 'radial-gradient(ellipse at center, hsl(215, 40%, 15%) 0%, hsl(220, 40%, 5%) 100%)',
+      }}
+    >
+        <div className="absolute inset-0 opacity-50">
+          {/* Using the new component with its default, smaller sizes */}
+          {Array.from({ length: 100 }).map((_, i) => <StardustParticle key={i} />)}
+        </div>
     </div>
 );
+
 
 export function QuestUniverse() {
   const [selectedStep, setSelectedStep] = useState<JourneyStep | null>(null);
   const [zoomedConstellation, setZoomedConstellation] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // --- NEW "SINE WAVE" PATH LOGIC ---
   const { galaxyPositions, containerHeight } = useMemo(() => {
     const positions = new Map<string, { x: string; y: number }>();
     const numGalaxies = GALAXY_NAMES.length;
-
-    // --- Configuration for the path ---
     const VERTICAL_SPACING = 450;
     const HORIZONTAL_AMPLITUDE = 130;
     const SINE_FREQUENCY = 5.0;
@@ -48,11 +96,9 @@ export function QuestUniverse() {
       const y = index * VERTICAL_SPACING;
       const xOffset = HORIZONTAL_AMPLITUDE * Math.sin(index * SINE_FREQUENCY);
       const x = `calc(50% + ${xOffset}px)`;
-
       positions.set(name, { x, y });
     });
     const height = (numGalaxies - 1) * VERTICAL_SPACING + 500;
-
     return { galaxyPositions: positions, containerHeight: height };
   }, []);
 
@@ -77,11 +123,13 @@ export function QuestUniverse() {
 
   return (
     <>
-      <StarryBackground />
-        <div 
-          className={`relative z-10 flex flex-col items-center w-full min-h-screen p-4 sm:p-8 text-white overflow-x-hidden 
-          ${(selectedStep || zoomedConstellation) ? 'overflow-hidden' : ''}`}
-        >
+      {/* --- CHANGE 3: Use the new background component --- */}
+      <DynamicStarryBackground />
+      <div 
+        // --- CHANGE 4: Added font-cinzel for thematic consistency ---
+        className={`relative z-10 flex flex-col items-center w-full min-h-screen p-4 sm:p-8 text-white overflow-x-hidden font-cinzel
+        ${(selectedStep || zoomedConstellation) ? 'overflow-hidden' : ''}`}
+      >
         <motion.main
           className="w-full flex flex-col items-center"
           initial={{ opacity: 0 }}

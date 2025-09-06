@@ -9,10 +9,6 @@ function Journey() {
 
   return (
     <div id="journey" className="py-20 flex items-center justify-center">
-      {/* 
-        This component now ONLY renders the entry button.
-        When clicked, it uses the router to navigate to the new /quests page.
-      */}
       <motion.div
         key="entry-button"
         initial={{ opacity: 0, scale: 0.8 }}
