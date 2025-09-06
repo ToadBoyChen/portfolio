@@ -42,7 +42,6 @@ export const Star: FC<StarProps> = ({ step, onSelect, isGhost = false, onHover }
       onHoverStart={() => handleHover(true)}
       onHoverEnd={() => handleHover(false)}
       initial={{ rotate: 0 }}
-      animate={isHovered ? { rotate: 180 } : { rotate: 0 }}
       transition={{ duration: 0.5 }}
     >
             {/* Outer glow effect */}
@@ -94,7 +93,7 @@ export const Star: FC<StarProps> = ({ step, onSelect, isGhost = false, onHover }
               r="48%"
               fill="none"
               stroke="rgba(255,255,255,0.2)"
-              strokeWidth="2"
+              strokeWidth="4"
             />
             <motion.circle
               cx="50%"
@@ -173,15 +172,15 @@ export const Star: FC<StarProps> = ({ step, onSelect, isGhost = false, onHover }
             {step.progress === 100 ? '✓ Complete' : `${step.progress}% Progress`}
           </span>
         </div>
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-gray-900/90 rotate-45" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-gray-900/90" />
       </motion.div>
       
       {/* Completion checkmark */}
       {step.progress === 100 && (
         <motion.div 
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
+          initial={{ scale: 0}}
+          animate={{ scale: 1}}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
         >
           <div className="text-white text-xs font-bold drop-shadow-lg">✓</div>

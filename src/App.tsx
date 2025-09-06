@@ -1,26 +1,15 @@
 import './App.css'
-import Introduction from './Introduction.tsx'
-import About from './About.tsx'
-import Experience from './Experience.tsx'
-import Contact from './Contact.tsx'
-import Footer from './Footer.tsx'
-import Navbar from './Navbar.tsx'
-import FallingObjects from './components/FallingObjects.tsx'
-import CoffeeCup from './components/CoffeeCup.tsx'
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import QuestsPage from './pages/QuestsPage';
 
 function App() {
 
   return (
-    <>
-      <CoffeeCup />
-      <FallingObjects />
-      <Navbar />
-      <Introduction />
-      <About />
-      <Experience />
-      <Contact />
-      <Footer />
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/quests" element={<QuestsPage />} />
+    </Routes>
   )
 }
 
