@@ -74,7 +74,22 @@ html {
     4px 4px 2px var(--color-primary);
 }
 
-/* Add these animations to your global CSS file or as a style tag in Journey component */
+.text-quest-shadow {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow:
+    2px 2px 0 var(--color-quest-shadow),
+    3px 3px 0 var(--color-quest-shadow),
+    4px 4px 0 var(--color-quest-shadow),
+    5px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
 
 @keyframes spin-slow {
   from {
@@ -288,6 +303,7 @@ html {
 }
 
 :root {
+  --color-quest-shadow: hsl(260, 80%, 60%);
   --radius: 0.5rem;
   --background: oklch(0.9529 0.0146 102.4597);
   --foreground: oklch(0.4063 0.0255 40.3627);
@@ -344,6 +360,7 @@ html {
 }
 
 .dark {
+  --color-quest-shadow: hsl(260, 80%, 60%);
   --background: oklch(0.2721 0.0141 48.1783);
   --foreground: oklch(0.9529 0.0146 102.4597);
   --card: oklch(0.3291 0.0156 50.8936);

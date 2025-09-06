@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import type { FC } from "react";
-import { FaRocket } from "react-icons/fa";
-
 interface UniverseEntryButtonProps {
   onClick: () => void;
 }
@@ -12,7 +10,7 @@ export const UniverseEntryButton: FC<UniverseEntryButtonProps> = ({ onClick }) =
   return (
     <motion.button
       onClick={onClick}
-      className="relative w-64 h-64 rounded-full flex items-center justify-center text-white font-bold text-xl tracking-wider uppercase"
+      className="relative w-64 h-64 rounded-full flex items-center text-quest-shadow justify-center text-background font-bold text-lg tracking-wider uppercase cursor-pointer"
       style={{
         transformStyle: "preserve-3d",
       }}
@@ -24,7 +22,7 @@ export const UniverseEntryButton: FC<UniverseEntryButtonProps> = ({ onClick }) =
     >
       {/* Layer 1: Pulsing outer glow */}
       <motion.div
-        className="absolute inset-0 bg-purple-500/50 rounded-full blur-2xl"
+        className="absolute inset-0 bg-purple-900/70 rounded-full blur-2xl"
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.7, 1, 0.7],
@@ -56,10 +54,9 @@ export const UniverseEntryButton: FC<UniverseEntryButtonProps> = ({ onClick }) =
       </motion.div>
 
       {/* Text and Icon Content */}
-      <div className="relative z-10 flex flex-col items-center" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)"}}>
-        <FaRocket className="mb-2 text-4xl" />
-        Enter Quest Universe
-      </div>
+        <div className="chango-regular text-2xl tracking-wider uppercase text-white drop-shadow-xl">
+          Enter the Verse
+        </div>
     </motion.button>
   );
 };

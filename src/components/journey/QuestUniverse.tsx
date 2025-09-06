@@ -13,6 +13,7 @@ import { GalaxyNebula } from './GalaxyNebula';
 import { ConstellationView } from './ConstellationView';
 import { journeySteps } from "./journeyData";
 import { QuestModal } from "./QuestModal";
+import AnimatedText from "/src/animation/AnimatedText";
 
 interface StardustParticleProps {
   minSize?: number;
@@ -73,7 +74,6 @@ const DynamicStarryBackground = () => (
       }}
     >
         <div className="absolute inset-0 opacity-50">
-          {/* Using the new component with its default, smaller sizes */}
           {Array.from({ length: 100 }).map((_, i) => <StardustParticle key={i} />)}
         </div>
     </div>
@@ -123,23 +123,24 @@ export function QuestUniverse() {
 
   return (
     <>
-      {/* --- CHANGE 3: Use the new background component --- */}
       <DynamicStarryBackground />
       <div 
-        // --- CHANGE 4: Added font-cinzel for thematic consistency ---
-        className={`relative z-10 flex flex-col items-center w-full min-h-screen p-4 sm:p-8 text-white overflow-x-hidden font-cinzel
+        className={`relative z-10 flex flex-col items-center w-full min-h-screen p-4 sm:p-8 text-white overflow-x-hidden
         ${(selectedStep || zoomedConstellation) ? 'overflow-hidden' : ''}`}
       >
         <motion.main
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center font-cinzel"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 1 } }}
         >
           <div className="text-center my-16 md:my-24">
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white to-purple-300 bg-clip-text text-transparent">
-              The Cosmic Trail
-            </h1>
-            <p className="mt-4 text-lg text-gray-400 max-w-2xl">
+            <AnimatedText 
+              text="The Cosmic Trail"
+              className="text-6xl chango-regular font-bold text-quest-shadow"
+              direction="down"
+              alwaysAnimate={true}
+            />
+            <p className="mt-6 text-lg text-gray-400 max-w-2xl">
               Follow the path of your journey. Each nebula is a milestone, a story of your progress and discovery.
             </p>
           </div>
@@ -147,7 +148,7 @@ export function QuestUniverse() {
             className="relative w-full max-w-4xl"
             style={{ height: containerHeight }}
           >
-            {GALAXY_NAMES.map((name) => {
+            {GALAXY_NAMES.map((name, index) => { // Added index for animation delay
               const position = galaxyPositions.get(name);
               if (!position) return null;
 
@@ -158,6 +159,8 @@ export function QuestUniverse() {
                   icon={questTypeIcons[name as keyof typeof questTypeIcons]}
                   onSelect={() => setZoomedConstellation(name)}
                   layoutId={`constellation-${name}`}
+                  // Pass index to the Nebula for staggered animation
+                  index={index} 
                   style={{
                     position: 'absolute',
                     top: `${position.y}px`,
@@ -168,23 +171,24 @@ export function QuestUniverse() {
               );
             })}
           </div>
-
-          <motion.div
-            className="fixed top-4 right-4 z-50"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
-          >
-            <Button variant="destructive" onClick={() => navigate('/')}>
-              <ExitIcon className="mr-2 h-5 w-5" />
-              Exit Universe
-            </Button>
-          </motion.div>
         </motion.main>
+        
+        {/* This button is part of the UI shell, so it correctly stays outside the font-cinzel scope */}
+        <motion.div
+          className="fixed top-4 right-4 z-50"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
+        >
+          <Button className="rounded-full text-[var(--color-quest-shadow)] bg-white/10 shadow-md hover:text-background hover:bg-[var(--color-quest-shadow)] hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold flex hover:rotate-3 cursor-pointer" onClick={() => navigate('/')}>
+            <ExitIcon className="mr-2 h-5 w-5" />
+            Exit Universe
+          </Button>
+        </motion.div>
       </div>
       <AnimatePresence>
         {zoomedConstellation && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm font-cinzel"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -200,7 +204,9 @@ export function QuestUniverse() {
           </motion.div>
         )}
         {selectedStep && (
-          <QuestModal step={selectedStep} onClose={() => setSelectedStep(null)} />
+          <div className="font-cinzel">
+            <QuestModal step={selectedStep} onClose={() => setSelectedStep(null)} />
+          </div>
         )}
       </AnimatePresence>
     </>
