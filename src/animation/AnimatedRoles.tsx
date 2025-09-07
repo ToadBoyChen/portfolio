@@ -21,11 +21,11 @@ export default function AnimatedRoles() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center sm:justify-start items-center">
       <AnimatedText
         key={index}
         text={roles[index]}
-        className="text-5xl chango-regular knewave-shadow text-background"
+        className="text-3xl sm:text-5xl chango-regular knewave-shadow text-background"
         direction="left"
         order="ltr"
         delay={0.0}

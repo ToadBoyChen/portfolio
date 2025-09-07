@@ -129,7 +129,9 @@ export const GalaxyNebula: FC<GalaxyNebulaProps> = ({ name, icon, onSelect, layo
     <motion.div
       layoutId={layoutId}
       style={{ ...style, perspective: "800px" }} // Enable 3D perspective for children
-      className="relative flex flex-col items-center justify-center w-40 h-40 cursor-pointer"
+      className="relative flex flex-col items-center justify-center 
+                 w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-48 lg:h-48 
+                 cursor-pointer"
       onClick={onSelect}
       variants={nebulaVariants}
       initial="initial"
@@ -180,12 +182,12 @@ export const GalaxyNebula: FC<GalaxyNebulaProps> = ({ name, icon, onSelect, layo
         variants={{ hover: { y: -5 } }}
       >
         <motion.div
-          className="text-4xl mb-2 text-white/90 drop-shadow-lg"
+          className="text-2xl sm:text-3xl md:text-4xl mb-2 text-white/90 drop-shadow-lg"
           variants={iconVariants}
         >
           {icon}
         </motion.div>
-        <h4 className="font-bold text-base bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent drop-shadow-lg">
+        <h4 className="font-bold text-xs sm:text-sm md:text-base bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent drop-shadow-lg">
           {name}
         </h4>
       </motion.div>

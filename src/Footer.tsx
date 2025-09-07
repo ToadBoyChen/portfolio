@@ -1,68 +1,82 @@
-import { FaGithub, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import type { IconType } from 'react-icons';
+import SectionCard from './components/SectionCard';
+
+const socialLinks: { href: string; label: string; Icon: IconType }[] = [
+  { href: "https://github.com/your-username", label: "GitHub", Icon: FaGithub },
+  { href: "https://linkedin.com/in/your-username", label: "LinkedIn", Icon: FaLinkedin },
+  { href: "https://youtube.com/your-channel", label: "YouTube", Icon: FaYoutube },
+  { href: "https://instagram.com/your-username", label: "Instagram", Icon: FaInstagram },
+];
+
+// --- Helper Component for Footer Links ---
+const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
+  <li className="w-full sm:w-auto text-center sm:text-left">
+    <a 
+      href={href} 
+      className="text-foreground/80 hover:text-primary transition-colors duration-300 block"
+    >
+      {children}
+    </a>
+  </li>
+);
 
 function Footer() {
-  // Helper component for link items to avoid repetition
-  const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-    <li>
-      <a 
-        href={href} 
-        className="text-foreground/80 hover:text-primary transition-colors duration-300"
-      >
-        {children}
-      </a>
-    </li>
-  );
-
   return (
     <footer 
-      id='footer' 
-      // Note: `absolute` positioning can sometimes be tricky. You might need to add a `relative` class
-      // to your main page container to ensure the footer is positioned correctly relative to it.
-      // I've changed min-w-screen to w-screen to be more explicit.
-      className="absolute w-screen rounded-none backdrop-blur-lg bg-gradient-to-br from-blue-100/40 to-purple-500/50 mt-60 flex flex-col px-8 md:px-16 lg:px-32 py-16 text-foreground -translate-x-8"
+      id='footer'
+      className="w-full text-foreground mt-36"
     >
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
+      <SectionCard>
+        <div className="container mx-auto">
+          {/* Main Flex Container */}
+          <div className="flex flex-col md:flex-row justify-between items-start gap-10 md:gap-8">
 
-          <div className="flex-1 max-w-sm">
-            <p 
-            className="text-2xl font-bold chango-regular knewave-shadow-small text-background mb-3">
-              Toby Chen
+            {/* Section 1: Branding & Description */}
+            <div className="w-full md:flex-1 md:basis-1/3 max-w-sm mx-auto md:mx-0 text-center md:text-left">
+              <p className="text-xl sm:text-2xl font-bold chango-regular knewave-shadow-small text-background mb-3">
+                Toby Chen
               </p>
-            <p className="text-foreground/80">
-              A passionate software developer creating interactive and engaging web applications.
-            </p>
-          </div>
+              <p className="text-foreground/80">
+                A passionate software developer creating interactive and engaging web applications.
+              </p>
+            </div>
 
-          <div className="flex-1">
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <FooterLink href="#introduction">Introduction</FooterLink>
-              <FooterLink href="#about">About</FooterLink>
-              <FooterLink href="#experience">Experience</FooterLink>
-              <FooterLink href="#contact">Contact</FooterLink>
-            </ul>
-          </div>
+            {/* Section 2: Quick Links */}
+            <div className="w-full md:flex-1 md:basis-1/3">
+              <h4 className="font-bold text-lg mb-4 text-center md:text-left">Quick Links</h4>
+              <ul className="space-y-2 flex flex-col items-center md:items-start">
+                <FooterLink href="#introduction">Introduction</FooterLink>
+                <FooterLink href="#about">About</FooterLink>
+                <FooterLink href="#experience">Experience</FooterLink>
+                <FooterLink href="#contact">Contact</FooterLink>
+              </ul>
+            </div>
 
-          <div className="flex-1">
-            <h4 className="font-semibold text-lg mb-4">Connect With Me</h4>
-            <div className="flex justify-center items-center gap-6">
-              <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
-                <FaGithub size={28} />
-              </a>
-              <a href="https://linkedin.com/in/your-username" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
-                <FaLinkedin size={28} />
-              </a>
-              <a href="https://twitter.com/your-username" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
-                <FaYoutube size={28} />
-              </a>
-              <a href="https://instagram.com/your-username" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
-                <FaInstagram size={28} />
-              </a>
+            {/* Section 3: Connect With Me */}
+            <div className="w-full md:flex-1 md:basis-1/3">
+              <h4 className="font-bold text-lg mb-4 text-center md:text-left">Connect With Me</h4>
+              <div className="flex justify-center md:justify-start items-center gap-5 flex-wrap">
+                {socialLinks.map(({ href, label, Icon }) => (
+                  <a 
+                    key={label}
+                    href={href} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    aria-label={label}
+                    className="text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300"
+                  >
+                    <Icon size={28} />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
+          <div className="mt-12 pt-8 border-t border-foreground/10 text-center text-foreground/60 text-sm">
+            <p>&copy; {new Date().getFullYear()} Toby Chen. </p>
+          </div>
         </div>
-      </div>
+      </SectionCard>
     </footer>
   )
 }

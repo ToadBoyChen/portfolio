@@ -12,7 +12,6 @@ const loadingTexts = [
   "Rolling for Initiative...",
 ];
 
-// Unchanged Stardust Particle component
 const StardustParticle: FC = () => {
   const x = Math.random() * 100;
   const y = Math.random() * 100;
@@ -31,17 +30,16 @@ const StardustParticle: FC = () => {
   );
 };
 
-// Unchanged LoadingKey/Axe component
 const LoadingKey: FC = () => {
   return (
     <motion.div
-      className="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center text-yellow-300"
+      className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex items-center justify-center text-yellow-300"
       initial={{ scale: 0, rotateY: 180 }}
       animate={{ scale: 1, rotateY: 0 }}
       transition={{ type: 'spring', stiffness: 150, damping: 15, delay: 0.5 }}
     >
       <motion.div
-        className="text-7xl md:text-8xl"
+        className="text-6xl sm:text-7xl md:text-8xl"
         style={{ filter: 'drop-shadow(0 0 15px #fde047aa)' }}
         animate={{ rotateZ: 360 }}
         transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
@@ -87,7 +85,7 @@ export const QuestUniverseLoader = () => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-900 overflow-hidden"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-900 overflow-hidden px-4"
       style={{
         backgroundImage: 'radial-gradient(ellipse at center, hsl(215, 40%, 15%) 0%, hsl(220, 40%, 5%) 100%)',
       }}
@@ -99,12 +97,15 @@ export const QuestUniverseLoader = () => {
         {Array.from({ length: 75 }).map((_, i) => <StardustParticle key={i} />)}
       </div>
 
-      <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
-        <motion.div className="absolute inset-0 opacity-30" animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}>
+      <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
+        <motion.div 
+          className="absolute inset-0 opacity-30" 
+          animate={{ rotate: 360 }} 
+          transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+        >
           <svg viewBox="0 0 200 200" className="w-full h-full">
             <path id="circlePath" fill="none" d="M 100, 100 m -90, 0 a 90,90 0 1,1 180,0 a 90,90 0 1,1 -180,0" />
-            <text fill="#06b6d4" fontSize="14" letterSpacing="8">
-              {/* Cleaned up text path for better readability */}
+            <text fill="#06b6d4" fontSize="10" className="sm:text-[12px] md:text-[14px]" letterSpacing="8">
               <textPath href="#circlePath" className="font-sans uppercase tracking-[0.4em]"> Mathematics · Programming · Athletics ·</textPath>
             </text>
           </svg>
@@ -112,13 +113,12 @@ export const QuestUniverseLoader = () => {
         <LoadingKey />
       </div>
 
-      <div className="relative h-12 w-full max-w-lg text-center mt-12 flex justify-center items-center">
+      <div className="relative h-10 sm:h-12 w-full max-w-md text-center mt-8 sm:mt-12 flex justify-center items-center px-2">
         <AnimatePresence mode="wait">
-          {/* --- IMPLEMENTATION of AnimatedText --- */}
           <AnimatedText
-            key={textIndex} // This is crucial for re-animation on change
+            key={textIndex}
             text={loadingTexts[textIndex]}
-            className="text-2xl md:text-3xl chango-regular text-quest-shadow text-background/80"
+            className="text-xl sm:text-2xl md:text-3xl chango-regular text-quest-shadow text-background/80"
             direction="down"
             alwaysAnimate={true}
             exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
@@ -126,7 +126,7 @@ export const QuestUniverseLoader = () => {
         </AnimatePresence>
       </div>
 
-      <div className="w-72 md:w-96 h-2 mt-4 bg-black/20 rounded-full overflow-hidden border border-white/10 shadow-inner">
+      <div className="w-64 sm:w-72 md:w-96 h-2 mt-4 bg-black/20 rounded-full overflow-hidden border border-white/10 shadow-inner">
         <motion.div
           className="h-full bg-yellow-400 rounded-full relative"
           style={{ width: progressText, boxShadow: '0 0 10px #facc15, 0 0 20px #fde047' }}
@@ -136,8 +136,7 @@ export const QuestUniverseLoader = () => {
         </motion.div>
       </div>
 
-      {/* --- CLEANUP: Corrected styling for progress percentage --- */}
-      <motion.p className="text-white/70 font-mono text-sm mt-2">
+      <motion.p className="text-white/70 font-mono text-xs sm:text-sm mt-2">
         {progressText}
       </motion.p>
     </motion.div>
