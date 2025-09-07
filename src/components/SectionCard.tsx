@@ -21,10 +21,10 @@ const SectionCard = React.memo(function SectionCard({
         damping: 12,
         delay: index * 0.2,
       }}
-      
       className={`
-        rounded-3xl shadow-md px-12 py-10 backdrop-blur-lg
-        [will-change:transform,opacity]
+        rounded-2xl sm:rounded-3xl shadow-md 
+        px-4 py-6 sm:px-8 sm:py-8 md:px-12 md:py-10 
+        backdrop-blur-lg [will-change:transform,opacity]
         ${color ?? "bg-gradient-to-br from-blue-200/40 to-purple-300/50"}
       `}
       style={{ perspective: 1000 }}

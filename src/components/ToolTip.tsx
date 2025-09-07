@@ -66,8 +66,8 @@ function Tooltip({ children, content }: TooltipProps) {
                 // These transforms center the tooltip and move it above the trigger
                 transform: 'translate(-50%, -100%)',
                 // Add a small gap between the tooltip and the trigger
-                marginTop: '-80px',
-                marginLeft: '-200px', 
+                marginTop: '-100px',
+                marginLeft: '-110px', 
               }}
               className="z-50 w-max max-w-xs p-3 rounded-lg bg-slate-900/80 backdrop-blur-sm shadow-xl text-slate-200 text-xs pointer-events-none"
               // Added some better default styles
