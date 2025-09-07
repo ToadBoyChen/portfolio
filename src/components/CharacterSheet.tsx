@@ -12,6 +12,17 @@ import { journeySteps } from './journey/journeyData';
 import type { Rarity, Difficulty } from './journey/JourneyTypes'; 
 import spriteSheet from '/src/animation/quests/me-5frame.png';
 
+type FilterOption = {
+  key: FilterStatus;
+  label: string;
+};
+
+type FilterControlsProps = {
+  filters: FilterOption[];
+  currentFilter: FilterStatus;
+  onFilterChange: (filter: FilterStatus) => void;
+};
+
 // --- Helper Objects for Dynamic Styling (Unchanged) ---
 const rarityColors: Record<Rarity, { border: string, bg: string, text: string }> = {
     "Common": { border: "border-gray-400", bg: "bg-gray-500/20", text: "text-gray-300" },
@@ -58,13 +69,22 @@ type FilterStatus = 'all' | 'achieved' | 'in-progress'; // New type for our filt
 function CharacterSheet() {
   const [view, setView] = useState<CharacterSheetView>('special-items');
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
-
-  // Reset filter when switching main tabs for a better user experience
   useEffect(() => {
     setFilterStatus('all');
   }, [view]);
 
-  // Memoize the filtered quests to avoid re-calculating on every render
+    const itemFilters: FilterOption[] = [
+    { key: 'all', label: 'All' },
+    { key: 'achieved', label: 'Achieved' },
+    { key: 'in-progress', label: 'In Progress' },
+  ];
+
+    const encounterFilters: FilterOption[] = [
+    { key: 'all', label: 'All' },
+    { key: 'achieved', label: 'Defeated' }, 
+    { key: 'in-progress', label: 'Undefeated' }, 
+  ];
+
   const filteredQuests = useMemo(() => {
     const allStartedQuests = journeySteps.filter(j => j.progress > 0);
     switch (filterStatus) {
@@ -78,18 +98,14 @@ function CharacterSheet() {
     }
   }, [filterStatus]);
 
-  const FilterControls = () => (
+  const FilterControls = ({ filters, currentFilter, onFilterChange }: FilterControlsProps) => (
     <div className="flex items-center gap-2 mb-4">
-      {[
-        { key: 'all', label: 'All' },
-        { key: 'achieved', label: 'Achieved' },
-        { key: 'in-progress', label: 'In Progress' },
-      ].map(filter => (
+      {filters.map(filter => (
         <button
           key={filter.key}
-          onClick={() => setFilterStatus(filter.key as FilterStatus)}
+          onClick={() => onFilterChange(filter.key)}
           className={`py-1 px-3 text-xs font-semibold rounded-full transition-colors duration-200 ${
-            filterStatus === filter.key
+            currentFilter === filter.key
               ? 'bg-primary/80 text-background'
               : 'bg-background/50 text-foreground/70 hover:bg-primary/20'
           }`}
@@ -162,7 +178,11 @@ function CharacterSheet() {
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-xl font-bold text-foreground">Collected Items</h3>
                     </div>
-                    <FilterControls />
+                          <FilterControls 
+                            filters={itemFilters} 
+                            currentFilter={filterStatus} 
+                            onFilterChange={setFilterStatus} 
+                          />
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
                         {filteredQuests.length > 0 ? (
                             filteredQuests.map((journey) => (
@@ -183,7 +203,11 @@ function CharacterSheet() {
               {view === 'rare-encounters' && (
                 <motion.div key="rare-encounters" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
                     <h3 className="text-xl font-bold text-foreground mb-4">Encounter Log</h3>
-                    <FilterControls />
+                      <FilterControls 
+                        filters={encounterFilters} 
+                        currentFilter={filterStatus} 
+                        onFilterChange={setFilterStatus} 
+                      />
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
                         {filteredQuests.length > 0 ? (
                           filteredQuests.map((journey) => (
