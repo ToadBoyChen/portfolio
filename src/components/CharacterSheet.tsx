@@ -113,8 +113,41 @@ function CharacterSheet() {
           {/* Dynamic Content */}
           <div className="min-h-[300px] sm:min-h-[350px] flex-grow flex flex-col justify-start bg-background/40 rounded-lg p-4 sm:p-8">
             <AnimatePresence mode="wait">
-              {view === 'base' && <motion.div key="base" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}><p>Base Stats Content</p></motion.div>}
+              {/* --- Base Stats View --- */}
+              {view === 'base' && (
+                <motion.div 
+                  key="base" 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  exit={{ opacity: 0, y: -20 }} 
+                  transition={{ duration: 0.3 }} 
+                  className="space-y-4"
+                >
+                  {characterData.baseStats.map((stat) => ( 
+                    <div 
+                      key={stat.id} 
+                      className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-left"
+                    >
+                      <p className="font-bold text-foreground/90">{stat.label}</p>
+                      <div className="sm:col-span-2">
+                        <p className="text-foreground font-semibold text-xs sm:text-sm mb-1">{stat.value}</p>
+                        <div className="w-full bg-background/50 rounded-full h-2.5">
+                          <motion.div 
+                            className="bg-primary h-2.5 rounded-full" 
+                            initial={{ width: "0%" }} 
+                            animate={{ width: stat.barPercentage }} 
+                            transition={{ duration: 1, ease: "circOut", delay: 0.5 }}
+                          />
+                        </div>
+                      </div>
+                    </div> 
+                  ))}
+                </motion.div>
+              )}
+
+              {/* Attributes */}
               {view === 'attributes' && <motion.div key="attributes" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}><Attributes /></motion.div>}
+              {/* Radar */}
               {view === 'radar' && <motion.div key="radar" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}><RadarChart /></motion.div>}
 
               {/* Special Items */}
