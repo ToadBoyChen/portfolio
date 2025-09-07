@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import StatBar from "./StatsBar";
-import Radar from "./Radar";
 
 const statsData = [
   { label: "Cups of Coffee", value: 1387, percentage: 85 },

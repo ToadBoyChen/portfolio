@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Matter, { Engine, Render, Runner, Bodies, World, Body } from "matter-js";
+import { Engine, Render, Runner, Bodies, World, Body } from "matter-js";
 
 // Array of images to choose from
 const coffeeImages = [

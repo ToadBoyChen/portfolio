@@ -14,7 +14,6 @@ const formSchema = z.object({
   message: z.string().min(10, 'Message must be at least 10 characters.'),
 });
 
-// Infer the TypeScript type from the schema
 type FormFields = z.infer<typeof formSchema>;
 
 function Contact() {
@@ -24,7 +23,6 @@ function Contact() {
     resolver: zodResolver(formSchema),
   });
 
-  // 2. The function to handle form submission
   const onSubmit = async (data: FormFields) => {
     setIsSubmitting(true);
     const toastId = toast.loading('Sending message...');

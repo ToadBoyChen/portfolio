@@ -60,7 +60,7 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
               variant="secondary"
               asChild
               className="rounded-full text-foreground bg-background shadow-md hover:text-background hover:bg-primary hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold flex hover:rotate-3"
-              onClick={() => onOpenChange(false)} // closes panel on click
+              onClick={() => onOpenChange(false)}
             >
               <a
                 href={item.href}
