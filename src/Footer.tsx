@@ -3,10 +3,10 @@ import type { IconType } from 'react-icons';
 import SectionCard from './components/SectionCard';
 
 const socialLinks: { href: string; label: string; Icon: IconType }[] = [
-  { href: "https://github.com/your-username", label: "GitHub", Icon: FaGithub },
-  { href: "https://linkedin.com/in/your-username", label: "LinkedIn", Icon: FaLinkedin },
-  { href: "https://youtube.com/your-channel", label: "YouTube", Icon: FaYoutube },
-  { href: "https://instagram.com/your-username", label: "Instagram", Icon: FaInstagram },
+  { href: "https://github.com/ToadBoyChen", label: "GitHub", Icon: FaGithub },
+  { href: "https://www.linkedin.com/in/toby-chen-167519298/", label: "LinkedIn", Icon: FaLinkedin },
+  { href: "https://www.youtube.com/@t_o_d_d", label: "YouTube", Icon: FaYoutube },
+  { href: "https://www.instagram.com/tobychen1337/", label: "Instagram", Icon: FaInstagram },
 ];
 
 // --- Helper Component for Footer Links ---

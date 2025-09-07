@@ -11,10 +11,10 @@ interface SocialsProps {
 }
 
 const socialItems = [
-  { name: 'Instagram', href: '#instagram', icon: <FaInstagram /> },
-  { name: 'GitHub', href: '#github', icon: <FaGithub /> },
-  { name: 'YouTube', href: '#youtube', icon: <FaYoutube /> },
-  { name: 'LinkedIn', href: '#linkedin', icon: <FaLinkedin /> },
+  { name: 'Instagram', href: 'https://www.instagram.com/tobychen1337/', icon: <FaInstagram /> },
+  { name: 'GitHub', href: 'https://github.com/ToadBoyChen', icon: <FaGithub /> },
+  { name: 'YouTube', href: 'https://www.youtube.com/@t_o_d_d', icon: <FaYoutube /> },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/toby-chen-167519298/', icon: <FaLinkedin /> },
 ];
 const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
   return (
