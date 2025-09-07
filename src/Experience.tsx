@@ -27,7 +27,7 @@ function Experience() {
       />
       <div className="mt-6">
         <SectionCard>
-          <p className="text-center sm:text-left">
+          <p className="text-center sm:text-left text-lg">
             Let's create something amazing together! My journey in tech is driven by a curiosity to learn and a passion for building things
             that make a difference. Let's create something amazing together!
           </p>

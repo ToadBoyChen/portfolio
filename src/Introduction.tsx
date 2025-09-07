@@ -17,7 +17,7 @@ function Introduction() {
             <span className="mr-0 sm:mr-2">I'm a</span> <AnimatedRoles />
           </p>
           <p className="text-lg sm:text-2xl lg:text-4xl font-semibold mt-6 sm:mt-8">
-            I spend most of my time behind a screen or training, but I promise this website is safe to visit. Dive in and enjoy!
+            Driven by the discipline of an athlete and the mind of a mathematician. I build solutions with code. This portfolio is a glimpse into what I can create.
           </p>
           <div className="self-center mt-16 sm:mt-24 z-10">
             <ScrollDownButton />

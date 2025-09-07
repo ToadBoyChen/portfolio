@@ -17,10 +17,8 @@ function Contact() {
             className="w-40 h-40 sm:w-52 sm:h-52 object-cover p-2 rounded-full bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border"
           />
           <SectionCard>
-            <p className="text-center lg:text-left">
-              Hi, I'm Toby Chen, a passionate software developer with a love for creating
-              interactive and engaging web applications. I enjoy working with the latest
-              technologies and constantly strive to improve my skills.
+            <p className="text-center lg:text-left text-lg">
+              I'm always open to discuss and work on new things. If you like what you see, why not drop me a message below? BTW - this website is still a work in progress. If you spot anything fishy - or off, please let me know :)
             </p>
           </SectionCard>
         </div>

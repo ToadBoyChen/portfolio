@@ -38,7 +38,7 @@ function Footer() {
                 Toby Chen
               </p>
               <p className="text-foreground/80">
-                A passionate software developer creating interactive and engaging web applications.
+                Passionate and aspirational student. Enjoys programming and mathematics. Looking for stuff to do.
               </p>
             </div>
 
