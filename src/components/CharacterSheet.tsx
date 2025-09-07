@@ -1,21 +1,18 @@
 // CharacterSheet.tsx
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react"; // Import useEffect and useMemo
 import { FaReact, FaPython } from "react-icons/fa";
 import { SiCplusplus, SiTypescript } from "react-icons/si";
 import RadarChart from "./Radar.tsx";
 import Attributes from "./Attributes.tsx";
 import SpriteSheetAnimator from "../animation/SpriteSheetAnimator.tsx";
-import Tooltip from "./ToolTip.tsx"; // Adjust path to your new Tooltip component
-
-// Import the new data and types
+import Tooltip from "./ToolTip.tsx"; 
 import { journeySteps } from './journey/journeyData';
 import type { Rarity, Difficulty } from './journey/JourneyTypes'; 
-
 import spriteSheet from '/src/animation/quests/me-5frame.png';
 
-// --- Helper Objects for Dynamic Styling ---
+// --- Helper Objects for Dynamic Styling (Unchanged) ---
 const rarityColors: Record<Rarity, { border: string, bg: string, text: string }> = {
     "Common": { border: "border-gray-400", bg: "bg-gray-500/20", text: "text-gray-300" },
     "Uncommon": { border: "border-green-500", bg: "bg-green-500/20", text: "text-green-400" },
@@ -56,9 +53,52 @@ const characterData = {
 };
 
 type CharacterSheetView = 'base' | 'attributes' | 'radar' | 'special-items' | 'rare-encounters';
+type FilterStatus = 'all' | 'achieved' | 'in-progress'; // New type for our filter
 
 function CharacterSheet() {
   const [view, setView] = useState<CharacterSheetView>('special-items');
+  const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
+
+  // Reset filter when switching main tabs for a better user experience
+  useEffect(() => {
+    setFilterStatus('all');
+  }, [view]);
+
+  // Memoize the filtered quests to avoid re-calculating on every render
+  const filteredQuests = useMemo(() => {
+    const allStartedQuests = journeySteps.filter(j => j.progress > 0);
+    switch (filterStatus) {
+      case 'achieved':
+        return allStartedQuests.filter(j => j.progress === 100);
+      case 'in-progress':
+        return allStartedQuests.filter(j => j.progress > 0 && j.progress < 100);
+      case 'all':
+      default:
+        return allStartedQuests;
+    }
+  }, [filterStatus]);
+
+  const FilterControls = () => (
+    <div className="flex items-center gap-2 mb-4">
+      {[
+        { key: 'all', label: 'All' },
+        { key: 'achieved', label: 'Achieved' },
+        { key: 'in-progress', label: 'In Progress' },
+      ].map(filter => (
+        <button
+          key={filter.key}
+          onClick={() => setFilterStatus(filter.key as FilterStatus)}
+          className={`py-1 px-3 text-xs font-semibold rounded-full transition-colors duration-200 ${
+            filterStatus === filter.key
+              ? 'bg-primary/80 text-background'
+              : 'bg-background/50 text-foreground/70 hover:bg-primary/20'
+          }`}
+        >
+          {filter.label}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <motion.div 
@@ -101,7 +141,7 @@ function CharacterSheet() {
 
           <p className="text-foreground/90 mb-6 text-center sm:text-left text-sm sm:text-base">{characterData.description}</p>
           
-          {/* Tabs */}
+          {/* Main Tabs */}
           <div className="flex flex-wrap gap-2 sm:gap-4 mb-4">
             {[{ key: 'special-items', label: 'Special Items' }, { key: 'rare-encounters', label: 'Rare Encounters' }, { key: 'base', label: 'Base Stats' }, { key: 'attributes', label: 'Attributes' }, { key: 'radar', label: 'Skill Radar' }].map(tab => (
               <button key={tab.key} onClick={() => setView(tab.key as CharacterSheetView)} className={`py-2 px-4 text-sm sm:text-base font-semibold rounded-md transition-all duration-200 ease-in-out ${view === tab.key ? 'bg-background text-foreground shadow-md' : 'text-primary hover:bg-primary/90 hover:text-background bg-background/50'}`}>
@@ -113,97 +153,51 @@ function CharacterSheet() {
           {/* Dynamic Content */}
           <div className="min-h-[300px] sm:min-h-[350px] flex-grow flex flex-col justify-start bg-background/40 rounded-lg p-4 sm:p-8">
             <AnimatePresence mode="wait">
-              {/* --- Base Stats View --- */}
-              {view === 'base' && (
-                <motion.div 
-                  key="base" 
-                  initial={{ opacity: 0, y: 20 }} 
-                  animate={{ opacity: 1, y: 0 }} 
-                  exit={{ opacity: 0, y: -20 }} 
-                  transition={{ duration: 0.3 }} 
-                  className="space-y-4"
-                >
-                  {characterData.baseStats.map((stat) => ( 
-                    <div 
-                      key={stat.id} 
-                      className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-left"
-                    >
-                      <p className="font-bold text-foreground/90">{stat.label}</p>
-                      <div className="sm:col-span-2">
-                        <p className="text-foreground font-semibold text-xs sm:text-sm mb-1">{stat.value}</p>
-                        <div className="w-full bg-background/50 rounded-full h-2.5">
-                          <motion.div 
-                            className="bg-primary h-2.5 rounded-full" 
-                            initial={{ width: "0%" }} 
-                            animate={{ width: stat.barPercentage }} 
-                            transition={{ duration: 1, ease: "circOut", delay: 0.5 }}
-                          />
-                        </div>
-                      </div>
-                    </div> 
-                  ))}
-                </motion.div>
-              )}
-
-              {/* Attributes */}
+              {view === 'base' && ( <motion.div key="base" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className="space-y-4"> {characterData.baseStats.map((stat) => ( <div key={stat.id} className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-left"> <p className="font-bold text-foreground/90">{stat.label}</p> <div className="sm:col-span-2"> <p className="text-foreground font-semibold text-xs sm:text-sm mb-1">{stat.value}</p> <div className="w-full bg-background/50 rounded-full h-2.5"> <motion.div className="bg-primary h-2.5 rounded-full" initial={{ width: "0%" }} animate={{ width: stat.barPercentage }} transition={{ duration: 1, ease: "circOut", delay: 0.5 }} /> </div> </div> </div> ))} </motion.div> )}
               {view === 'attributes' && <motion.div key="attributes" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}><Attributes /></motion.div>}
-              {/* Radar */}
               {view === 'radar' && <motion.div key="radar" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}><RadarChart /></motion.div>}
 
-              {/* Special Items */}
               {view === 'special-items' && (
                 <motion.div key="special-items" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                    <h3 className="text-xl font-bold text-foreground mb-4">Collected Items</h3>
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-xl font-bold text-foreground">Collected Items</h3>
+                    </div>
+                    <FilterControls />
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
-                        {journeySteps.filter(j => j.progress === 100).map((journey) => (
-                            <Tooltip
-                                key={journey.title}
-                                content={
-                                    <>
-                                        <p className={`font-bold text-sm ${rarityColors[journey.specialItemRarity].text}`}>{journey.specialItem}</p>
-                                        <p className="font-semibold">{journey.specialItemRarity}</p>
-                                        <hr className="my-1 border-foreground/20" />
-                                        <p><span className="font-semibold">Source:</span> {journey.title}</p>
-                                        <p><span className="font-semibold">Found:</span> {journey.location}</p>
-                                        <p><span className="font-semibold">Req. Lvl:</span> {journey.recommendedLevel}</p>
-                                    </>
-                                }
-                            >
-                                <div tabIndex={0} className="outline-none cursor-pointer">
-                                    <div className={`aspect-square p-2 rounded-lg border-2 transition-all duration-300 ${rarityColors[journey.specialItemRarity].border} ${rarityColors[journey.specialItemRarity].bg} hover:scale-105 hover:shadow-lg focus:scale-105 focus:shadow-lg`}>
-                                        <SpriteSheetAnimator {...journey.specialItemFrames} />
+                        {filteredQuests.length > 0 ? (
+                            filteredQuests.map((journey) => (
+                                <Tooltip key={journey.title} content={ <> <p className={`font-bold text-sm ${rarityColors[journey.specialItemRarity].text}`}>{journey.specialItem}</p> <p className="font-semibold">{journey.specialItemRarity}</p> <hr className="my-1 border-foreground/20" /> <p><span className="font-semibold">Source:</span> {journey.title}</p> <p><span className="font-semibold">Found:</span> {journey.location}</p> <p><span className="font-semibold">Req. Lvl:</span> {journey.recommendedLevel}</p> </> }>
+                                    <div tabIndex={0} className="outline-none cursor-pointer">
+                                        <div className={`aspect-square p-2 rounded-lg border-2 transition-all duration-300 ${rarityColors[journey.specialItemRarity].border} ${rarityColors[journey.specialItemRarity].bg} hover:scale-105 hover:shadow-lg focus:scale-105 focus:shadow-lg`}>
+                                            <SpriteSheetAnimator {...journey.specialItemFrames} />
+                                        </div>
                                     </div>
-                                </div>
-                            </Tooltip>
-                        ))}
+                                </Tooltip>
+                            ))
+                        ) : (
+                            <p className="col-span-full text-center text-foreground/70 py-8">No items match this filter.</p>
+                        )}
                     </div>
                 </motion.div>
               )}
-              {/* Rare Encounters */}
               {view === 'rare-encounters' && (
                 <motion.div key="rare-encounters" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
                     <h3 className="text-xl font-bold text-foreground mb-4">Encounter Log</h3>
+                    <FilterControls />
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
-                        {journeySteps.filter(j => j.progress === 100).map((journey) => (
-                           <Tooltip
-                                key={journey.title}
-                                content={
-                                    <>
-                                        <p className={`font-bold text-sm ${difficultyColors[journey.difficulty].text}`}>{journey.title}</p>
-                                        <p className="font-semibold">{journey.difficulty}</p>
-                                        <hr className="my-1 border-foreground/20" />
-                                        <p><span className="font-semibold">Location:</span> {journey.location}</p>
-                                        <p><span className="font-semibold">Req. Lvl:</span> {journey.recommendedLevel}</p>
-                                    </>
-                                }
-                            >
+                        {filteredQuests.length > 0 ? (
+                          filteredQuests.map((journey) => (
+                           <Tooltip key={journey.title} content={ <> <p className={`font-bold text-sm ${difficultyColors[journey.difficulty].text}`}>{journey.title}</p> <p className="font-semibold">{journey.difficulty}</p> <hr className="my-1 border-foreground/20" /> <p><span className="font-semibold">Location:</span> {journey.location}</p> <p><span className="font-semibold">Req. Lvl:</span> {journey.recommendedLevel}</p> </> }>
                                 <div tabIndex={0} className="outline-none cursor-pointer">
                                     <div className={`aspect-square p-2 rounded-lg border-2 transition-all duration-300 ${difficultyColors[journey.difficulty].border} ${difficultyColors[journey.difficulty].bg} hover:scale-105 hover:shadow-lg focus:scale-105 focus:shadow-lg`}>
                                         <SpriteSheetAnimator {...journey.animationFrames} />
                                     </div>
                                 </div>
                            </Tooltip>
-                        ))}
+                          ))
+                        ) : (
+                           <p className="col-span-full text-center text-foreground/70 py-8">No encounters match this filter.</p>
+                        )}
                     </div>
                 </motion.div>
               )}
