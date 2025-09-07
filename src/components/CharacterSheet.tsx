@@ -75,14 +75,14 @@ function CharacterSheet() {
 
     const itemFilters: FilterOption[] = [
     { key: 'all', label: 'All' },
-    { key: 'achieved', label: 'Achieved' },
+    { key: 'achieved', label: 'Obtained' },
     { key: 'in-progress', label: 'In Progress' },
   ];
 
     const encounterFilters: FilterOption[] = [
     { key: 'all', label: 'All' },
-    { key: 'achieved', label: 'Defeated' }, 
-    { key: 'in-progress', label: 'Undefeated' }, 
+    { key: 'achieved', label: 'Completed' }, 
+    { key: 'in-progress', label: 'Uncompleted' }, 
   ];
 
   const filteredQuests = useMemo(() => {
