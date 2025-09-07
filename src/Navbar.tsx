@@ -10,7 +10,7 @@ function Navbar() {
   const [showSections, setShowSections] = useState(false);
 
   return (
-    <nav className="top-0 left-0 right-0 fixed bg-accent shadow-md z-50 mx-8 lg:mt-18 md:mt-9 sm:mt-6 flex items-center justify-center rounded-full h-16">
+    <nav className="top-0 left-0 right-0 fixed bg-accent shadow-md z-50 mx-8 lg:mt-18 md:mt-8 mt-4 flex items-center justify-center rounded-full h-16">
       {/* large screens */}
       <div className="hidden lg:flex w-full justify-between px-4">
         <NavButtonLeft
