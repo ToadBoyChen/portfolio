@@ -155,7 +155,7 @@ export function QuestUniverse() {
               alwaysAnimate={true}
             />
             <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-gray-400 max-w-md sm:max-w-xl md:max-w-2xl mx-auto px-2">
-              Follow the path of your journey. Each nebula is a milestone, a story of your progress and discovery.
+              Welcome to the chronicle of my journey. Each nebula represents a distinct chapter in my life, showing the skills I've developed along the way. This is a living record of my growth, with new stories waiting to be told.
             </p>
           </div>
           <div
