@@ -10,7 +10,7 @@ import {
   FaCogs
 } from 'react-icons/fa';
 import { PiBoxingGloveFill, PiLinuxLogoFill, PiCodeSimpleFill, PiGraphFill } from "react-icons/pi";
-import type { JourneyStep, SpriteSheetData } from './JourneyTypes';
+import type { JourneyStep } from './JourneyTypes';
 import { GiClothes, GiLaptop, GiSolarSystem, GiCrystalBall, GiScrollQuill, GiLaurels, GiGoldBar, GiAnvil } from 'react-icons/gi';
 import { TbBrandVscode, TbMathSymbols, TbTopologyStar3 } from "react-icons/tb";
 import { SiLetsencrypt, SiCplusplus, SiReact, SiTypescript } from "react-icons/si";
