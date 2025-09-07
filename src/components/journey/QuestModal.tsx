@@ -1,5 +1,8 @@
+// src/components/journey/QuestModal.tsx
+
 import { type FC, useEffect } from "react";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+// STEP 1: Change 'Variant' to 'Variants' in the import
+import { motion, useMotionValue, useTransform, animate, type Variants } from "framer-motion";
 import { X } from "lucide-react";
 import SpriteSheetAnimator from "../../animation/SpriteSheetAnimator";
 import type { JourneyStep, Difficulty, Rarity } from "./JourneyTypes";
@@ -19,13 +22,15 @@ const rarityColor: Record<Rarity, string> = {
   Epic: "text-purple-400",
   Legendary: "text-orange-400",
 };
-const modalVariants = {
+
+// STEP 2: Apply the 'Variants' type annotation
+const modalVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: {
     opacity: 1,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring", // This is now correctly typed
       stiffness: 300,
       damping: 30,
       when: "beforeChildren",
@@ -34,12 +39,14 @@ const modalVariants = {
   },
   exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
 };
-const itemVariants = {
+
+// STEP 2 (cont.): Apply the 'Variants' type here as well
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 200 },
+    transition: { type: "spring", stiffness: 200 }, // And this one too
   },
 };
 
@@ -68,6 +75,7 @@ export const QuestModal: FC<QuestModalProps> = ({ step, onClose }) => {
     };
   }, []);
 
+  // ... the rest of your component's JSX remains exactly the same
   return (
     <>
       <motion.div

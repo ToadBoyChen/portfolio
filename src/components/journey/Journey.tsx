@@ -1,5 +1,3 @@
-// src/components/journey/Journey.tsx
-
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { UniverseEntryButton } from "./UniverseEntryButton";

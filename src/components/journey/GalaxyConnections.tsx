@@ -91,9 +91,7 @@ const ConnectionLine: FC<ConnectionLineProps> = memo(({ connection }) => {
         variants={pathVariants}
         initial="hidden"
         animate="visible"
-        // Add a unique transition delay per path
         custom={id} 
-        transition={{ ...pathVariants.visible.transition, delay: Math.random() * 0.3 }}
       />
       
       {(type === 'intra' || type === 'galaxy') && (

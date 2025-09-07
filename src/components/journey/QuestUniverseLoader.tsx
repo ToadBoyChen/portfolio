@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useTransform, useMotionValue, animate } from 'framer-motion';
 import { useEffect, useState, type FC } from 'react';
-import AnimatedText from '/src/animation/AnimatedText';
+import AnimatedText from "../../animation/AnimatedText";
 import { CiCoffeeCup } from "react-icons/ci";
 
 const loadingTexts = [
@@ -121,7 +121,6 @@ export const QuestUniverseLoader = () => {
             className="text-xl sm:text-2xl md:text-3xl chango-regular text-quest-shadow text-background/80"
             direction="down"
             alwaysAnimate={true}
-            exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
           />
         </AnimatePresence>
       </div>

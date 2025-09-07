@@ -13,7 +13,7 @@ import { GalaxyNebula } from './GalaxyNebula';
 import { ConstellationView } from './ConstellationView';
 import { journeySteps } from "./journeyData";
 import { QuestModal } from "./QuestModal";
-import AnimatedText from "/src/animation/AnimatedText";
+import AnimatedText from "../../animation/AnimatedText";
 
 interface StardustParticleProps {
   minSize?: number;
@@ -91,7 +91,6 @@ export function QuestUniverse() {
   const [zoomedConstellation, setZoomedConstellation] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // --- Galaxy positions (unchanged, already dampened) ---
   const { galaxyPositions, containerHeight } = useMemo(() => {
     const positions = new Map<string, { x: string; y: number }>();
     const numGalaxies = GALAXY_NAMES.length;
@@ -115,8 +114,8 @@ export function QuestUniverse() {
     const storylines = Array.from(new Set(journeySteps.map(step => step.questType)));
 
     const isSmallScreen = window.innerWidth < 640;
-    const RADIUS_SCALE = isSmallScreen ? 0.6 : 1.0;   // shrink constellation radius on small screens
-    const ANGLE_SCALE = isSmallScreen ? 0.7 : 1.0;    // reduce angle spacing too
+    const RADIUS_SCALE = isSmallScreen ? 0.6 : 1.0;
+    const ANGLE_SCALE = isSmallScreen ? 0.7 : 1.0;
 
     storylines.forEach(storyline => {
       const quests = journeySteps

@@ -122,13 +122,14 @@ interface GalaxyNebulaProps {
   onSelect: () => void;
   layoutId: string;
   style?: CSSProperties;
+  index: number; 
 }
 
 export const GalaxyNebula: FC<GalaxyNebulaProps> = ({ name, icon, onSelect, layoutId, style }) => {
   return (
     <motion.div
       layoutId={layoutId}
-      style={{ ...style, perspective: "800px" }} // Enable 3D perspective for children
+      style={{ ...style, perspective: "800px" }}
       className="relative flex flex-col items-center justify-center 
                  w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-48 lg:h-48 
                  cursor-pointer"
@@ -151,7 +152,7 @@ export const GalaxyNebula: FC<GalaxyNebulaProps> = ({ name, icon, onSelect, layo
           className="absolute inset-[-40%] rounded-full"
           style={{ 
             background: `radial-gradient(circle, transparent 50%, ${NEBULA_CONFIG.colors.primary} 100%)`,
-            transform: "translateZ(-100px)", // Pushed back in 3D space
+            transform: "translateZ(-100px)",
           }}
           variants={{ hover: { scale: 1.2, opacity: 0.8 }, initial: { opacity: 0.6 } }}
           transition={{ type: 'spring' }}
