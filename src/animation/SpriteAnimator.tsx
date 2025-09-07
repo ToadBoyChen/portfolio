@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 interface SpriteAnimatorProps {
-  images: string[];      // An array of image paths
-  fps?: number;          // Animation speed in frames per second
-  className?: string;    // To pass through styling
+  images: string[]; 
+  fps?: number; 
+  className?: string;
 }
 
 function SpriteAnimator({ images, fps = 10, className }: SpriteAnimatorProps) {
@@ -16,8 +16,7 @@ function SpriteAnimator({ images, fps = 10, className }: SpriteAnimatorProps) {
     }, interval);
 
     return () => clearInterval(animationInterval);
-  }, [images.length, fps]); // Rerun the effect if the images or speed change
-
+  }, [images.length, fps]); 
   return (
     <img
       src={images[frame]}

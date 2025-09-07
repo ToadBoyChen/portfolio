@@ -20,13 +20,17 @@ function SpriteSheetAnimator({
   const [frame, setFrame] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const requestRef = useRef<number>();
-  const previousTimeRef = useRef<number>();
+  // --- FIX IS HERE ---
+  // The useRef hook needs an initial value. We'll use 'undefined'.
+  // The type must also be updated to reflect that it can be 'undefined'.
+  const requestRef = useRef<number | undefined>(undefined);
+  const previousTimeRef = useRef<number | undefined>(undefined);
+  // --- END OF FIX ---
 
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
-      setFrame(0); 
+      setFrame(0);
       setIsLoaded(true);
     };
     img.src = spriteSheet;

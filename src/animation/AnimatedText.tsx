@@ -1,6 +1,4 @@
-// components/AnimatedText.tsx (Final Version with Direction/Order)
-
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 interface AnimatedTextProps {
@@ -8,20 +6,16 @@ interface AnimatedTextProps {
   className?: string;
   delay?: number;
   alwaysAnimate?: boolean;
-  /** Defines the starting point of the animation for each letter. Defaults to 'down'. */
   direction?: "up" | "down" | "left" | "right";
-  /** Defines the stagger order of the letters. Defaults to 'ltr' (left-to-right). */
   order?: "ltr" | "rtl";
 }
 
-// Container variants now accept an object to control stagger direction
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: (props: { delay: number; order: string } = { delay: 0, order: 'ltr' }) => ({
     transition: {
       delayChildren: props.delay,
       staggerChildren: 0.04,
-      // Use staggerDirection to control the order
       staggerDirection: props.order === 'rtl' ? -1 : 1,
     },
   }),
@@ -42,14 +36,11 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
     threshold: 0.1,
   });
 
-  // Define letter variants dynamically based on the 'direction' prop
-  const letterVariants = {
+  const letterVariants: Variants = {
     hidden: {
       opacity: 0,
-      // Set initial position based on direction
       x: direction === "left" ? -20 : direction === "right" ? 20 : 0,
       y: direction === "up" ? -50 : direction === "down" ? 50 : 0,
-      // Add a bit of rotation for more flair
       rotate: direction === "left" ? -10 : direction === "right" ? 10 : 0,
       scale: 0.8,
     },
@@ -74,7 +65,6 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
       variants={containerVariants}
       initial="hidden"
       animate={inView || alwaysAnimate ? "visible" : "hidden"}
-      // Pass both delay and order to the container's variants
       custom={{ delay, order }}
       aria-label={text}
     >
@@ -84,7 +74,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
         ) : (
           <motion.span
             key={index}
-            variants={letterVariants} // Use the dynamically created variants
+            variants={letterVariants}
             style={{ display: "inline-block" }}
           >
             {char}
