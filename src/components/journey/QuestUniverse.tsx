@@ -34,8 +34,6 @@ const GALAXY_NAMES = [
   "The Chronicler's Task",
 ];
 
-// OPTIMIZATION 1: Replaced the expensive 100-particle animated background.
-// This new version uses zero JS and has no performance cost. It is the single biggest fix.
 const StaticStarryBackground = () => (
   <div 
     className="fixed inset-0 -z-10"
@@ -51,29 +49,45 @@ const StaticStarryBackground = () => (
   />
 );
 
+// Helper function to keep values within a boundary
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
+
 export function QuestUniverse() {
   const [selectedStep, setSelectedStep] = useState<JourneyStep | null>(null);
   const [zoomedConstellation, setZoomedConstellation] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // OPTIMIZATION 3: Simplified layout logic.
-  // We now use a simple flexbox layout and only calculate a minor horizontal offset
-  // for the sine-wave effect on larger screens, which is much more performant.
-  const galaxyOffsets = useMemo(() => {
-    const offsets = new Map<string, number>();
-    const isSmallScreen = typeof window !== 'undefined' && window.innerWidth < 640;
-    
-    if (isSmallScreen) return offsets; // No sine-wave effect on mobile for performance
+  // NEW: Replaced the sine-wave logic with a stable random position generator.
+  // useMemo with an empty dependency array [] ensures this runs only ONCE,
+  // so the planet positions are random but don't change on every re-render.
+  const { galaxyPositions, containerHeight } = useMemo(() => {
+    const positions = new Map<string, { x: string; y: number }>();
+    const isSmallScreen = typeof window !== 'undefined' && window.innerWidth < 768;
 
-    const HORIZONTAL_AMPLITUDE = 120;
-    const SINE_FREQUENCY = 5.0;
+    // --- Configuration for Random Layout ---
+    const VERTICAL_SPACING = isSmallScreen ? 280 : 350; // Average distance between planets vertically
+    const HORIZONTAL_JITTER = isSmallScreen ? 35 : 40; // Max % a planet can stray from the center
+    const EDGE_PADDING = 15; // Min % distance from the left/right edges
+    // ----------------------------------------
 
     GALAXY_NAMES.forEach((name, index) => {
-      const xOffset = HORIZONTAL_AMPLITUDE * Math.sin(index * SINE_FREQUENCY);
-      offsets.set(name, xOffset);
+      // Each planet gets its own vertical "zone" to prevent overlaps
+      const y = index * VERTICAL_SPACING;
+
+      // Generate a random horizontal position with "jitter"
+      // (Math.random() - 0.5) gives a range from -0.5 to 0.5, for left/right deviation
+      const randomJitter = (Math.random() - 0.5) * 2 * HORIZONTAL_JITTER;
+      const baseX = 50 + randomJitter;
+      
+      // Clamp the value to ensure it respects the edge padding
+      const x = clamp(baseX, EDGE_PADDING, 100 - EDGE_PADDING);
+
+      positions.set(name, { x: `${x}%`, y });
     });
-    return offsets;
-  }, []);
+
+    const height = (GALAXY_NAMES.length - 1) * VERTICAL_SPACING + 500; // Extra space at the bottom
+    return { galaxyPositions: positions, containerHeight: height };
+  }, []); // Empty array means this logic runs only once.
 
   return (
     <>
@@ -98,9 +112,16 @@ export function QuestUniverse() {
             </p>
           </div>
           
-          {/* Using a more performant CSS flex layout instead of JS absolute positioning */}
-          <div className="w-full flex flex-col items-center gap-y-48 sm:gap-y-56 mt-12 pb-24">
-            {GALAXY_NAMES.map((name, index) => (
+          {/* This container now defines the scrollable area for our absolutely positioned nebulas */}
+          <div
+            className="relative w-full max-w-5xl mt-12"
+            style={{ height: containerHeight }}
+          >
+            {GALAXY_NAMES.map((name, index) => {
+              const position = galaxyPositions.get(name);
+              if (!position) return null;
+
+              return (
                 <GalaxyNebula
                   key={name}
                   name={name}
@@ -108,11 +129,16 @@ export function QuestUniverse() {
                   onSelect={() => setZoomedConstellation(name)}
                   layoutId={`constellation-${name}`}
                   index={index}
+                  // We now use absolute positioning based on our generated values
                   style={{
-                    transform: `translateX(${galaxyOffsets.get(name) ?? 0}px)`,
+                    position: 'absolute',
+                    top: `${position.y}px`,
+                    left: position.x,
+                    transform: 'translateX(-50%)', // Center the nebula on its x-coordinate
                   }}
                 />
-              ))}
+              );
+            })}
           </div>
         </motion.main>
         

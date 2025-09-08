@@ -7,6 +7,7 @@ import { Star } from './Star';
 import { Button } from '../ui/button';
 import { ChevronLeft } from 'lucide-react';
 
+// This background component remains unchanged
 const StaticConstellationBackground = React.memo(() => (
   <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl bg-indigo-950">
     <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-black" />
@@ -23,7 +24,7 @@ interface ConstellationViewProps {
   onClose: () => void;
   onSelectStep: (step: JourneyStep) => void;
   layoutId: string;
-  allQuests: JourneyStep[]; // UPDATED PROP: Now receives all quests
+  allQuests: JourneyStep[];
 }
 
 const SPREAD_FACTOR = 1.4;
@@ -39,25 +40,33 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
 }) => {
   const [hoveredStar, setHoveredStar] = useState<string | null>(null);
 
-  // OPTIMIZATION: All star position calculation is now deferred and handled here.
-  // This hook only runs for the currently selected constellation, not the entire universe.
+  // THE FIX IS APPLIED HERE: The deterministic spiral logic is replaced with
+  // a stable random position generator for the stars ("planets").
   const constellationData = useMemo(() => {
-    // 1. Filter and sort quests for just this constellation
     const questsInConstellation = allQuests
       .filter(step => step.questType === constellationName)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-    // 2. Calculate the base spiral positions for these quests
     const starPositions = new Map<string, { quest: JourneyStep; pos: { x: number; y: number } }>();
-    questsInConstellation.forEach((step, i) => {
-        const angle = i * 7;
-        const radius = 5 + i * 3;
+    
+    // --- Configuration for Random Star Layout ---
+    const MAX_RADIUS = 45; // Controls the initial spread. 45 means stars can be from 5% to 95%.
+    // ------------------------------------------
+
+    questsInConstellation.forEach((step) => {
+        // This algorithm creates a uniform random distribution within a circle,
+        // which looks more natural than simple random x/y.
+        const angle = Math.random() * 2 * Math.PI;
+        // The Math.sqrt() is crucial for preventing points from clumping in the center.
+        const radius = MAX_RADIUS * Math.sqrt(Math.random()); 
+        
         const x = 50 + radius * Math.cos(angle);
         const y = 50 + radius * Math.sin(angle);
+
         starPositions.set(step.title, { quest: step, pos: { x, y } });
     });
 
-    // 3. Spread the calculated positions out for better viewing
+    // The spread function still works perfectly to add a final "zoom" and ensure padding.
     const spreadPosition = (pos: { x: number; y: number }) => {
         const vecX = pos.x - 50;
         const vecY = pos.y - 50;
@@ -73,7 +82,7 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
 
     return { stars: interactiveStars };
 
-  }, [constellationName, allQuests]);
+  }, [constellationName, allQuests]); // This logic runs only when the constellation changes.
 
   return (
     <motion.div
@@ -123,7 +132,7 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
               animate={{ scale: 1, opacity: 1 }}
               transition={{
                 type: 'spring',
-                delay: 0.5 + index * 0.08, // Slightly faster animation
+                delay: 0.5 + index * 0.08,
                 stiffness: 200,
                 damping: 20,
               }}
