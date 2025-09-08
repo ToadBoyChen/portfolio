@@ -4,12 +4,12 @@ import AnimatedText from "../../animation/AnimatedText";
 import { CiCoffeeCup } from "react-icons/ci";
 
 const loadingTexts = [
-  "Sharpening Swords & Quills...",
-  "Brewing Potions of Patience...",
-  "Charting Unknown Territories...",
-  "Waking Up the Sprites...",
-  "Polishing the Pixels...",
-  "Rolling for Initiative...",
+  "Sharpening blades...",
+  "Mixing potions...",
+  "Drawing maps...",
+  "Waking sprites...",
+  "Polishing pixels...",
+  "Rolling dice...",
 ];
 
 const StardustParticle: FC = () => {

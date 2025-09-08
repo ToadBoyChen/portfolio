@@ -1,7 +1,6 @@
 // src/components/journey/QuestModal.tsx
 
 import { type FC, useEffect } from "react";
-// STEP 1: Change 'Variant' to 'Variants' in the import
 import { motion, useMotionValue, useTransform, animate, type Variants } from "framer-motion";
 import { X } from "lucide-react";
 import SpriteSheetAnimator from "../../animation/SpriteSheetAnimator";
@@ -23,14 +22,13 @@ const rarityColor: Record<Rarity, string> = {
   Legendary: "text-orange-400",
 };
 
-// STEP 2: Apply the 'Variants' type annotation
 const modalVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: {
     opacity: 1,
     scale: 1,
     transition: {
-      type: "spring", // This is now correctly typed
+      type: "spring",
       stiffness: 300,
       damping: 30,
       when: "beforeChildren",
@@ -40,13 +38,12 @@ const modalVariants: Variants = {
   exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
 };
 
-// STEP 2 (cont.): Apply the 'Variants' type here as well
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 200 }, // And this one too
+    transition: { type: "spring", stiffness: 200 },
   },
 };
 
@@ -75,7 +72,6 @@ export const QuestModal: FC<QuestModalProps> = ({ step, onClose }) => {
     };
   }, []);
 
-  // ... the rest of your component's JSX remains exactly the same
   return (
     <>
       <motion.div
@@ -205,8 +201,9 @@ export const QuestModal: FC<QuestModalProps> = ({ step, onClose }) => {
                     <h4 className="font-bold text-cyan-300 uppercase tracking-widest text-xs sm:text-sm">
                       Key Item
                     </h4>
+                    {/* THIS IS THE FIX: Replaced `truncate` with `line-clamp-2 break-words` */}
                     <p
-                      className={`text-lg sm:text-2xl font-bold mt-1 font-cinzel truncate ${rarityColor[step.specialItemRarity]}`}
+                      className={`text-lg sm:text-2xl font-bold mt-1 font-cinzel line-clamp-2 break-words ${rarityColor[step.specialItemRarity]}`}
                       style={{ textShadow: "0 0 10px currentColor" }}
                     >
                       {step.specialItem}
