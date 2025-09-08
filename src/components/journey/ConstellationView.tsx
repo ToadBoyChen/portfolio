@@ -40,26 +40,38 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
 }) => {
   const [hoveredStar, setHoveredStar] = useState<string | null>(null);
 
-  // THE FIX IS APPLIED HERE: The deterministic spiral logic is replaced with
-  // a stable random position generator for the stars ("planets").
+  // THE FIX IS APPLIED HERE: Replaced pure random generation with a procedural
+  // algorithm that guarantees stars do not spawn on top of each other.
   const constellationData = useMemo(() => {
     const questsInConstellation = allQuests
       .filter(step => step.questType === constellationName)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     const starPositions = new Map<string, { quest: JourneyStep; pos: { x: number; y: number } }>();
+    const numStars = questsInConstellation.length;
     
-    // --- Configuration for Random Star Layout ---
-    const MAX_RADIUS = 45; // Controls the initial spread. 45 means stars can be from 5% to 95%.
+    // --- Configuration for Collision-Free Random Layout ---
+    const MIN_RADIUS = 15; // Prevents stars from clumping in the absolute center.
+    const MAX_RADIUS = 45; // Max distance from the center (50% is the center, so 50-45=5% from edge).
     // ------------------------------------------
+    
+    // 1. Calculate the angular "slice" for each star to guarantee separation.
+    const angleIncrement = (2 * Math.PI) / numStars;
 
-    questsInConstellation.forEach((step) => {
-        // This algorithm creates a uniform random distribution within a circle,
-        // which looks more natural than simple random x/y.
-        const angle = Math.random() * 2 * Math.PI;
-        // The Math.sqrt() is crucial for preventing points from clumping in the center.
-        const radius = MAX_RADIUS * Math.sqrt(Math.random()); 
+    questsInConstellation.forEach((step, index) => {
+        // 2. Determine the base angle for this star's sector.
+        const baseAngle = index * angleIncrement;
         
+        // 3. Add random "jitter" so they don't form a perfect circle.
+        // We use 80% of the increment to ensure a safe margin between sectors.
+        const angleJitter = (Math.random() - 0.5) * angleIncrement * 0.8;
+        const angle = baseAngle + angleJitter;
+        
+        // 4. Determine a random radius. The sqrt prevents clumping at the center,
+        // and adding a MIN_RADIUS prevents a "dead zone" in the middle.
+        const radius = MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * Math.sqrt(Math.random());
+        
+        // Convert from polar (angle, radius) to Cartesian (x, y) coordinates.
         const x = 50 + radius * Math.cos(angle);
         const y = 50 + radius * Math.sin(angle);
 
