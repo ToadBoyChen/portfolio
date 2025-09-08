@@ -1,3 +1,5 @@
+// src/components/journey/ConstellationView.tsx
+
 import React, { type FC, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { JourneyStep } from './JourneyTypes';
@@ -7,29 +9,21 @@ import { ChevronLeft } from 'lucide-react';
 
 const StaticConstellationBackground = React.memo(() => (
   <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl bg-indigo-950">
-    {/* Base Gradient & Static Nebulas */}
     <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-black" />
     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
     <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-
-    {/* Static starfield created with CSS gradients. Infinitely more performant. */}
     <div className="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:50px_50px]" />
-    <div className="absolute inset-0 bg-[radial-gradient(#ffffff11_1px,transparent_1px)] [background-size:90px_90px]" />
     <div className="absolute inset-0 bg-[radial-gradient(#a78bfa33_1.5px,transparent_1.5px)] [background-size:120px_120px]" />
   </div>
 ));
 StaticConstellationBackground.displayName = 'StaticConstellationBackground';
-
 
 interface ConstellationViewProps {
   constellationName: string;
   onClose: () => void;
   onSelectStep: (step: JourneyStep) => void;
   layoutId: string;
-  allStarPositions: Map<
-    string,
-    { quest: JourneyStep; pos: { x: number; y: number } }
-  >;
+  allQuests: JourneyStep[]; // UPDATED PROP: Now receives all quests
 }
 
 const SPREAD_FACTOR = 1.4;
@@ -41,33 +35,45 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
   onClose,
   onSelectStep,
   layoutId,
-  allStarPositions,
+  allQuests,
 }) => {
   const [hoveredStar, setHoveredStar] = useState<string | null>(null);
 
+  // OPTIMIZATION: All star position calculation is now deferred and handled here.
+  // This hook only runs for the currently selected constellation, not the entire universe.
   const constellationData = useMemo(() => {
-    // Helper function to spread stars out from the center
-    const spreadPosition = (pos: { x: number; y: number }) => {
-      const vecX = pos.x - 50;
-      const vecY = pos.y - 50;
-      const newX = clamp(50 + vecX * SPREAD_FACTOR, PADDING, 100 - PADDING);
-      const newY = clamp(50 + vecY * SPREAD_FACTOR, PADDING, 100 - PADDING);
-      return { x: newX, y: newY };
-    };
+    // 1. Filter and sort quests for just this constellation
+    const questsInConstellation = allQuests
+      .filter(step => step.questType === constellationName)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-    const interactiveStars = Array.from(allStarPositions.values())
-      .filter((data) => data.quest.questType === constellationName)
-      .map((data) => ({
+    // 2. Calculate the base spiral positions for these quests
+    const starPositions = new Map<string, { quest: JourneyStep; pos: { x: number; y: number } }>();
+    questsInConstellation.forEach((step, i) => {
+        const angle = i * 7;
+        const radius = 5 + i * 3;
+        const x = 50 + radius * Math.cos(angle);
+        const y = 50 + radius * Math.sin(angle);
+        starPositions.set(step.title, { quest: step, pos: { x, y } });
+    });
+
+    // 3. Spread the calculated positions out for better viewing
+    const spreadPosition = (pos: { x: number; y: number }) => {
+        const vecX = pos.x - 50;
+        const vecY = pos.y - 50;
+        const newX = clamp(50 + vecX * SPREAD_FACTOR, PADDING, 100 - PADDING);
+        const newY = clamp(50 + vecY * SPREAD_FACTOR, PADDING, 100 - PADDING);
+        return { x: newX, y: newY };
+    };
+    
+    const interactiveStars = Array.from(starPositions.values()).map(data => ({
         ...data,
         pos: spreadPosition(data.pos),
-      }))
-      .sort((a, b) => new Date(a.quest.date).getTime() - new Date(b.quest.date).getTime());
+    }));
 
-    // OPTIMIZATION: Removed all logic for calculating and displaying "ghost stars"
-    // This simplifies the component's logic and reduces elements on screen.
     return { stars: interactiveStars };
 
-  }, [constellationName, allStarPositions]);
+  }, [constellationName, allQuests]);
 
   return (
     <motion.div
@@ -76,9 +82,8 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
       exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
     >
       <StaticConstellationBackground />
-
       <div className="relative z-10 w-full h-full flex flex-col">
-        {/* Header (Unchanged) */}
+        {/* Header */}
         <motion.div
           className="flex justify-between items-center mb-8"
           initial={{ opacity: 0, y: -20 }}
@@ -88,7 +93,7 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
           <div className="flex items-center gap-4">
             <Button
               onClick={onClose}
-              className="rounded-full text-[var(--color-quest-shadow)] bg-white/10 shadow-md hover:text-background hover:bg-[var(--color-quest-shadow)] hover:shadow-lg active:scale-90 transition-all duration-300 tracking-wide font-semibold flex hover:rotate-3 cursor-pointer"
+              className="rounded-full text-[var(--color-quest-shadow)] bg-white/10 shadow-md hover:text-background hover:bg-[var(--color-quest-shadow)] active:scale-90 transition-all font-semibold flex cursor-pointer"
               variant="ghost"
             >
               <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
@@ -118,7 +123,7 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
               animate={{ scale: 1, opacity: 1 }}
               transition={{
                 type: 'spring',
-                delay: 0.5 + index * 0.1,
+                delay: 0.5 + index * 0.08, // Slightly faster animation
                 stiffness: 200,
                 damping: 20,
               }}
