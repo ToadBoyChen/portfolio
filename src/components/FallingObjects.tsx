@@ -1,13 +1,19 @@
 import { useEffect, useRef } from "react";
 import { Engine, Render, Runner, Bodies, World, Body } from "matter-js";
 
+import coffeeImg from "../assets/fallingObjects/coffee.png";
+import croissantImg from "../assets/fallingObjects/croissant.png";
+import sandwichImg from "../assets/fallingObjects/sandwich.png";
+import coffee0Img from "../assets/fallingObjects/coffee0.png";
+import gloveImg from "../assets/fallingObjects/glove.png";
+
 // Array of images to choose from
 const coffeeImages = [
-  "src/assets/fallingObjects/coffee.png",
-  "src/assets/fallingObjects/croissant.png",
-  "src/assets/fallingObjects/sandwich.png",
-  "src/assets/fallingObjects/coffee0.png",
-  "src/assets/fallingObjects/glove.png",
+  coffeeImg,
+  croissantImg,
+  sandwichImg,
+  coffee0Img,
+  gloveImg,
 ];
 
 const maxWidth = 800;
