@@ -50,7 +50,7 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
           <img
             src={mePhoto}
             alt="A photo of Toby Chen"
-            className="w-32 h-32 sm:w-48 sm:h-48 object-cover relative p-1 rounded-full bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border"
+            className="w-40 h-40 sm:w-52 sm:h-52 object-cover p-2 rounded-full bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border"
           />
           <p className="pt-6 sm:pt-8 text-foreground font-semibold text-sm sm:text-base text-center">
             Check out all of my socials! I'm always looking to connect with new people and share my work.
