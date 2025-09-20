@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 import { Button } from './ui/button';
 
-// 1. Define the validation schema with Zod
 const formSchema = z.object({
   from_name: z.string().min(2, 'Name must be at least 2 characters.'),
   from_email: z.string().email('Please enter a valid email address.'),
@@ -35,7 +34,7 @@ function Contact() {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
       toast.success('Message sent successfully!', { id: toastId });
-      reset(); // Clear the form fields
+      reset();
     } catch (error) {
       console.error('FAILED...', error);
       toast.error('Failed to send message.', { id: toastId });
