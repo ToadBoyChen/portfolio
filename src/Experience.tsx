@@ -16,7 +16,7 @@ function Experience() {
       <div className="mt-6">
         <SectionCard>
           <p className="text-base sm:text-lg text-center sm:text-left">
-            I'm always doing stuff, whether that's personal projects, getting an education or work experience. Maybe you want to see what I've been up to. Enter the Quest Universe Below.
+            I'm always doing stuff, whether that's personal projects, studying or work experience. Maybe you want to see what I've been up to. Enter the Quest Universe Below.
           </p>
         </SectionCard>
       </div>
@@ -28,8 +28,7 @@ function Experience() {
       <div className="mt-6">
         <SectionCard>
           <p className="text-center sm:text-left text-lg">
-            Let's create something amazing together! My journey in tech is driven by a curiosity to learn and a passion for building things
-            that make a difference. Let's create something amazing together!
+            I'm currently looking for work! if you think I would be a good fit for your team, feel free to download my CV below and reach out to me.
           </p>
           <div className="flex justify-center">
             <Button
