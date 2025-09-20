@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Hamburger from 'hamburger-react';
 import { FaInstagram, FaGithub, FaYoutube, FaLinkedin } from 'react-icons/fa';
 import AnimatedText from "../animation/AnimatedText";
+import mePhoto from "./assets/me/me-beach.jpg";
 
 interface SocialsProps {
   open: boolean;
@@ -47,7 +48,7 @@ const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
 
         <div className="flex flex-col items-center mt-4 sm:mt-6">
           <img
-            src="src/assets/me/me.jpeg"
+            src={mePhoto}
             alt="A photo of Toby Chen"
             className="w-32 h-32 sm:w-48 sm:h-48 object-cover relative p-1 rounded-full bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border"
           />
