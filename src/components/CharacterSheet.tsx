@@ -4,8 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo, type FC, type ReactNode } from "react";
 import { FaReact, FaPython } from "react-icons/fa";
 import { SiCplusplus, SiTypescript } from "react-icons/si";
-
-// Mock component imports - replace with your actual components
 import RadarChart from "./Radar.tsx";
 import Attributes from "./Attributes.tsx";
 import SpriteSheetAnimator from "../animation/SpriteSheetAnimator.tsx";
@@ -68,8 +66,6 @@ const characterData = {
     xp: 2316,
     xpToNextLevel: 10000,
 };
-
-// --- SECTION 3: Reusable Child Components ---
 
 interface FilterOption {
   key: FilterStatus;
@@ -136,7 +132,6 @@ const LogbookView: FC<LogbookViewProps> = ({ title, items, filters, currentFilte
 
 const CharacterProfile: FC = () => (
     <div className="w-full md:w-1/3 p-4 flex items-center justify-center">
-        {/* THE FIX IS APPLIED HERE: Replaced responsive widths with a consistent, centered width */}
         <div className="flex flex-col mt-8 gap-8 w-72 mx-auto">
             <div className="pt-8 bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 gradient-border border-4 border-foreground rounded-lg flex justify-center items-center">
                 <SpriteSheetAnimator spriteSheet={spriteSheet} frameCount={5} frameWidth={96} frameHeight={96} fps={3} />
@@ -164,7 +159,7 @@ function CharacterSheet() {
 
     const handleViewChange = (newView: CharacterSheetView) => {
         setView(newView);
-        setFilterStatus('all'); // Reset filter on every tab change for predictable state
+        setFilterStatus('all');
     };
     
     const filteredQuests = useMemo(() => {
@@ -182,16 +177,15 @@ function CharacterSheet() {
     }, [filterStatus]);
 
     const itemFilters: FilterOption[] = [
-        { key: 'all', label: 'All Items' },
+        { key: 'all', label: 'Items' },
         { key: 'achieved', label: 'Obtained' },
         { key: 'in-progress', label: 'In Progress' },
     ];
 
     const encounterFilters: FilterOption[] = [
-        { key: 'all', label: 'All Encounters' },
+        { key: 'all', label: 'Encounters' },
         { key: 'achieved', label: 'Completed' },
         { key: 'in-progress', label: 'In Progress' },
-        { key: 'pending', label: 'Pending' },
     ];
 
     return (
