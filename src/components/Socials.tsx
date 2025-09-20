@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Hamburger from 'hamburger-react';
 import { FaInstagram, FaGithub, FaYoutube, FaLinkedin } from 'react-icons/fa';
 import AnimatedText from "../animation/AnimatedText";
-import mePhoto from "./assets/me/me-beach.jpg";
+import mePhoto from "../assets/me/me-beach.jpg";
 
 interface SocialsProps {
   open: boolean;
