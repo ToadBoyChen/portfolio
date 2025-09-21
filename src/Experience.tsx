@@ -34,7 +34,7 @@ function Experience() {
             <Button
               className="hover:bg-primary text-primary hover:text-background shadow-md border-0 bg-background hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out font-bold py-4 px-8 sm:p-8 sm:px-16 text-lg sm:text-xl rounded-full mt-6"
             >
-              <a href="./src/assets/cv/mock-cv.pdf" download="Toby_Chen_CV.pdf">
+              <a href="./src/assets/cv/cv.pdf" download="Toby_Chen_CV.pdf">
                 Download Here
               </a>
             </Button>
