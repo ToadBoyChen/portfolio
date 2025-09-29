@@ -7,7 +7,8 @@ import {
   FaInfinity,
   FaProjectDiagram,
   FaBalanceScale,
-  FaCogs
+  FaCogs,
+  FaChartLine
 } from 'react-icons/fa';
 import { PiBoxingGloveFill, PiLinuxLogoFill, PiCodeSimpleFill, PiGraphFill } from "react-icons/pi";
 import type { JourneyStep } from './JourneyTypes';
@@ -822,5 +823,68 @@ export const journeySteps: JourneyStep[] = [
     specialItemFrames: animations.WIP,
     specialItemRarity: "Common",
     prerequisites: [],
+  },
+    {
+    title: "The Phantom Pump & The Serpent's Bite",
+    date: "2023",
+    location: "The Chaotic Bazaar of the Blockchain",
+    description: "Lured by whispers of meteoric gains in the crypto-sphere, you dive headfirst into its volatile currents. The market's siren song promises riches, but delivers a swift and brutal lesson. Your digital coffers are drained, but your understanding of risk is permanently etched.",
+    questType: "The Gold-Spinner's Gambit",
+    difficulty: "Hard",
+    recommendedLevel: 21,
+    recommendedSkills: ["Hubris", "Risk Assessment", "Emotional Resilience"],
+    progress: 100,
+    animationFrames: animations.WIP, // Placeholder
+    rewards: [
+      { name: "Experience", amount: 1200, icon: <FaStar /> },
+      { name: "Aura of Caution", icon: <FaBalanceScale /> },
+      { name: "Market Scars", icon: <FaBrain /> },
+    ],
+    specialItem: "The Dust-Filled Ledger",
+    specialItemFrames: animations.WIP, // Placeholder
+    specialItemRarity: "Common",
+    prerequisites: ["The Alchemist's Golem"],
+  },
+  {
+    title: "The Chronicler of the Bull and Bear",
+    date: "2024",
+    location: "The Digital Scriptorium",
+    description: "Having weathered the market's storms, you decide to share your hard-won wisdom. You establish a markets blog, a place to chronicle your analysis, strategies, and cautionary tales. Each post sharpens your own thinking and builds a following among fellow traders.",
+    questType: "The Chronicler's Task",
+    difficulty: "Normal",
+    recommendedLevel: 21,
+    recommendedSkills: ["Market Scars", "Storytelling", "SEO Incantations"],
+    progress: 30,
+    animationFrames: animations.WIP, // Placeholder
+    rewards: [
+      { name: "Experience", amount: 1800, icon: <FaStar /> },
+      { name: "Audience Growth", icon: <FaChartLine /> }, // Assuming FaChartLine is available/imported
+      { name: "Clarity of Thought", icon: <FaBrain /> },
+    ],
+    specialItem: "The Quill of Influence",
+    specialItemFrames: animations.WIP, // Placeholder
+    specialItemRarity: "Rare",
+    prerequisites: ["The Phantom Pump & The Serpent's Bite", "Weaving the Web"],
+  },
+  {
+    title: "The Toad Sage's Redemption",
+    date: "2025",
+    location: "The Alchemist's Sanctum, Gants Hill",
+    description: "This is not just another golem; it is a masterpiece. Forging Toadtrade 2.0 requires every ounce of your skill: the raw power of C++, the reactive magic of TypeScript, the resilience of Docker containers, and the bitter wisdom from market failures. This time, the golem is not just fast; it is intelligent.",
+    questType: "The Gold-Spinner's Gambit",
+    difficulty: "Heroic",
+    recommendedLevel: 21,
+    recommendedSkills: ["Greater Tome of C++", "React Sorcery", "Container Sigil", "Market Scars"],
+    progress: 45,
+    animationFrames: animations.WIP, // Placeholder
+    rewards: [
+      { name: "Experience", amount: 8000, icon: <FaStar /> },
+      { name: "Advanced System Architecture", icon: <FaProjectDiagram /> },
+      { name: "Risk Management Protocols", icon: <PiGraphFill /> },
+    ],
+    specialItem: "The Toadtrade Grimoire v2.0",
+    specialItemFrames: animations.WIP, // Placeholder
+    specialItemRarity: "Legendary",
+    prerequisites: ["The Unforgiving Languages", "The Chronicler's Task", "Ritual of the Containers"],
   },
 ];
