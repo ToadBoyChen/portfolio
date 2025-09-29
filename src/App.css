@@ -62,6 +62,45 @@ html {
   font-style: normal;
 }
 
+/* Add these styles to your main CSS file */
+
+/* Main container styles */
+.quest-loader-container {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1rem;
+  background-color: #020617; /* bg-slate-950 */
+
+  /* NEW: Animated conic gradient for a subtle "scanning" effect */
+  background-image:
+    radial-gradient(ellipse at 50% 50%, transparent 40%, hsl(220, 40%, 5%)),
+    repeating-conic-gradient(from 0deg, hsl(215, 30%, 10%) 0% 25%, hsl(215, 30%, 8%) 25% 50%);
+  
+  background-size: 100% 100%, 400% 400%; /* Second gradient is larger to slow it down */
+  animation: rotate-background 120s linear infinite;
+}
+
+/* NEW: Vignette effect to focus the eye on the center */
+.quest-loader-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, black 100%);
+  opacity: 0.6;
+}
+
+/* NEW: Keyframes for the background animation */
+@keyframes rotate-background {
+  0% { background-position: 0% 50%, 0% 0%; }
+  100% { background-position: 0% 50%, 100% 100%; }
+}
+
 .knewave-shadow {
   -webkit-font-smoothing: antialiased; /* Chrome, Safari, Edge */
   -moz-osx-font-smoothing: grayscale;  /* Firefox on Mac */
@@ -72,6 +111,21 @@ html {
     2px 0px 0 var(--color-primary),
     6px 8px 0 var(--color-primary),
     4px 4px 2px var(--color-primary);
+}
+
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-aurora {
+  animation: aurora 15s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .text-quest-shadow {

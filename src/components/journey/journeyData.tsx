@@ -847,7 +847,7 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     title: "The Chronicler of the Bull and Bear",
-    date: "2024",
+    date: "2025",
     location: "The Digital Scriptorium",
     description: "Having weathered the market's storms, you decide to share your hard-won wisdom. You establish a markets blog, a place to chronicle your analysis, strategies, and cautionary tales. Each post sharpens your own thinking and builds a following among fellow traders.",
     questType: "The Chronicler's Task",

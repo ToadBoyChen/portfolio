@@ -1,13 +1,13 @@
 // src/components/journey/ConstellationView.tsx
 
-import React, { type FC, useMemo, useState } from 'react';
+import React, { type FC, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { JourneyStep } from './JourneyTypes';
 import { Star } from './Star';
 import { Button } from '../ui/button';
 import { ChevronLeft } from 'lucide-react';
 
-// This background component remains unchanged
+// The full definition for the background component (Unchanged)
 const StaticConstellationBackground = React.memo(() => (
   <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl bg-indigo-950">
     <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-black" />
@@ -27,9 +27,16 @@ interface ConstellationViewProps {
   allQuests: JourneyStep[];
 }
 
-const SPREAD_FACTOR = 1.4;
-const PADDING = 8;
-const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
+// Animation variants for the grid container (Unchanged)
+const gridContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
 
 export const ConstellationView: FC<ConstellationViewProps> = ({
   constellationName,
@@ -38,75 +45,25 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
   layoutId,
   allQuests,
 }) => {
-  const [hoveredStar, setHoveredStar] = useState<string | null>(null);
-
-  // THE FIX IS APPLIED HERE: Replaced pure random generation with a procedural
-  // algorithm that guarantees stars do not spawn on top of each other.
-  const constellationData = useMemo(() => {
-    const questsInConstellation = allQuests
+  const questsInConstellation = useMemo(() =>
+    allQuests
       .filter(step => step.questType === constellationName)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-    const starPositions = new Map<string, { quest: JourneyStep; pos: { x: number; y: number } }>();
-    const numStars = questsInConstellation.length;
-    
-    // --- Configuration for Collision-Free Random Layout ---
-    const MIN_RADIUS = 15; // Prevents stars from clumping in the absolute center.
-    const MAX_RADIUS = 45; // Max distance from the center (50% is the center, so 50-45=5% from edge).
-    // ------------------------------------------
-    
-    // 1. Calculate the angular "slice" for each star to guarantee separation.
-    const angleIncrement = (2 * Math.PI) / numStars;
-
-    questsInConstellation.forEach((step, index) => {
-        // 2. Determine the base angle for this star's sector.
-        const baseAngle = index * angleIncrement;
-        
-        // 3. Add random "jitter" so they don't form a perfect circle.
-        // We use 80% of the increment to ensure a safe margin between sectors.
-        const angleJitter = (Math.random() - 0.5) * angleIncrement * 0.8;
-        const angle = baseAngle + angleJitter;
-        
-        // 4. Determine a random radius. The sqrt prevents clumping at the center,
-        // and adding a MIN_RADIUS prevents a "dead zone" in the middle.
-        const radius = MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * Math.sqrt(Math.random());
-        
-        // Convert from polar (angle, radius) to Cartesian (x, y) coordinates.
-        const x = 50 + radius * Math.cos(angle);
-        const y = 50 + radius * Math.sin(angle);
-
-        starPositions.set(step.title, { quest: step, pos: { x, y } });
-    });
-
-    // The spread function still works perfectly to add a final "zoom" and ensure padding.
-    const spreadPosition = (pos: { x: number; y: number }) => {
-        const vecX = pos.x - 50;
-        const vecY = pos.y - 50;
-        const newX = clamp(50 + vecX * SPREAD_FACTOR, PADDING, 100 - PADDING);
-        const newY = clamp(50 + vecY * SPREAD_FACTOR, PADDING, 100 - PADDING);
-        return { x: newX, y: newY };
-    };
-    
-    const interactiveStars = Array.from(starPositions.values()).map(data => ({
-        ...data,
-        pos: spreadPosition(data.pos),
-    }));
-
-    return { stars: interactiveStars };
-
-  }, [constellationName, allQuests]); // This logic runs only when the constellation changes.
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
+    [constellationName, allQuests]
+  );
 
   return (
     <motion.div
       layoutId={layoutId}
-      className="relative inset-0 w-full h-full p-6 md:p-10 flex flex-col"
+      className="relative w-full max-w-7xl max-h-[90vh] bg-black/50 border border-purple-400/20 rounded-2xl shadow-2xl shadow-purple-500/10 flex flex-col"
       exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
     >
       <StaticConstellationBackground />
-      <div className="relative z-10 w-full h-full flex flex-col">
-        {/* Header */}
+
+      <div className="relative z-10 w-full h-full flex flex-col p-6 md:p-8">
+        {/* Header Section (Unchanged) */}
         <motion.div
-          className="flex justify-between items-center mb-8"
+          className="flex-shrink-0 flex justify-between items-center pb-6 border-b border-white/10"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -114,44 +71,30 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
           <div className="flex items-center gap-4">
             <Button
               onClick={onClose}
-              className="rounded-full text-[var(--color-quest-shadow)] bg-white/10 shadow-md hover:text-background hover:bg-[var(--color-quest-shadow)] active:scale-90 transition-all font-semibold flex cursor-pointer"
+              className="rounded-full text-purple-300 bg-white/10 shadow-md hover:text-white hover:bg-purple-400/20 active:scale-90 transition-all font-semibold flex cursor-pointer"
               variant="ghost"
             >
-              <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-              <span className="font-medium">Back</span>
+              <ChevronLeft className="w-5 h-5 mr-1 transition-transform group-hover:-translate-x-1" />
+              Back
             </Button>
-            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text chango-regular text-white text-quest-shadow">
+            <h2 className="text-3xl md:text-4xl font-bold bg-clip-text chango-regular text-white text-quest-shadow">
               {constellationName}
             </h2>
           </div>
         </motion.div>
 
-        {/* Render Area */}
-        <div className="relative flex-1">
-          {constellationData.stars.map(({ quest, pos }, index) => (
+        {/* Scrollable Grid Area (UPDATED with better grid layout) */}
+        <div className="flex-1 mt-6 overflow-y-auto pr-2">
             <motion.div
-              key={quest.title}
-              className="absolute"
-              style={{
-                left: `${pos.x}%`,
-                top: `${pos.y}%`,
-                transform: 'translate(-50%, -50%)',
-                zIndex: hoveredStar === quest.title ? 20 : 10,
-              }}
-              onMouseEnter={() => setHoveredStar(quest.title)}
-              onMouseLeave={() => setHoveredStar(null)}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{
-                type: 'spring',
-                delay: 0.5 + index * 0.08,
-                stiffness: 200,
-                damping: 20,
-              }}
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
+                variants={gridContainerVariants}
+                initial="hidden"
+                animate="visible"
             >
-              <Star step={quest} onSelect={onSelectStep} />
+                {questsInConstellation.map((quest) => (
+                    <Star key={quest.title} step={quest} onSelect={onSelectStep} />
+                ))}
             </motion.div>
-          ))}
         </div>
       </div>
     </motion.div>

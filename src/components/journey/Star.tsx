@@ -1,169 +1,212 @@
-import type { FC } from 'react';
-import { memo, useMemo } from 'react';
-import { motion, type Variants } from 'framer-motion';
-import type { Difficulty, JourneyStep } from './JourneyTypes';
+// src/components/journey/CelestialArtifact.tsx
 
-// --- OPTIMIZATION: Simplified Configuration Engine ---
-// Removed properties for constant animations like rings, pulses, and special effects.
-// Added a `glowColor` for the new performant box-shadow glow effect.
+import React, { type FC, memo, useRef, type ReactElement } from 'react';
+import { motion, type Variants, AnimatePresence } from 'framer-motion';
+
+// --- Type Definitions (Added to support the `step` prop) ---
+export interface SpriteSheetData {
+  spriteSheet: string;
+  frameCount: number;
+  frameWidth: number;
+  frameHeight: number;
+  fps?: number;
+}
+export type Difficulty = "Trivial" | "Easy" | "Normal" | "Hard" | "Heroic" | "Deadly";
+export type Rarity = "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary";
+
+export interface JourneyStep {
+  title: string;
+  date: string;
+  location: string;
+  description: string;
+  questType: string;
+  difficulty: Difficulty;
+  recommendedLevel: number;
+  recommendedSkills: string[];
+  progress: number;
+  animationFrames: SpriteSheetData;
+  rewards: {
+    name: string;
+    amount?: number;
+    icon: ReactElement;
+  }[];
+  specialItem: string;
+  specialItemFrames: SpriteSheetData;
+  specialItemRarity: Rarity;
+  prerequisites?: string[];
+}
+
+// --- Configuration Engine: The "Celestial Forge" (Unchanged) ---
 type StarTheme = {
-  size: number;
-  glowColor: string;
-  textureGradient: string;
-  difficultyColor: string;
+  glow: string;
+  colorMain: string;
+  colorAccent: string;
 };
 
 const STAR_CONFIG: Record<Difficulty, StarTheme> = {
-  Trivial: {
-    size: 24,
-    glowColor: "#71717a",
-    difficultyColor: "#a1a1aa",
-    textureGradient: "linear-gradient(135deg, #52525b 0%, #27272a 100%)",
-  },
-  Easy: {
-    size: 30,
-    glowColor: "#4ade80",
-    difficultyColor: "#4ade80",
-    textureGradient: "linear-gradient(135deg, #16a34a 0%, #166534 100%)",
-  },
-  Normal: {
-    size: 36,
-    glowColor: "#38bdf8",
-    difficultyColor: "#38bdf8",
-    textureGradient: "linear-gradient(135deg, #0ea5e9 0%, #075985 100%)",
-  },
-  Hard: {
-    size: 42,
-    glowColor: "#f59e0b",
-    difficultyColor: "#f59e0b",
-    textureGradient: "linear-gradient(135deg, #d97706 0%, #92400e 100%)",
-  },
-  Heroic: {
-    size: 48,
-    glowColor: "#c084fc",
-    difficultyColor: "#c084fc",
-    textureGradient: "linear-gradient(135deg, #9333ea 0%, #6b21a8 100%)",
-  },
-  Deadly: {
-    size: 54,
-    glowColor: "#fb7185",
-    difficultyColor: "#fb7185",
-    textureGradient: "linear-gradient(135deg, #e11d48 0%, #9f1239 100%)",
+  Trivial: { glow: "#a1a1aa", colorMain: "#52525b", colorAccent: "#27272a" },
+  Easy: { glow: "#4ade80", colorMain: "#16a34a", colorAccent: "#166534" },
+  Normal: { glow: "#38bdf8", colorMain: "#0ea5e9", colorAccent: "#075985" },
+  Hard: { glow: "#f59e0b", colorMain: "#d97706", colorAccent: "#92400e" },
+  Heroic: { glow: "#c084fc", colorMain: "#9333ea", colorAccent: "#6b21a8" },
+  Deadly: { glow: "#ef4444", colorMain: "#e11d48", colorAccent: "#9f1239" },
+};
+
+// --- Animation Variants (Unchanged) ---
+export const artifactDiscoveryVariant: Variants = {
+  hidden: { opacity: 0, scale: 0.8, filter: 'blur(10px)' },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1],
+      staggerChildren: 0.1
+    }
   },
 };
 
-// --- Framer Motion Variants (Unchanged) ---
-const starContainerVariants: Variants = {
-  initial: { scale: 0.8, opacity: 0 },
-  visible: { scale: 1, opacity: 1 },
-  hover: {
-    scale: 1.15,
-    transition: { type: 'spring', stiffness: 300, damping: 15 },
-  },
-};
+const contentVariant: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+}
 
-const tooltipVariants: Variants = {
-  initial: { opacity: 0, y: 15, scale: 0.95 },
-  hover: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.2, ease: 'easeOut' } },
-};
-
-// --- Child Components ---
-const CompletionRune: FC = memo(() => (
-  <motion.svg
-    className="absolute inset-0 w-full h-full text-white drop-shadow-lg"
-    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-    strokeLinecap="round" strokeLinejoin="round"
+// --- Completion Seal (Unchanged) ---
+const CompletionSeal: FC = memo(() => (
+  <motion.div
+    className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
   >
-    <motion.path
-      d="M8 12.5l3 3L17 9.5"
-      initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: 1 }}
-      transition={{ delay: 0.3, duration: 0.5, ease: 'easeOut' }}
+    <motion.div
+      className="absolute w-1/2 h-1/2 rounded-full bg-white/20"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: [0, 1.2, 1], opacity: [0, 0.7, 0] }}
+      transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
     />
-  </motion.svg>
+    <motion.svg
+      className="w-1/2 h-1/2 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"
+      strokeLinecap="round" strokeLinejoin="round"
+    >
+      <motion.path
+        d="M8 12.5l3 3L17 9.5"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.6, ease: 'circOut' }}
+      />
+    </motion.svg>
+  </motion.div>
 ));
-CompletionRune.displayName = 'CompletionRune';
+CompletionSeal.displayName = 'CompletionSeal';
 
-// --- Main Star Component ---
+// --- Main Star Component: The "Celestial Artifact" ---
 interface StarProps {
   step: JourneyStep;
   onSelect: (step: JourneyStep) => void;
 }
 
 export const Star: FC<StarProps> = memo(({ step, onSelect }) => {
-  const { difficulty, progress, title } = step;
+  // --- UPDATED: Destructuring `recommendedLevel` ---
+  const { difficulty, progress, title, recommendedLevel } = step;
   const config = STAR_CONFIG[difficulty];
   const isCompleted = progress === 100;
   const isActive = progress > 0 && progress < 100;
 
-  const starStyle = useMemo(() => ({
-    '--star-size': `${config.size}px`,
-    '--glow-color': config.glowColor,
-    '--texture-gradient': config.textureGradient,
-  } as React.CSSProperties), [config]);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // --- 3D Interaction Logic (Unchanged) ---
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const { left, top, width, height } = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+    const rotateY = (x / width - 0.5) * 25;
+    const rotateX = -(y / height - 0.5) * 25;
+    cardRef.current.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`);
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`);
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = 'perspective(1500px) rotateX(0deg) rotateY(0deg)';
+  };
 
   return (
     <motion.div
-      className="relative group flex items-center justify-center cursor-pointer"
-      style={starStyle}
-      variants={starContainerVariants}
-      initial="initial"
-      animate="visible"
-      whileHover="hover"
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       onClick={() => onSelect(step)}
+      variants={artifactDiscoveryVariant}
+      // --- UPDATED: Layout is now `justify-between` to create space for top and bottom elements ---
+      className="group aspect-square relative flex flex-col justify-between p-4
+                 rounded-2xl bg-slate-900 cursor-pointer overflow-hidden
+                 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+      style={{
+        transformStyle: 'preserve-3d',
+        '--glow': config.glow,
+        '--color-main': config.colorMain,
+        '--color-accent': config.colorAccent,
+        '--bg-texture': 'url("/noise.png")',
+      } as React.CSSProperties}
     >
-      {/* 
-        OPTIMIZATION: The star body is now much simpler.
-        - The atmospheric glow is a single `box-shadow` instead of a blurred div.
-        - All constantly animating child components have been removed.
-        - The structure is flatter and requires less computation from the browser.
-      */}
+      {/* Background & Energy Wave Layers (Unchanged) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-main)] to-[var(--color-accent)]" />
+      <div className="absolute inset-0 bg-[var(--bg-texture)] opacity-10 mix-blend-overlay" />
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: 'radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)' }}
+      />
+      {!isCompleted && <div className="energy-wave-container" />}
+
+      {/* Content Layer (with 3D depth) */}
+      {/* --- UPDATED: This container is also `justify-between` to align its children --- */}
       <motion.div
-        className="relative w-[var(--star-size)] h-[var(--star-size)] rounded-full overflow-hidden"
-        style={{
-          boxShadow: `
-            inset 8px -4px 16px 0px #00000077, 
-            0 0 12px -2px #000000aa,
-            0 0 20px 0px var(--glow-color),
-            0 0 40px 10px #00000055
-          `,
-        }}
-        transition={{ duration: 0.3 }}
-        variants={{ hover: { boxShadow: `
-          inset 8px -4px 16px 0px #00000077, 
-          0 0 12px -2px #000000aa,
-          0 0 35px 5px var(--glow-color),
-          0 0 50px 10px #00000055
-        `}}}
+        className="relative z-10 flex flex-col justify-between h-full"
+        style={{ transform: 'translateZ(40px)' }}
       >
-        {/* Layer 1: Base Gradient */}
-        <div className="absolute inset-0" style={{ background: 'var(--texture-gradient)' }} />
-        {/* Layer 2: Lighting Highlight */}
-        <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 30% 30%, #ffffff55, transparent 60%)` }} />
-      </motion.div>
+        {/* --- NEW: Top Row Container --- */}
+        <motion.div variants={contentVariant} className='flex justify-between items-center'>
+          {/* Item 1: Recommended Level (Top Left) */}
+          <span className="font-bold text-xs text-white/90 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-md">
+            LVL {recommendedLevel}
+          </span>
+          
+          {/* Item 2: Difficulty (Top Right) */}
+          <span className="font-semibold text-xs px-3 py-1 rounded-full border bg-black/30 backdrop-blur-sm" style={{ color: 'var(--glow)', borderColor: 'var(--glow)', textShadow: `0 0 10px var(--glow)` }}>
+            {difficulty}
+          </span>
+        </motion.div>
 
-      {/* Progress Ring */}
-      {isActive && (
-        <svg className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] -rotate-90 overflow-visible">
-          <motion.circle cx="50%" cy="50%" r="50%" fill="none" stroke="var(--glow-color)" strokeWidth="3" strokeLinecap="round" pathLength={1} style={{ filter: `drop-shadow(0 0 6px var(--glow-color))` }} initial={{ strokeDashoffset: 1 }} animate={{ strokeDashoffset: 1 - progress / 100 }} transition={{ duration: 1.5, ease: 'easeInOut' }} />
-        </svg>
-      )}
+        {/* --- Bottom Content Container (Title & Progress Bar) --- */}
+        <div className="w-full">
+          <motion.h3
+            variants={contentVariant}
+            className="text-lg text-left font-bold text-white tracking-wide [text-shadow:0_2px_6px_rgba(0,0,0,0.8)] mb-2"
+          >
+            {title}
+          </motion.h3>
 
-      {/* Completion Rune */}
-      {isCompleted && <CompletionRune />}
-
-      {/* Hover Tooltip (largely unchanged, as it's not a constant performance drain) */}
-      <motion.div
-        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-5 px-4 py-2 bg-black/70 backdrop-blur-sm border border-gray-700 rounded-lg shadow-2xl whitespace-nowrap z-50 pointer-events-none"
-        variants={tooltipVariants}
-      >
-        <div className="text-white font-bold text-base mb-1 tracking-wide">{title}</div>
-        <div className="flex items-center gap-3 text-sm">
-          <span className="font-semibold" style={{ color: config.difficultyColor, textShadow: `0 0 8px ${config.difficultyColor}` }}>{difficulty}</span>
-          <span className="text-gray-400">{isCompleted ? '✓ Completed' : `${progress}% Progress`}</span>
+          {isActive && (
+            <motion.div variants={contentVariant} className="w-full bg-black/30 h-1.5 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: `var(--glow)`, filter: `brightness(1.2)` }}
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 1.5, ease: 'easeInOut' }}
+              />
+            </motion.div>
+          )}
         </div>
-        <div className="absolute bottom-0 left-1/2 w-0 h-0 -translate-x-1/2 translate-y-full border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-gray-800/95" />
       </motion.div>
+
+      {/* Completion Seal Layer (Unchanged) */}
+      <AnimatePresence>
+        {isCompleted && <CompletionSeal />}
+      </AnimatePresence>
     </motion.div>
   );
 });
