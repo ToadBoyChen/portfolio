@@ -1,12 +1,14 @@
 import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import SectionCard from './components/SectionCard';
+import { SiSubstack } from 'react-icons/si';
 
 const socialLinks: { href: string; label: string; Icon: IconType }[] = [
   { href: "https://github.com/ToadBoyChen", label: "GitHub", Icon: FaGithub },
   { href: "https://www.linkedin.com/in/toby-chen-167519298/", label: "LinkedIn", Icon: FaLinkedin },
   { href: "https://www.youtube.com/@t_o_d_d", label: "YouTube", Icon: FaYoutube },
   { href: "https://www.instagram.com/tobychen1337/", label: "Instagram", Icon: FaInstagram },
+  { href: "https://tobychenfinance.substack.com/", label: "Substack", Icon: SiSubstack },
 ];
 
 // --- Helper Component for Footer Links ---

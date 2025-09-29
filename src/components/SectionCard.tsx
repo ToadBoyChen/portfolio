@@ -5,10 +5,12 @@ const SectionCard = React.memo(function SectionCard({
   children,
   index = 0,
   color,
+  className,
 }: {
   children: React.ReactNode;
   index?: number;
   color?: string;
+  className?: string;
 }) {
   return (
     <motion.div
@@ -21,7 +23,7 @@ const SectionCard = React.memo(function SectionCard({
         damping: 12,
         delay: index * 0.2,
       }}
-      className={`
+      className={` ${className}
         rounded-2xl sm:rounded-3xl shadow-md 
         px-4 py-6 sm:px-8 sm:py-8 md:px-12 md:py-10 
         backdrop-blur-lg [will-change:transform,opacity]

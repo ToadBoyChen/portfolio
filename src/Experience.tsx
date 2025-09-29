@@ -1,10 +1,15 @@
-import AnimatedText from "./animation/AnimatedText"
-import SectionCard from "./components/SectionCard"
-import { Button } from "./components/ui/button"
-import Journey from "./components/journey/Journey"
+// src/pages/Experience.tsx
+ 
+import AnimatedText from "./animation/AnimatedText";
+import SectionCard from "./components/SectionCard";
+import { Button } from "./components/ui/button";
+import Journey from "./components/journey/Journey";
 import cvFile from "./assets/cv/cv.pdf";
+import LinkCard from "./components/LinkCard";
+import { SiSubstack, SiGithub, SiLinkedin } from "react-icons/si";
+import type { JSX } from "react";
 
-function Experience() {
+function Experience(): JSX.Element {
   return (
     <div 
       id="experience" 
@@ -22,6 +27,32 @@ function Experience() {
         </SectionCard>
       </div>
       <Journey />
+      <AnimatedText
+        text="Check me out elsewhere"
+        className="text-2xl sm:text-4xl font-bold text-background chango-regular knewave-shadow mt-16 sm:mt-24 self-center text-center"
+      />
+      <div className="mt-8 max-w-4xl mx-auto w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <LinkCard 
+            href="https://tobychenfinance.substack.com/"
+            icon={<SiSubstack />}
+            title="My Substack"
+            description="My financial takes and market analysis. Weekly pieces."
+          />
+          <LinkCard 
+            href="https://github.com/ToadBoyChen"
+            icon={<SiGithub />}
+            title="My GitHub"
+            description="All my open-source projects, code snippets, and contributions."
+          />
+          <LinkCard 
+            href="https://www.linkedin.com/in/toby-chen-167519298/"
+            icon={<SiLinkedin />}
+            title="My LinkedIn"
+            description="My professional network, career history, and education details."
+          />
+        </div>
+      </div>
       <AnimatedText
         text="Want My CV?"
         className="text-2xl sm:text-4xl font-bold text-background chango-regular knewave-shadow mt-16 sm:mt-24 self-center text-center"

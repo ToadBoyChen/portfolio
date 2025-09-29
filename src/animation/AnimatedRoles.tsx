@@ -3,10 +3,9 @@ import AnimatedText from "./AnimatedText";
 
 const roles = [
   "Mathematician",
-  "Programmer",
+  "Trader",
   "Kickboxer",
-  "MMA Fighter",
-  "Investor",
+  "Programmer"
 ];
 
 export default function AnimatedRoles() {
