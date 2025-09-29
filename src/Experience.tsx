@@ -28,7 +28,7 @@ function Experience(): JSX.Element {
       </div>
       <Journey />
       <AnimatedText
-        text="Check me out elsewhere"
+        text="Find me Here"
         className="text-2xl sm:text-4xl font-bold text-background chango-regular knewave-shadow mt-16 sm:mt-24 self-center text-center"
       />
       <div className="mt-8 max-w-4xl mx-auto w-full">

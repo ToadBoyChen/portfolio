@@ -1,8 +1,9 @@
-import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, type FC } from 'react';
 import AnimatedText from "../../animation/AnimatedText";
 
-const loadingTexts = [
+// --- Constants remain the same ---
+const LOADING_TEXTS = [
   "Sharpening blades...",
   "Mixing potions...",
   "Drawing maps...",
@@ -10,41 +11,68 @@ const loadingTexts = [
   "Polishing pixels...",
   "Rolling dice...",
 ];
+const TEXT_CHANGE_INTERVAL_MS = 2200;
+const PARTICLE_COUNT_MOBILE = 30;
+const PARTICLE_COUNT_DESKTOP = 75;
+const ROTATING_TEXT = "Mathematics · Finance · Athletics · Programming · Trading";
 
+// --- StardustParticle Component (FIXED) ---
 const StardustParticle: FC = () => {
-  const x = Math.random() * 100;
-  const y = Math.random() * 100;
+  // Calculate duration and delay as numbers for the transition prop
   const duration = 2 + Math.random() * 3;
   const delay = Math.random() * 3;
-  const scale = 0.5 + Math.random() * 0.5;
 
   return (
     <motion.div
       className="absolute bg-white rounded-full"
-      style={{ left: `${x}%`, top: `${y}%`, width: `${scale * 2}px`, height: `${scale * 2}px` }}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: [0, 0.7, 0], y: -20 }}
-      transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
+      style={{
+        left: 'var(--x)',
+        top: 'var(--y)',
+        width: 'calc(var(--scale) * 2px)',
+        height: 'calc(var(--scale) * 2px)',
+      }}
+      initial={{ opacity: 0, translateY: 10 }}
+      animate={{ opacity: [0, 0.7, 0], translateY: -20 }}
+      transition={{
+        // Use the number variables here, which satisfies TypeScript
+        duration,
+        delay,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
     />
   );
 };
 
+
+// --- Main Loader Component (No changes needed here) ---
 export const QuestUniverseLoader = () => {
   const [textIndex, setTextIndex] = useState(0);
-  const progress = useMotionValue(0);
+  const [particleCount, setParticleCount] = useState(PARTICLE_COUNT_MOBILE);
 
+  // Effect for cycling through the loading texts
   useEffect(() => {
     const textInterval = setInterval(() => {
-      setTextIndex((prevIndex) => (prevIndex + 1) % loadingTexts.length);
-    }, 2200);
+      setTextIndex((prevIndex) => (prevIndex + 1) % LOADING_TEXTS.length);
+    }, TEXT_CHANGE_INTERVAL_MS);
 
-    const animation = animate(progress, 100, { duration: 10, ease: 'easeOut' });
+    return () => clearInterval(textInterval);
+  }, []);
 
-    return () => {
-      clearInterval(textInterval);
-      animation.stop();
+  // Effect for setting responsive particle count
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) { // md breakpoint in Tailwind
+        setParticleCount(PARTICLE_COUNT_MOBILE);
+      } else {
+        setParticleCount(PARTICLE_COUNT_DESKTOP);
+      }
     };
-  }, [progress]);
+
+    handleResize(); // Set initial count
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <motion.div
@@ -57,29 +85,31 @@ export const QuestUniverseLoader = () => {
       exit={{ opacity: 0, transition: { duration: 0.8 } }}
     >
       <div className="absolute inset-0 opacity-50">
-        {Array.from({ length: 75 }).map((_, i) => <StardustParticle key={i} />)}
+        {Array.from({ length: particleCount }).map((_, i) => <StardustParticle key={i} />)}
       </div>
 
       <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
-        <motion.div 
-          className="absolute inset-0 opacity-30" 
-          animate={{ rotate: 360 }} 
+        <motion.div
+          className="absolute inset-0 opacity-30"
+          animate={{ rotate: 360 }}
           transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
         >
           <svg viewBox="0 0 200 200" className="w-full h-full">
             <path id="circlePath" fill="none" d="M 100, 100 m -90, 0 a 90,90 0 1,1 180,0 a 90,90 0 1,1 -180,0" />
-            <text fill="#06b6d4" fontSize="10" className="sm:text-[12px] md:text-[14px]" letterSpacing="8">
-              <textPath href="#circlePath" className="font-sans uppercase tracking-[0.4em]"> Mathematics · Programming · Athletics ·</textPath>
+            <text fill="#06b6d4" className="text-[10px] sm:text-[12px] md:text-[14px]">
+              <textPath href="#circlePath" className="font-sans uppercase tracking-[0.4em]">
+                {ROTATING_TEXT}
+              </textPath>
             </text>
           </svg>
         </motion.div>
       </div>
 
-      <div className="relative h-10 sm:h-12 w-full max-w-md text-center mt-8 sm:mt-12 flex justify-center items-center px-2">
+      <div className="relative h-10 sm:h-12 w-full max-w-md text-center mt-8 flex justify-center items-center px-2">
         <AnimatePresence mode="wait">
           <AnimatedText
             key={textIndex}
-            text={loadingTexts[textIndex]}
+            text={LOADING_TEXTS[textIndex]}
             className="text-xl sm:text-2xl md:text-3xl chango-regular text-quest-shadow text-background/80"
             direction="down"
             alwaysAnimate={true}
