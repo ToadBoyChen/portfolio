@@ -116,7 +116,8 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
   return (
     <motion.div
       layoutId={layoutId}
-      className="relative w-full max-w-7xl max-h-[90vh] bg-black/50 border border-purple-400/20 rounded-2xl shadow-2xl shadow-purple-500/10 flex flex-col"
+      // --- THIS IS THE FIX ---
+      className="relative w-full max-w-7xl h-full md:h-auto md:max-h-[90vh] bg-black/50 border border-purple-400/20 rounded-2xl shadow-2xl shadow-purple-500/10 flex flex-col"
       style={{ willChange: 'transform, opacity' }}
       exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
     >
@@ -145,7 +146,10 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
           </div>
           <div className="w-10 sm:w-24" />
         </motion.div>
+        
+        {/* NOTE: I removed the duplicate SortOptionsBar from the bottom of the original file */}
         <SortOptionsBar onSortChange={setSortOption} currentSort={sortOption} />
+        
         <div className="flex-1 mt-4 md:mt-6 overflow-y-auto pr-2 min-h-0">
             <motion.div
                 className={isMobile ? "space-y-3" : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"}
@@ -163,7 +167,6 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
             </motion.div>
         </div>
       </div>
-      <SortOptionsBar onSortChange={setSortOption} currentSort={sortOption} />
     </motion.div>
   );
 };
