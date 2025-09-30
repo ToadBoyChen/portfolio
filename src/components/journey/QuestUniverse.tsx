@@ -56,84 +56,20 @@ const CosmicBackground = () => {
     );
 };
 
-// And add this extensive CSS to your global stylesheet (e.g., index.css)
-/*
-:root {
-  --mouse-x: 50vw;
-  --mouse-y: 50vh;
-}
-
-.parallax-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.layer-1 {
-  background-image: radial-gradient(circle at 10% 20%, #ffffff1a 0.8px, transparent 0.8px), radial-gradient(circle at 75% 80%, #ffffff1a 0.8px, transparent 0.8px);
-  background-size: 50px 50px;
-  transform: translate(calc( (var(--mouse-x) - 50vw) / -50 ), calc( (var(--mouse-y) - 50vh) / -50 ));
-}
-.layer-2 {
-  background-image: radial-gradient(circle at 50% 50%, #ffffff0d 0.5px, transparent 0.5px);
-  background-size: 70px 70px;
-  transform: translate(calc( (var(--mouse-x) - 50vw) / -25 ), calc( (var(--mouse-y) - 50vh) / -25 ));
-}
-.layer-3 {
-  background-image: radial-gradient(circle at 25% 75%, #ffffff1f 0.6px, transparent 0.6px);
-  background-size: 90px 90px;
-  transform: translate(calc( (var(--mouse-x) - 50vw) / -15 ), calc( (var(--mouse-y) - 50vh) / -15 ));
-}
-
-.shooting-star {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
-  animation: animate-star 10s linear infinite;
-}
-.shooting-star::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 200px;
-  height: 1px;
-  background: linear-gradient(90deg, #fff, transparent);
-}
-.shooting-star:nth-child(1) {
-  top: 0;
-  left: -100px;
-  animation-delay: 0s;
-  animation-duration: 9s;
-}
-.shooting-star:nth-child(2) {
-  top: 80%;
-  left: 0;
-  animation-delay: 4.2s;
-  animation-duration: 12s;
-}
-
-@keyframes animate-star {
-  0% { transform: rotate(315deg) translateX(0); opacity: 1; }
-  70% { opacity: 1; }
-  100% { transform: rotate(315deg) translateX(150vw); opacity: 0; }
-}
-*/
-
-
-// Main component
 export function QuestUniverse() {
   const [selectedStep, setSelectedStep] = useState<JourneyStep | null>(null);
   const [zoomedConstellation, setZoomedConstellation] = useState<string | null>(null);
+  const [, setIsMobile] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   const gridContainerVariants = {
     hidden: { opacity: 0 },
@@ -220,8 +156,7 @@ export function QuestUniverse() {
               onClose={() => setZoomedConstellation(null)}
               onSelectStep={setSelectedStep}
               layoutId={`constellation-${zoomedConstellation}`}
-              allQuests={journeySteps}
-            />
+              allQuests={journeySteps} isMobile={false}            />
           </motion.div>
         )}
         {selectedStep && (

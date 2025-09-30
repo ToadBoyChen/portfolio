@@ -110,7 +110,7 @@ export const QuestUniverseLoader = () => {
           <AnimatedText
             key={textIndex}
             text={LOADING_TEXTS[textIndex]}
-            className="text-xl sm:text-2xl md:text-3xl chango-regular text-quest-shadow text-background/80"
+            className="text-xl sm:text-2xl md:text-3xl chango-regular font-bold text-white [text-shadow:0_0_10px_theme(colors.cyan.300),0_0_20px_theme(colors.cyan.400),0_0_40px_theme(colors.purple.500)]"
             direction="down"
             alwaysAnimate={true}
           />

@@ -41,6 +41,7 @@ interface ConstellationViewProps {
   onSelectStep: (step: JourneyStep) => void;
   layoutId: string;
   allQuests: JourneyStep[];
+  isMobile: boolean;
 }
 
 const gridContainerVariants = {
@@ -53,12 +54,23 @@ const gridContainerVariants = {
   },
 };
 
+const mobileGridContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.02,
+    },
+  },
+};
+
 export const ConstellationView: FC<ConstellationViewProps> = ({
   constellationName,
   onClose,
   onSelectStep,
   layoutId,
   allQuests,
+  isMobile,
 }) => {
   const questsInConstellation = useMemo(() =>
     allQuests
@@ -66,6 +78,8 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
     [constellationName, allQuests]
   );
+
+  const variants = isMobile ? mobileGridContainerVariants : gridContainerVariants;
 
   return (
     <motion.div
@@ -78,30 +92,32 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
 
       <div className="relative z-10 w-full flex-1 flex flex-col p-4 sm:p-6 md:p-8 min-h-0">
         <motion.div
-          className="flex-shrink-0 flex justify-between items-center pb-4 md:pb-6 border-b border-white/10"
+          className="flex-shrink-0 flex items-center justify-between pb-4 md:pb-6 border-b border-white/10"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Button
-              onClick={onClose}
-              className="rounded-full text-purple-300 bg-white/10 shadow-md hover:text-white hover:bg-purple-400/20 active:scale-90 transition-all font-semibold flex cursor-pointer"
-              variant="ghost"
-              size="sm"
-            >
-              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 sm:mr-1" />
-              <span className="hidden sm:inline">Back</span>
-            </Button>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text chango-regular text-white text-quest-shadow">
+          <Button
+            onClick={onClose}
+            className="rounded-full text-purple-300 bg-white/10 shadow-md hover:text-white hover:bg-purple-400/20 active:scale-90 transition-all font-semibold flex cursor-pointer"
+            variant="ghost"
+            size="sm"
+          >
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 sm:mr-1" />
+            <span className="hidden sm:inline">Back</span>
+          </Button>
+          <div className="flex-1 text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl chango-regular font-bold text-white [text-shadow:0_0_10px_theme(colors.cyan.300),0_0_20px_theme(colors.cyan.400),0_0_40px_theme(colors.purple.500)]">
               {constellationName}
             </h2>
           </div>
+          {/* Spacer to balance the button */}
+          <div className="w-24" />
         </motion.div>
         <div className="flex-1 mt-4 md:mt-6 overflow-y-auto pr-2 min-h-0">
             <motion.div
                 className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
-                variants={gridContainerVariants}
+                                variants={variants}
                 initial="hidden"
                 animate="visible"
             >
