@@ -11,7 +11,7 @@ import { ConstellationView } from "./ConstellationView";
 import { journeySteps } from "./journeyData";
 import { QuestModal } from "./QuestModal";
 import AnimatedText from "../../animation/AnimatedText";
-import { GalaxyCard } from "./GalaxyCard"; // <-- Import the new component
+import { GalaxyCard } from "./GalaxyCard";
 
 // Icon map (unchanged)
 const questTypeIcons = {
@@ -80,19 +80,22 @@ export function QuestUniverse() {
     <>
       <CosmicBackground />
 
-      <div className="relative z-10 flex flex-col items-center w-full min-h-screen p-4 sm:p-6 text-white overflow-x-hidden">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full min-h-screen p-4 sm:p-6 text-white overflow-x-hidden">
         <motion.main
           className="w-full flex flex-col items-center font-cinzel"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 1, delay: 0.2 } }}
         >
           <div className="text-center my-16 md:my-24 px-2">
-            <AnimatedText
-              text="Cosmic Trail"
-              className="text-4xl sm:text-5xl md:text-7xl chango-regular font-bold 
-                         text-white [text-shadow:0_0_10px_theme(colors.cyan.300),0_0_20px_theme(colors.cyan.400),0_0_40px_theme(colors.purple.500)]"
-              direction="down"
-            />
+            <div className="w-full flex justify-center">
+              <AnimatedText
+                text={"Cosmic Trail"}
+                className="text-3xl sm:text-4xl md:text-5xl chango-regular font-bold text-white [text-shadow:0_0_10px_theme(colors.cyan.300),0_0_20px_theme(colors.cyan.400),0_0_40px_theme(colors.purple.500)]"
+                direction="down"
+                alwaysAnimate={true}
+              />
+            </div>
+
             <motion.p 
               className="mt-6 text-sm sm:text-base text-slate-300 max-w-md sm:max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 10 }}

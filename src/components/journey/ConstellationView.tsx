@@ -1,36 +1,45 @@
 // src/components/journey/ConstellationView.tsx
 
-import React, { type FC, useMemo } from 'react';
+import React, { type FC, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { JourneyStep } from './JourneyTypes';
 import { Star } from './Star';
 import { Button } from '../ui/button';
 import { ChevronLeft } from 'lucide-react';
+import { QuestListItem } from './QuestListItem';
+import { SortOptionsBar, type SortOption } from './SortOptionsBar';
 
-const StaticConstellationBackground = React.memo(() => (
+const StaticConstellationBackground = React.memo(({ isMobile }: { isMobile: boolean }) => (
   <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl bg-indigo-950">
     <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-black" />
   
-    <motion.div
-      className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.4 } }}
-    />
-    <motion.div
-      className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.4 } }}
-    />
+    {!isMobile && (
+      <>
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.4 } }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.4 } }}
+        />
+      </>
+    )}
+    
     <motion.div
       className="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:50px_50px]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.4 } }}
     />
-     <motion.div
-      className="absolute inset-0 bg-[radial-gradient(#a78bfa33_1.5px,transparent_1.5px)] [background-size:120px_120px]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.4 } }}
-    />
+    {!isMobile && (
+      <motion.div
+        className="absolute inset-0 bg-[radial-gradient(#a78bfa33_1.5px,transparent_1.5px)] [background-size:120px_120px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.4 } }}
+      />
+    )}
   </div>
 ));
 StaticConstellationBackground.displayName = 'StaticConstellationBackground';
@@ -72,12 +81,36 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
   allQuests,
   isMobile,
 }) => {
-  const questsInConstellation = useMemo(() =>
-    allQuests
-      .filter(step => step.questType === constellationName)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
-    [constellationName, allQuests]
-  );
+  const [sortOption, setSortOption] = useState<SortOption>('progress-desc');
+
+  const questsInConstellation = useMemo(() => {
+    const filtered = allQuests.filter(step => step.questType === constellationName);
+
+    const difficultyMap: { [key: string]: number } = {
+      Deadly: 6,
+      Heroic: 5,
+      Hard: 4,
+      Normal: 3,
+      Easy: 2,
+      Trivial: 1,
+    };
+
+    switch (sortOption) {
+      case 'date-desc':
+        return filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      case 'difficulty-desc':
+        return filtered.sort((a, b) => {
+          const difficultyA = difficultyMap[a.difficulty as keyof typeof difficultyMap] || 0;
+          const difficultyB = difficultyMap[b.difficulty as keyof typeof difficultyMap] || 0;
+          return difficultyB - difficultyA;
+        });
+      case 'progress-desc':
+        return filtered.sort((a, b) => (b.progress || 0) - (a.progress || 0));
+      default:
+        // Default to sorting by newest if the sort option is somehow invalid
+        return filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }
+  }, [constellationName, allQuests, sortOption]);
 
   const variants = isMobile ? mobileGridContainerVariants : gridContainerVariants;
 
@@ -88,9 +121,9 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
       style={{ willChange: 'transform, opacity' }}
       exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
     >
-      <StaticConstellationBackground />
+      <StaticConstellationBackground isMobile={isMobile} />
 
-      <div className="relative z-10 w-full flex-1 flex flex-col p-4 sm:p-6 md:p-8 min-h-0">
+      <div className="relative z-10 w-full flex-1 flex flex-col p-2 sm:p-6 md:p-8 min-h-0">
         <motion.div
           className="flex-shrink-0 flex items-center justify-between pb-4 md:pb-6 border-b border-white/10"
           initial={{ opacity: 0, y: -20 }}
@@ -101,32 +134,38 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
             onClick={onClose}
             className="rounded-full text-purple-300 bg-white/10 shadow-md hover:text-white hover:bg-purple-400/20 active:scale-90 transition-all font-semibold flex cursor-pointer"
             variant="ghost"
-            size="sm"
+            size="icon"
           >
-            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 sm:mr-1" />
-            <span className="hidden sm:inline">Back</span>
+            <ChevronLeft className="w-5 h-5" />
+            <span className="sr-only">Back</span>
           </Button>
-          <div className="flex-1 text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl chango-regular font-bold text-white [text-shadow:0_0_10px_theme(colors.cyan.300),0_0_20px_theme(colors.cyan.400),0_0_40px_theme(colors.purple.500)]">
+          <div className="flex-1 text-center px-2">
+            <h2 className="text-xl sm:text-3xl md:text-4xl chango-regular font-bold text-white [text-shadow:0_0_10px_theme(colors.cyan.300),0_0_20px_theme(colors.cyan.400),0_0_40px_theme(colors.purple.500)]">
               {constellationName}
             </h2>
           </div>
           {/* Spacer to balance the button */}
-          <div className="w-24" />
+          <div className="w-10 sm:w-24" />
         </motion.div>
+        <SortOptionsBar onSortChange={setSortOption} currentSort={sortOption} />
         <div className="flex-1 mt-4 md:mt-6 overflow-y-auto pr-2 min-h-0">
             <motion.div
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
-                                variants={variants}
+                className={isMobile ? "space-y-3" : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"}
+                variants={variants}
                 initial="hidden"
                 animate="visible"
             >
                 {questsInConstellation.map((quest) => (
+                  isMobile ? (
+                    <QuestListItem key={quest.title} step={quest} onSelect={onSelectStep} />
+                  ) : (
                     <Star key={quest.title} step={quest} onSelect={onSelectStep} />
+                  )
                 ))}
             </motion.div>
         </div>
       </div>
+      <SortOptionsBar onSortChange={setSortOption} currentSort={sortOption} />
     </motion.div>
   );
 };
