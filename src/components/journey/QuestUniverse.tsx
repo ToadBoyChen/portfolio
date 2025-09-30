@@ -143,8 +143,6 @@ export function QuestUniverse() {
           </Button>
         </motion.div>
       </div>
-
-      {/* Modals section (unchanged) */}
       <AnimatePresence>
         {zoomedConstellation && (
           <motion.div
@@ -163,9 +161,7 @@ export function QuestUniverse() {
           </motion.div>
         )}
         {selectedStep && (
-          <div className="font-cinzel px-2">
-            <QuestModal step={selectedStep} onClose={() => setSelectedStep(null)} />
-          </div>
+          <QuestModal step={selectedStep} onClose={() => setSelectedStep(null)} />
         )}
       </AnimatePresence>
     </>

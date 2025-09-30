@@ -107,7 +107,6 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
       case 'progress-desc':
         return filtered.sort((a, b) => (b.progress || 0) - (a.progress || 0));
       default:
-        // Default to sorting by newest if the sort option is somehow invalid
         return filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }
   }, [constellationName, allQuests, sortOption]);
@@ -144,7 +143,6 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
               {constellationName}
             </h2>
           </div>
-          {/* Spacer to balance the button */}
           <div className="w-10 sm:w-24" />
         </motion.div>
         <SortOptionsBar onSortChange={setSortOption} currentSort={sortOption} />

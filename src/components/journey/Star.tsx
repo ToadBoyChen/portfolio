@@ -2,8 +2,6 @@
 
 import React, { type FC, memo, useRef, type ReactElement } from 'react';
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
-
-// --- Type Definitions (Added to support the `step` prop) ---
 export interface SpriteSheetData {
   spriteSheet: string;
   frameCount: number;
@@ -36,7 +34,6 @@ export interface JourneyStep {
   prerequisites?: string[];
 }
 
-// --- Configuration Engine: The "Celestial Forge" (Unchanged) ---
 type StarTheme = {
   glow: string;
   colorMain: string;
@@ -51,8 +48,6 @@ const STAR_CONFIG: Record<Difficulty, StarTheme> = {
   Heroic: { glow: "#c084fc", colorMain: "#9333ea", colorAccent: "#6b21a8" },
   Deadly: { glow: "#ef4444", colorMain: "#e11d48", colorAccent: "#9f1239" },
 };
-
-// --- Animation Variants (Unchanged) ---
 export const artifactDiscoveryVariant: Variants = {
   hidden: { opacity: 0, scale: 0.8, filter: 'blur(10px)' },
   visible: {
@@ -99,23 +94,18 @@ const CompletionSeal: FC = memo(() => (
   </motion.div>
 ));
 CompletionSeal.displayName = 'CompletionSeal';
-
-// --- Main Star Component: The "Celestial Artifact" ---
 interface StarProps {
   step: JourneyStep;
   onSelect: (step: JourneyStep) => void;
 }
 
 export const Star: FC<StarProps> = memo(({ step, onSelect }) => {
-  // --- UPDATED: Destructuring `recommendedLevel` ---
   const { difficulty, progress, title, recommendedLevel } = step;
   const config = STAR_CONFIG[difficulty];
   const isCompleted = progress === 100;
   const isActive = progress > 0 && progress < 100;
 
   const cardRef = useRef<HTMLDivElement>(null);
-
-  // --- 3D Interaction Logic (Unchanged) ---
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const { left, top, width, height } = cardRef.current.getBoundingClientRect();
@@ -140,7 +130,6 @@ export const Star: FC<StarProps> = memo(({ step, onSelect }) => {
       onMouseLeave={handleMouseLeave}
       onClick={() => onSelect(step)}
       variants={artifactDiscoveryVariant}
-      // --- UPDATED: Layout is now `justify-between` to create space for top and bottom elements ---
       className="group aspect-square relative flex flex-col justify-between p-4
                  rounded-2xl bg-slate-900 cursor-pointer overflow-hidden
                  shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
@@ -160,27 +149,18 @@ export const Star: FC<StarProps> = memo(({ step, onSelect }) => {
         style={{ background: 'radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)' }}
       />
       {!isCompleted && <div className="energy-wave-container" />}
-
-      {/* Content Layer (with 3D depth) */}
-      {/* --- UPDATED: This container is also `justify-between` to align its children --- */}
       <motion.div
         className="relative z-10 flex flex-col justify-between h-full"
         style={{ transform: 'translateZ(40px)' }}
       >
-        {/* --- NEW: Top Row Container --- */}
         <motion.div variants={contentVariant} className='flex justify-between items-center'>
-          {/* Item 1: Recommended Level (Top Left) */}
           <span className="font-bold text-xs text-white/90 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-md">
             LVL {recommendedLevel}
           </span>
-          
-          {/* Item 2: Difficulty (Top Right) */}
           <span className="font-semibold text-xs px-3 py-1 rounded-full border bg-black/30 backdrop-blur-sm" style={{ color: 'var(--glow)', borderColor: 'var(--glow)', textShadow: `0 0 10px var(--glow)` }}>
             {difficulty}
           </span>
         </motion.div>
-
-        {/* --- Bottom Content Container (Title & Progress Bar) --- */}
         <div className="w-full">
           <motion.h3
             variants={contentVariant}
@@ -202,8 +182,6 @@ export const Star: FC<StarProps> = memo(({ step, onSelect }) => {
           )}
         </div>
       </motion.div>
-
-      {/* Completion Seal Layer (Unchanged) */}
       <AnimatePresence>
         {isCompleted && <CompletionSeal />}
       </AnimatePresence>
