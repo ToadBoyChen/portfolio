@@ -117,6 +117,7 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
         </motion.div>
         
         <SortOptionsBar onSortChange={setSortOption} currentSort={sortOption} />
+        
         <div className="flex-1 mt-4 md:mt-6 min-h-0">
           {isMobile ? (
             <Virtuoso
@@ -129,7 +130,6 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
               )}
             />
           ) : (
-            
             <div className="overflow-y-auto pr-2 h-full">
               <motion.div
                   className={"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"}
@@ -138,7 +138,12 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
                   animate="visible"
               >
                   {questsInConstellation.map((quest) => (
-                    <Star key={quest.title} step={quest} onSelect={onSelectStep} />
+                    <Star 
+                      key={quest.title} 
+                      step={quest} 
+                      onSelect={onSelectStep} 
+                      isMobile={isMobile} 
+                    />
                   ))}
               </motion.div>
             </div>

@@ -1,7 +1,9 @@
-// src/components/journey/CelestialArtifact.tsx
+// src/components/journey/Star.tsx (Recommended file name)
 
 import React, { type FC, memo, useRef, type ReactElement } from 'react';
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
+
+// --- Type definitions ---
 export interface SpriteSheetData {
   spriteSheet: string;
   frameCount: number;
@@ -40,6 +42,7 @@ type StarTheme = {
   colorAccent: string;
 };
 
+// --- Constants and variants ---
 const STAR_CONFIG: Record<Difficulty, StarTheme> = {
   Trivial: { glow: "#a1a1aa", colorMain: "#52525b", colorAccent: "#27272a" },
   Easy: { glow: "#4ade80", colorMain: "#16a34a", colorAccent: "#166534" },
@@ -61,13 +64,10 @@ export const artifactDiscoveryVariant: Variants = {
     }
   },
 };
-
 const contentVariant: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-}
-
-// --- Completion Seal (Unchanged) ---
+};
 const CompletionSeal: FC = memo(() => (
   <motion.div
     className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm"
@@ -94,18 +94,21 @@ const CompletionSeal: FC = memo(() => (
   </motion.div>
 ));
 CompletionSeal.displayName = 'CompletionSeal';
+
 interface StarProps {
   step: JourneyStep;
   onSelect: (step: JourneyStep) => void;
+  isMobile: boolean; // Prop to disable expensive animations on mobile
 }
 
-export const Star: FC<StarProps> = memo(({ step, onSelect }) => {
+export const Star: FC<StarProps> = memo(({ step, onSelect, isMobile }) => {
   const { difficulty, progress, title, recommendedLevel } = step;
   const config = STAR_CONFIG[difficulty];
   const isCompleted = progress === 100;
   const isActive = progress > 0 && progress < 100;
 
   const cardRef = useRef<HTMLDivElement>(null);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const { left, top, width, height } = cardRef.current.getBoundingClientRect();
@@ -123,35 +126,48 @@ export const Star: FC<StarProps> = memo(({ step, onSelect }) => {
     cardRef.current.style.transform = 'perspective(1500px) rotateX(0deg) rotateY(0deg)';
   };
 
+  // Conditionally apply expensive event handlers only on desktop
+  const desktopInteractionProps = !isMobile ? {
+    onMouseMove: handleMouseMove,
+    onMouseLeave: handleMouseLeave,
+  } : {};
+  
+  // Conditionally apply the 3D transform style only on desktop
+  const conditionalStyles = {
+    '--glow': config.glow,
+    '--color-main': config.colorMain,
+    '--color-accent': config.colorAccent,
+    '--bg-texture': 'url("/noise.png")',
+    ...( !isMobile && { transformStyle: 'preserve-3d' } )
+  } as React.CSSProperties;
+
   return (
     <motion.div
       ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      {...desktopInteractionProps}
       onClick={() => onSelect(step)}
       variants={artifactDiscoveryVariant}
       className="group aspect-square relative flex flex-col justify-between p-4
                  rounded-2xl bg-slate-900 cursor-pointer overflow-hidden
                  shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
-      style={{
-        transformStyle: 'preserve-3d',
-        '--glow': config.glow,
-        '--color-main': config.colorMain,
-        '--color-accent': config.colorAccent,
-        '--bg-texture': 'url("/noise.png")',
-      } as React.CSSProperties}
+      style={conditionalStyles}
     >
-      {/* Background & Energy Wave Layers (Unchanged) */}
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-main)] to-[var(--color-accent)]" />
       <div className="absolute inset-0 bg-[var(--bg-texture)] opacity-10 mix-blend-overlay" />
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: 'radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)' }}
-      />
+      
+      {/* Conditionally render the spotlight effect only on desktop */}
+      {!isMobile && (
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background: 'radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)' }}
+        />
+      )}
+      
       {!isCompleted && <div className="energy-wave-container" />}
+      
       <motion.div
         className="relative z-10 flex flex-col justify-between h-full"
-        style={{ transform: 'translateZ(40px)' }}
+        style={{ transform: !isMobile ? 'translateZ(40px)' : 'none' }} 
       >
         <motion.div variants={contentVariant} className='flex justify-between items-center'>
           <span className="font-bold text-xs text-white/90 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-md">
