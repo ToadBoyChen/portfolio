@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import { motion } from 'framer-motion';
 import { FaCalendarAlt, FaCode, FaCheckCircle } from 'react-icons/fa';
 import type { JourneyStep } from './Star';

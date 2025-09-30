@@ -2,21 +2,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, type FC } from 'react';
 import AnimatedText from "../../animation/AnimatedText";
 
-// --- Constants remain the same ---
 const LOADING_TEXTS = [
-  "Sharpening blades...",
-  "Mixing potions...",
-  "Drawing maps...",
   "Waking sprites...",
   "Polishing pixels...",
   "Rolling dice...",
 ];
+
 const TEXT_CHANGE_INTERVAL_MS = 2200;
 const PARTICLE_COUNT_MOBILE = 30;
 const PARTICLE_COUNT_DESKTOP = 75;
 const ROTATING_TEXT = "Mathematics · Finance · Athletics · Programming · Trading";
 
-// --- StardustParticle Component (FIXED) ---
 const StardustParticle: FC = () => {
   // Calculate duration and delay as numbers for the transition prop
   const duration = 2 + Math.random() * 3;
@@ -115,6 +111,19 @@ export const QuestUniverseLoader = () => {
             alwaysAnimate={true}
           />
         </AnimatePresence>
+      </div>
+
+      {/* Loading Bar */}
+      <div className="w-full max-w-xs sm:max-w-sm h-2 bg-cyan-900/50 rounded-full overflow-hidden mt-8 shadow-inner shadow-black/50">
+        <motion.div
+          className="h-full bg-cyan-400 shadow-[0_0_10px_theme(colors.cyan.400)]"
+          initial={{ width: '0%' }}
+          animate={{ width: '100%' }}
+          transition={{
+            duration: (TEXT_CHANGE_INTERVAL_MS / 1000) * LOADING_TEXTS.length,
+            ease: 'linear',
+          }}
+        />
       </div>
     </motion.div>
   );
