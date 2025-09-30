@@ -7,15 +7,10 @@ import { Star } from './Star';
 import { Button } from '../ui/button';
 import { ChevronLeft } from 'lucide-react';
 
-// --- (OPTIMIZED) Background Component ---
-// We delay the rendering of expensive blurs until after the main layout animation.
 const StaticConstellationBackground = React.memo(() => (
   <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl bg-indigo-950">
-    {/* Base gradients are cheap, they can render immediately */}
     <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-black" />
-    
-    {/* --- Expensive Effects --- */}
-    {/* These are now motion components. They will fade in AFTER the main animation, preventing lag. */}
+  
     <motion.div
       className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
       initial={{ opacity: 0 }}
@@ -76,7 +71,6 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
     <motion.div
       layoutId={layoutId}
       className="relative w-full max-w-7xl max-h-[90vh] bg-black/50 border border-purple-400/20 rounded-2xl shadow-2xl shadow-purple-500/10 flex flex-col"
-      // --- (PERFORMANCE) Hint to the browser to use hardware acceleration ---
       style={{ willChange: 'transform, opacity' }}
       exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
     >
@@ -104,11 +98,8 @@ export const ConstellationView: FC<ConstellationViewProps> = ({
             </h2>
           </div>
         </motion.div>
-
-        {/* --- (LAYOUT) Scrollable Grid Area (IMPROVED) --- */}
         <div className="flex-1 mt-4 md:mt-6 overflow-y-auto pr-2 min-h-0">
             <motion.div
-                // --- Better responsive grid columns ---
                 className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
                 variants={gridContainerVariants}
                 initial="hidden"
