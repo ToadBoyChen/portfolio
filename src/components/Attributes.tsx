@@ -1,15 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GiBrain, GiStrong } from 'react-icons/gi';
-import { FaShieldAlt, FaUsers, FaLightbulb } from 'react-icons/fa';
+import { GiBrain  } from 'react-icons/gi';
+import { FaUsers, FaLightbulb } from 'react-icons/fa';
 
 const attributesData = [
   { icon: <GiBrain />, label: 'Creativity', value: 7 },
-  { icon: <GiStrong />, label: 'Resilience', value: 8 },
   { icon: <FaLightbulb />, label: 'Analysis', value: 10 },
-  { icon: <FaShieldAlt />, label: 'Discipline', value: 5 },
   { icon: <FaUsers />, label: 'Teamwork', value: 9 },
-  { icon: <FaLightbulb />, label: 'Adaptability', value: 7 },
+  { icon: <FaLightbulb />, label: 'Confidence', value: 10 },
 ];
 
 const AttributeItem = ({ icon, label, value, index }: { icon: React.ReactNode; label: string; value: number; index: number }) => {
