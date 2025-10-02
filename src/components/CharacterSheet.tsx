@@ -105,7 +105,7 @@ const ResponsiveFilterControls = <T extends string>({ options, currentValue, onV
                 <div className="relative">
                     <Listbox.Button className="relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left shadow-md ring-1 ring-inset ring-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary text-xs text-foreground bg-background/80">
                         <span className="block truncate capitalize font-bold text-foreground/90">
-                            {labelPrefix}: {currentOption?.label ?? 'Select'}
+                            {currentOption?.label ?? 'Select'}
                         </span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"><FiChevronDown className="h-5 w-5 text-foreground/70" /></span>
                     </Listbox.Button>

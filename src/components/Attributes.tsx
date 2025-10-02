@@ -31,7 +31,7 @@ const Attributes: FC = () => {
                             <span className="text-md sm:text-3xl text-primary drop-shadow-sm">{attr.value}</span>
                         </div>
                         <div className="flex-grow">
-                            <h4 className="text-md sm:text-xl font-bold text-foreground">{attr.long}</h4>
+                            <h4 className="text-sm sm:text-xl font-bold text-foreground">{attr.long}</h4>
                             <p className="text-xs sm:text-sm text-foreground/80">{attr.description}</p>
                         </div>
                     </motion.li>

@@ -11,14 +11,6 @@ const getActivityIcon = (title: string) => {
     return <FiPlusSquare className="text-amber-400" />;
 };
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.08, delayChildren: 0.2 },
-    },
-};
-
 const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -40,9 +32,6 @@ const ActivityFeed: FC = () => {
             <motion.ul
                 className="flex-grow space-y-4 overflow-y-auto
                            scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
             >
                 {recentActivities.map((activity, index) => (
                     <motion.li
