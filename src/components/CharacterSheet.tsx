@@ -132,7 +132,7 @@ const ResponsiveFilterControls = <T extends string>({ options, currentValue, onV
 
 interface LogbookViewProps { items: JourneyStep[]; renderItem: (item: JourneyStep) => ReactNode; emptyText: string; }
 const LogbookView: FC<LogbookViewProps> = ({ items, renderItem, emptyText }) => (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4 max-h-60 sm:max-h-80 overflow-y-auto pr-2 mt-4 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 max-h-60 sm:max-h-80 overflow-y-auto pr-2 mt-4 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
         {items.length > 0 ? items.map(item => renderItem(item)) : <p className="col-span-full text-center text-foreground/70 py-8">{emptyText}</p>}
     </div>
 );
@@ -300,7 +300,7 @@ const AnimatedXpBar: FC<AnimatedXpBarProps> = ({ currentXp, maxXp }) => {
 const BaseStatsContent: FC = () => {
     return (
         <div className="bg-background/40 rounded-lg p-2 h-full flex flex-col">
-            <p className="text-xl font-bold text-foreground mb-4">Base Stats</p>
+            <p className="text-lg sm:text-xl font-bold text-foreground mb-4">Base Stats</p>
             <div
                 className="grid grid-cols-1 lg:grid-cols-2 h-full overflow-y-auto 
                         scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30 gap-8"
@@ -413,7 +413,7 @@ function CharacterSheet() {
                 <div className="flex flex-row gap-8">
                     <div className="w-full lg:w-1/3 self-start"><CharacterProfile /></div>
                     <div className="w-full lg:w-2/3 bg-background/40 rounded-lg p-4">
-                        <h3 className="text-xl font-bold text-foreground mb-4">Logbook</h3>
+                        <p className="text-md sm:text-xl font-bold text-foreground mb-4">Logbook</p>
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
                             <ResponsiveFilterControls
                                 options={logbookOptions}
