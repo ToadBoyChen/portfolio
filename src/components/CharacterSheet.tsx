@@ -66,12 +66,11 @@ interface ResponsiveFilterControlsProps<T extends string> {
     currentValue: T;
     onValueChange: (value: T) => void;
     isMdScreen: boolean;
-    labelPrefix: string;
     groupLabel?: string; 
     className?: string;
 }
 
-const ResponsiveFilterControls = <T extends string>({ options, currentValue, onValueChange, isMdScreen, labelPrefix, groupLabel, className = "" }: ResponsiveFilterControlsProps<T>) => {
+const ResponsiveFilterControls = <T extends string>({ options, currentValue, onValueChange, isMdScreen, groupLabel, className = "" }: ResponsiveFilterControlsProps<T>) => {
     if (isMdScreen) {
         const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.1 } } };
         const itemVariants = { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } };
@@ -420,7 +419,6 @@ function CharacterSheet() {
                                 currentValue={logbookView}
                                 onValueChange={handleLogbookViewChange}
                                 isMdScreen={isMdScreen}
-                                labelPrefix="View"
                                 groupLabel="View"
                                 className="md:w-auto"
                             />
@@ -429,7 +427,6 @@ function CharacterSheet() {
                                 currentValue={filterStatus}
                                 onValueChange={setFilterStatus}
                                 isMdScreen={isMdScreen}
-                                labelPrefix="Status"
                                 groupLabel="Status"
                                 className="md:w-auto"
                             />
@@ -447,7 +444,6 @@ function CharacterSheet() {
                                             currentValue={rarityFilter} 
                                             onValueChange={setRarityFilter} 
                                             isMdScreen={isMdScreen} 
-                                            labelPrefix="Rarity" 
                                             groupLabel="Filter by Rarity"
                                         />
                                     </div>
@@ -475,7 +471,6 @@ function CharacterSheet() {
                                             currentValue={difficultyFilter} 
                                             onValueChange={setDifficultyFilter} 
                                             isMdScreen={isMdScreen} 
-                                            labelPrefix="Difficulty"
                                             groupLabel="Filter by Difficulty"
                                         />
                                     </div>
