@@ -131,7 +131,7 @@ const ResponsiveFilterControls = <T extends string>({ options, currentValue, onV
 
 interface LogbookViewProps { items: JourneyStep[]; renderItem: (item: JourneyStep) => ReactNode; emptyText: string; }
 const LogbookView: FC<LogbookViewProps> = ({ items, renderItem, emptyText }) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 max-h-60 sm:max-h-80 overflow-y-auto pr-2 mt-4 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4 max-h-60 sm:max-h-80 overflow-y-auto pr-2 mt-4 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
         {items.length > 0 ? items.map(item => renderItem(item)) : <p className="col-span-full text-center text-foreground/70 py-8">{emptyText}</p>}
     </div>
 );
