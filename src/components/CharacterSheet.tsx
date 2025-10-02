@@ -184,7 +184,7 @@ const CharacterProfile: FC = () => {
     `;
 
     return (
-        <div className="p-2 sm:p-4 flex-shrink-0 flex items-center justify-center">
+        <div className="px-2 flex-shrink-0 flex items-center justify-center">
             <GradientKeyframes />
 
             <div className="flex flex-col gap-4 w-full max-w-xs mx-auto">
@@ -388,7 +388,7 @@ function CharacterSheet() {
 
     return (
         <motion.div
-            className="relative flex flex-col w-full max-w-7xl mx-auto my-12 bg-gradient-to-br from-blue-200/40 to-purple-300/50 backdrop-blur-lg rounded-2xl shadow-md overflow-hidden p-4 sm:p-6 pb-20"
+            className="relative flex flex-col w-full max-w-7xl mx-auto my-12 bg-gradient-to-br from-blue-200/40 to-purple-300/50 backdrop-blur-lg rounded-2xl shadow-md overflow-hidden p-2 sm:p-6 pb-20"
             initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
         >
             <div className="pb-4 border-b border-foreground/10 mb-6">
@@ -408,8 +408,8 @@ function CharacterSheet() {
                 maxXp={characterData.xpToNextLevel} 
             />
 
-            <div className="flex flex-col gap-8">
-                <div className="flex flex-row gap-8">
+            <div className="flex flex-col gap-2 sm:gap-8">
+                <div className="flex flex-row ">
                     <div className="w-full lg:w-1/3 self-start"><CharacterProfile /></div>
                     <div className="w-full lg:w-2/3 bg-background/40 rounded-lg p-4">
                         <p className="text-md sm:text-xl font-bold text-foreground mb-4">Logbook</p>

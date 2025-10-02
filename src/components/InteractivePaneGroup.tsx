@@ -43,14 +43,14 @@ const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) =
             className={`group relative rounded-lg h-full transition-colors duration-200
                 ${isActive ? ' cursor-default' : 'cursor-pointer bg-background/40'}
             `}
-            style={{ flexBasis: isActive ? 'calc(100% - 5rem)' : '5rem' }}
+            style={{ flexBasis: isActive ? 'calc(100%)' : '3rem' }}
             onClick={onClick}
         >
-            <div className="w-full h-full p-4 overflow-hidden">
+            <div className="w-full h-full overflow-hidden">
                 <AnimatePresence mode="wait" initial={false}>
                     {isActive ? (
                         <motion.div
-                            key={`${paneData.key}-content`} // Unique key for content
+                            key={`${paneData.key}-content`}
                             variants={contentVariants}
                             initial="hidden"
                             animate="visible"
@@ -61,7 +61,7 @@ const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) =
                         </motion.div>
                     ) : (
                         <motion.div
-                            key={`${paneData.key}-title`} // Unique key for title
+                            key={`${paneData.key}-title`}
                             variants={titleVariants}
                             initial="hidden"
                             animate="visible"
@@ -83,7 +83,7 @@ const InteractivePaneGroup: FC<InteractivePaneGroupProps> = ({ leftPane, rightPa
     const [activePane, setActivePane] = useState<'left' | 'right'>('left');
 
     return (
-        <div className="flex w-full gap-4 h-[450px]">
+        <div className="flex w-full gap-2 h-100">
             <Pane 
                 paneData={leftPane} 
                 isActive={activePane === 'left'}
