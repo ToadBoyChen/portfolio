@@ -184,16 +184,16 @@ const CharacterProfile: FC = () => {
     `;
 
     return (
-        <div className="px-2 flex-shrink-0 flex items-center justify-center">
+        <div className="pr-2 flex-shrink-0 flex items-center justify-center">
             <GradientKeyframes />
 
             <div className="flex flex-col gap-4 w-full max-w-xs mx-auto">
                 <div 
-                    className="relative bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 p-1 rounded-lg 
+                    className="relative bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 p-2 rounded-lg 
                                shadow-xl shadow-purple-500/20 transition-all duration-300 
                                hover:shadow-purple-400/40 hover:scale-105 overflow-hidden aspect-square"
                 >
-                    <div className="bg-background/80 rounded-lg flex justify-center items-center aspect-square">
+                    <div className="flex justify-center items-center aspect-square">
                         <SpriteSheetAnimator 
                             spriteSheet={spriteSheet} 
                             frameCount={5} 

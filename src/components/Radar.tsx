@@ -1,11 +1,12 @@
 // Radar.tsx
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
+import { ResponsiveRadar } from '@nivo/radar';
 import { FaReact, FaCode, FaMoneyBill } from 'react-icons/fa';
 import { RiTeamFill } from "react-icons/ri";
 import { TbMathFunction } from 'react-icons/tb';
 import type { FC } from 'react';
 
+// Data remains the same
 const radarData = [
     { subject: 'WebDev', A: 75, icon: FaReact },
     { subject: 'Trading', A: 95, icon: FaMoneyBill },
@@ -14,53 +15,111 @@ const radarData = [
     { subject: 'Maths', A: 100, icon: TbMathFunction },
 ];
 
-const CustomAngleTick = ({ payload, x, y }: any) => {
-    const dataPoint = radarData[payload.index];
-    if (!dataPoint) return null;
-    
-    const { icon: Icon, subject } = dataPoint;
-    return (
-        <g>
-            <foreignObject x={x - 20} y={y - 20} width={40} height={40}>
-                <div className="flex items-center justify-center w-full h-full text-foreground/80 hover:text-primary transition-colors cursor-pointer">
-                    <Icon size={24} title={subject} />
-                </div>
-            </foreignObject>
-        </g>
-    );
+const nivoData = radarData.map(item => ({
+  skill: item.subject,
+  Proficiency: item.A,
+}));
+
+// The CustomGridLabel component is correct and does not need changes.
+const CustomGridLabel: FC<any> = ({ id, x, y }) => {
+  const dataPoint = radarData.find(d => d.subject === id);
+  if (!dataPoint) return null;
+  const { icon: Icon, subject } = dataPoint;
+
+  return (
+    <g transform={`translate(${x}, ${y})`}>
+      <foreignObject x={-12} y={-12} width={24} height={24}>
+          <div className="text-foreground/80 hover:text-purple-400 transition-colors cursor-pointer" title={subject}>
+              <Icon size={24} />
+          </div>
+      </foreignObject>
+    </g>
+  );
 };
 
+
 const SkillRadar: FC = () => {
-    return (
-        <div
-            className="w-full h-96 rounded-lg bg-background/40 p-2"
-        >
-            <h3 className="text-lg sm:text-xl font-bold text-foreground mb-4 text-center">Skill Proficiency</h3>
-            <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                    <defs>
-                        <radialGradient id="radarGradient">
-                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
-                        </radialGradient>
-                    </defs>
-                    <PolarGrid stroke="hsl(var(--foreground) / 0.2)" />
-                    <PolarAngleAxis
-                        dataKey="subject"
-                        tick={<CustomAngleTick />}
-                    />
-                    <Radar
-                        name="Skills"
-                        dataKey="A"
-                        stroke="hsl(var(--primary))"
-                        fill="url(#radarGradient)"
-                        strokeWidth={2}
-                        animationDuration={1500}
-                    />
-                </RadarChart>
-            </ResponsiveContainer>
+  // --- FIX #1: Define the gradient as a Nivo-native object ---
+  // This is a cleaner, more declarative way than writing raw SVG in JSX.
+  const gradientDef = {
+    id: 'gradient', // The ID we will reference later
+    type: 'linearGradient',
+    colors: [
+      { offset: 0, color: '#5A67D8', opacity: 0.5 },
+      { offset: 100, color: '#9F7AEA', opacity: 0.3 },
+    ],
+  };
+
+  return (
+    <div className="w-full h-auto rounded-lg bg-background/40 p-2">
+      {/* Header and Legend */}
+      <div>
+        <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 text-center">
+          Skill Proficiency
+        </h3>
+        <div className="flex justify-center flex-wrap gap-4 mt-4 text-sm text-foreground/70">
+          {radarData.map((item) => (
+            <div key={item.subject} className="flex items-center gap-2">
+              <item.icon size={14} className="text-purple-400" />
+              <span>{item.subject}</span>
+            </div>
+          ))}
         </div>
-    );
+      </div>
+      <div className="w-full max-h-[35vh] aspect-square">
+        <ResponsiveRadar
+            data={nivoData}
+            keys={['Proficiency']} // The key we will match against
+            indexBy="skill"
+            maxValue={100}
+            margin={{ top: 80, right: 80, bottom: 80, left: 80 }}
+            curve="linearClosed"
+            borderColor="#9F7AEA"
+            borderWidth={2}
+            gridLevels={5}
+            gridShape="circular"
+            gridLabelOffset={36}
+            gridLabel={CustomGridLabel}
+            enableDots={true}
+            dotSize={8}
+            dotColor="#9F7AEA"
+            dotBorderWidth={2}
+            dotBorderColor={{ from: 'color' }}
+            defs={[gradientDef]}
+            fill={[
+              {
+                match: { id: 'Proficiency' }, // Match the key from `keys` prop
+                id: 'gradient', // Apply the gradient with this ID
+              },
+            ]}
+
+            blendMode="multiply"
+            motionConfig="wobbly"
+            theme={{
+              // theme settings are fine
+              grid: {
+                  line: { stroke: "hsl(var(--foreground) / 0.2)" },
+              },
+              tooltip: {
+                container: {
+                  background: 'hsl(var(--background))',
+                  color: 'hsl(var(--foreground))',
+                  fontSize: '14px',
+                },
+              },
+            }}
+        />
+      </div>
+
+      {/* Bottom Text */}
+      <div>
+        <p className="text-sm text-foreground/60 text-center mb-4">
+          A snapshot of my technical and professional strengths, measured by proficiency. 
+          I'm always building upon my skill set.
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default SkillRadar;

@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import type { FC } from "react";
 
 const attributesData = [
-    { short: "INT", long: "Intelligence", value: 18, description: "Problem-solving, memory, and logical reasoning." },
-    { short: "WIS", long: "Wisdom", value: 14, description: "Insight, intuition, and practical judgment." },
-    { short: "CHA", long: "Charisma", value: 15, description: "Confidence, eloquence, and leadership." },
-    { short: "CON", long: "Constitution", value: 12, description: "Endurance, stamina, and resilience." },
-    { short: "DEX", long: "Dexterity", value: 11, description: "Agility, reflexes, and physical precision." },
-    { short: "STR", long: "Strength", value: 13, description: "Physical power and athletic capability." },
+    { short: "INT", long: "Intelligence", value: 18, description: "Problem-solving, memory, and logical reasoning. Proven through academic work and mathematics degree." },
+    { short: "WIS", long: "Wisdom", value: 14, description: "Insight, intuition, and practical judgment. Making long and short trades on markets - even through a painful hold." },
+    { short: "CHA", long: "Charisma", value: 15, description: "Confidence, eloquence, and leadership. Proven through successful group projects and presentations. Fight nationally - showing resilience and confidence." },
+    { short: "CON", long: "Constitution", value: 12, description: "Endurance, stamina, and resilience. I'll work hard for what I seek, and I won't give up." },
+    { short: "DEX", long: "Dexterity", value: 11, description: "Agility, reflexes, and physical precision. Even during tricky times can I maintain productive, high quality work." },
+    { short: "STR", long: "Strength", value: 13, description: "Power and influence. I can be a driving force in workplaces. I strive to uplift others and create a positive impact." },
 ];
 
 const Attributes: FC = () => {
