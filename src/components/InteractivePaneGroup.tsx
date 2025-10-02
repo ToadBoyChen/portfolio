@@ -38,23 +38,15 @@ const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) =
 
     return (
         <motion.div
-            // Use Framer Motion's layout prop to animate size changes
             layout
-            // Define the spring animation for resizing
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            // Apply dynamic styles based on the active state
             className={`group relative rounded-lg h-full transition-colors duration-200
-                ${isActive ? 'bg-background/40 cursor-default' : 'bg-background/20 hover:bg-background/30 cursor-pointer'}
+                ${isActive ? ' cursor-default' : 'cursor-pointer bg-background/40'}
             `}
-            // Animate the flex-basis property to control the width
             style={{ flexBasis: isActive ? 'calc(100% - 5rem)' : '5rem' }}
             onClick={onClick}
         >
             <div className="w-full h-full p-4 overflow-hidden">
-                {/* 
-                  THE FIX: Use a single AnimatePresence to ensure only one state (content or title) is visible at a time.
-                  The `key` prop is crucial for AnimatePresence to detect the change.
-                */}
                 <AnimatePresence mode="wait" initial={false}>
                     {isActive ? (
                         <motion.div

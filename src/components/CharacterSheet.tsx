@@ -298,55 +298,40 @@ const AnimatedXpBar: FC<AnimatedXpBarProps> = ({ currentXp, maxXp }) => {
 };
 
 const BaseStatsContent: FC = () => {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.07 },
-        },
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, x: -20 },
-        visible: { opacity: 1, x: 0 },
-    };
-
     return (
-        <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full overflow-y-auto pr-2 
-                       scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-        >
-            {characterData.baseStats.map((stat) => (
-                <Tooltip key={stat.id} content={
-                    <>
-                        <p className="font-bold text-primary">{stat.label}</p>
-                        <p className="text-sm">{stat.value}</p>
-                    </>
-                }>
-                    <motion.div
-                        className="bg-background/50 rounded-lg p-3 transition-all duration-200 
-                                   hover:bg-background/70 hover:shadow-lg"
-                        variants={itemVariants}
-                    >
-                        <div className="flex justify-between items-center mb-1">
-                            <p className="text-sm font-bold text-primary">{stat.label}</p>
-                            <p className="text-foreground font-semibold text-base">{stat.barPercentage}%</p>
+        <div className="bg-background/40 rounded-lg p-2 h-full flex flex-col">
+            <p className="text-xl font-bold text-foreground mb-4">Base Stats</p>
+            <div
+                className="grid grid-cols-1 lg:grid-cols-2 h-full overflow-y-auto 
+                        scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30 gap-8"
+            >
+                {characterData.baseStats.map((stat) => (
+                    <Tooltip key={stat.id} content={
+                        <>
+                            <p className="font-bold text-primary">{stat.label}</p>
+                            <p className="text-sm">{stat.value}</p>
+                        </>
+                    }>
+                        <div
+                            className="rounded-lg hover:bg-background/70"
+                        >
+                            <div className="flex justify-between items-center">
+                                <p className="text-sm font-bold text-primary">{stat.label}</p>
+                                <p className="text-foreground font-semibold text-base">{stat.barPercentage}%</p>
+                            </div>
+                            <div className="w-full bg-background/80 rounded-full h-2.5 overflow-hidden">
+                                <motion.div
+                                    className="bg-gradient-to-r from-blue-300 to-purple-300 h-full rounded-full shadow-[0_0_8px_hsl(var(--primary)_/_0.7)]"
+                                    initial={{ width: "0%" }}
+                                    animate={{ width: `${stat.barPercentage}%` }}
+                                    transition={{ duration: 1, ease: "circOut", delay: 0.3 }}
+                                />
+                            </div>
                         </div>
-                        <div className="w-full bg-background/80 rounded-full h-2.5 overflow-hidden">
-                            <motion.div
-                                className="bg-gradient-to-r from-blue-300 to-purple-300 h-full rounded-full shadow-[0_0_8px_hsl(var(--primary)_/_0.7)]"
-                                initial={{ width: "0%" }}
-                                animate={{ width: `${stat.barPercentage}%` }}
-                                transition={{ duration: 1, ease: "circOut", delay: 0.3 }}
-                            />
-                        </div>
-                    </motion.div>
-                </Tooltip>
-            ))}
-        </motion.div>
+                    </Tooltip>
+                ))}
+            </div>
+        </div>
     );
 };
 
@@ -513,7 +498,9 @@ function CharacterSheet() {
                 {isLgScreen ? (
                     <>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div><h3 className="text-xl font-bold text-foreground mb-4">Base Stats</h3><BaseStatsContent /></div>
+                            <div>
+                                <BaseStatsContent />
+                            </div>
                             <Attributes />
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

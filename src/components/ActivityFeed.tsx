@@ -33,15 +33,12 @@ const ActivityFeed: FC = () => {
     }, []);
 
     return (
-        <motion.div
-            className="w-full h-[400px] lg:h-full bg-background/50 rounded-lg p-4 flex flex-col"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+        <div
+            className="w-full h-[400px] lg:h-full flex flex-col bg-background/40 p-2"
         >
-            <h3 className="text-xl font-bold text-foreground mb-4 flex-shrink-0">Recent Activity</h3>
+            <h3 className="text-lg font-bold text-foreground mb-4 flex-shrink-0">Recent Activity</h3>
             <motion.ul
-                className="flex-grow space-y-4 overflow-y-auto pr-2 -mr-2
+                className="flex-grow space-y-4 overflow-y-auto
                            scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30"
                 variants={containerVariants}
                 initial="hidden"
@@ -52,10 +49,10 @@ const ActivityFeed: FC = () => {
                         key={activity.title}
                         variants={itemVariants}
                         className="relative pl-12 transition-all duration-200 rounded-lg
-                                   hover:bg-background/60"
+                                   hover:bg-background/60 text-left"
                     >
                         <div className="absolute left-4 top-0 h-full flex flex-col items-center">
-                            <div className="flex-shrink-0 text-xl z-10 p-1.5 bg-background/50 rounded-full ring-2 ring-background/80">
+                            <div className="flex-shrink-0 text-lg sm:text-xl z-10 p-1.5 bg-background/50 rounded-full ring-2 ring-background/80">
                                 {getActivityIcon(activity.title)}
                             </div>
                             {index < recentActivities.length - 1 && (
@@ -71,14 +68,14 @@ const ActivityFeed: FC = () => {
                             </div>
                             <div className="flex-shrink-0">
                                 <span className={`text-xs font-bold px-2 py-1 rounded-full ${activity.progress === 100 ? 'bg-green-500/20 text-green-400' : 'bg-sky-500/20 text-sky-400'}`}>
-                                    {activity.progress === 100 ? 'Completed' : 'In Progress'}
+                                    {activity.progress === 100 ? 'Completed' : 'Uncompleted'}
                                 </span>
                             </div>
                         </div>
                     </motion.li>
                 ))}
             </motion.ul>
-        </motion.div>
+        </div>
     );
 };
 

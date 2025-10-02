@@ -1,6 +1,5 @@
 // Radar.tsx
 
-import { motion } from 'framer-motion';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
 import { FaReact, FaCode, FaMoneyBill } from 'react-icons/fa';
 import { RiTeamFill } from "react-icons/ri";
@@ -33,13 +32,10 @@ const CustomAngleTick = ({ payload, x, y }: any) => {
 
 const SkillRadar: FC = () => {
     return (
-        <motion.div
-            className="w-full h-96 bg-background/50 rounded-lg p-4"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+        <div
+            className="w-full h-96 rounded-lg bg-background/40 p-2"
         >
-            <h3 className="text-xl font-bold text-foreground mb-4 text-center">Skill Proficiency</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-foreground mb-4 text-center">Skill Proficiency</h3>
             <ResponsiveContainer width="100%" height="100%">
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
                     <defs>
@@ -63,7 +59,7 @@ const SkillRadar: FC = () => {
                     />
                 </RadarChart>
             </ResponsiveContainer>
-        </motion.div>
+        </div>
     );
 };
 

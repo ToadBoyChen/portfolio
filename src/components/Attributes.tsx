@@ -13,51 +13,26 @@ const attributesData = [
 ];
 
 const Attributes: FC = () => {
-    // Variants for the container to orchestrate the staggered animation of its children.
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.07,
-                delayChildren: 0.2,
-            },
-        },
-    };
-
-    // Variants for each list item to animate in.
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1 },
-    };
-
     return (
-        // THE FIX: Use a flex column layout to make the list scrollable within a fixed height.
-        <div className="h-full flex flex-col">
-            <h3 className="text-xl font-bold text-foreground mb-4 flex-shrink-0">Core Attributes</h3>
+        <div className="h-full flex flex-col bg-background/40 p-2">
+            <p className="text-lg sm:text-xl font-bold text-foreground mb-4 flex-shrink-0">Core Attributes</p>
             <motion.ul
-                className="flex-grow grid grid-cols-1 lg:grid-cols-2 gap-4 overflow-y-auto pr-2
+                className="flex-grow grid grid-cols-1 lg:grid-cols-2 overflow-y-auto overflow-x-hidden gap-2
                            scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
             >
                 {attributesData.map((attr) => (
                     <motion.li
                         key={attr.short}
-                        variants={itemVariants}
-                        className="flex items-center gap-4 p-3 bg-background/50 rounded-lg transition-all duration-200 
-                                   hover:bg-background/70 hover:shadow-lg"
+                        className="flex items-center gap-4 py-3 rounded-lg"
                     >
-                        <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/30 
-                                       border-2 border-primary/50 rounded-full flex flex-col items-center justify-center font-bold"
+                        <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/20 to-primary/30 border-2 border-primary/50 rounded-full flex flex-col items-center justify-center font-bold"
                         >
                             <span className="text-xs text-primary/80 -mb-1">{attr.short}</span>
-                            <span className="text-3xl text-primary drop-shadow-sm">{attr.value}</span>
+                            <span className="text-md sm:text-3xl text-primary drop-shadow-sm">{attr.value}</span>
                         </div>
                         <div className="flex-grow">
-                            <h4 className="font-bold text-foreground">{attr.long}</h4>
-                            <p className="text-sm text-foreground/80">{attr.description}</p>
+                            <h4 className="text-md sm:text-xl font-bold text-foreground">{attr.long}</h4>
+                            <p className="text-xs sm:text-sm text-foreground/80">{attr.description}</p>
                         </div>
                     </motion.li>
                 ))}
