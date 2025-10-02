@@ -69,21 +69,21 @@ const SkillRadar: FC = () => {
       <div className="w-full max-h-[35vh] aspect-square">
         <ResponsiveRadar
             data={nivoData}
-            keys={['Proficiency']} // The key we will match against
+            keys={['Proficiency']}
             indexBy="skill"
             maxValue={100}
-            margin={{ top: 80, right: 80, bottom: 80, left: 80 }}
+            margin={{ top: 70, right: 50, bottom: 60, left: 50 }}
             curve="linearClosed"
             borderColor="#9F7AEA"
             borderWidth={2}
-            gridLevels={5}
+            gridLevels={6}
             gridShape="circular"
             gridLabelOffset={36}
             gridLabel={CustomGridLabel}
             enableDots={true}
             dotSize={8}
             dotColor="#9F7AEA"
-            dotBorderWidth={2}
+            dotBorderWidth={1}
             dotBorderColor={{ from: 'color' }}
             defs={[gradientDef]}
             fill={[
@@ -95,28 +95,7 @@ const SkillRadar: FC = () => {
 
             blendMode="multiply"
             motionConfig="wobbly"
-            theme={{
-              // theme settings are fine
-              grid: {
-                  line: { stroke: "hsl(var(--foreground) / 0.2)" },
-              },
-              tooltip: {
-                container: {
-                  background: 'hsl(var(--background))',
-                  color: 'hsl(var(--foreground))',
-                  fontSize: '14px',
-                },
-              },
-            }}
         />
-      </div>
-
-      {/* Bottom Text */}
-      <div>
-        <p className="text-sm text-foreground/60 text-center mb-4">
-          A snapshot of my technical and professional strengths, measured by proficiency. 
-          I'm always building upon my skill set.
-        </p>
       </div>
     </div>
   );
