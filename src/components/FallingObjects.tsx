@@ -7,7 +7,6 @@ import sandwichImg from "../assets/fallingObjects/sandwich.png";
 import coffee0Img from "../assets/fallingObjects/coffee0.png";
 import gloveImg from "../assets/fallingObjects/glove.png";
 
-// Array of images to choose from
 const coffeeImages = [
   coffeeImg,
   croissantImg,
@@ -77,11 +76,10 @@ const FallingObjects = () => {
       Body.setAngularVelocity(cup, (Math.random() - 0.5) * 0.2);
 
       if (cupsRef.current.length >= 20) {
-        const oldest = cupsRef.current.shift(); // remove first
+        const oldest = cupsRef.current.shift();
         if (oldest) World.remove(engine.world, oldest);
       }
 
-      // Add the new cup
       World.add(engine.world, cup);
       cupsRef.current.push(cup);
     };

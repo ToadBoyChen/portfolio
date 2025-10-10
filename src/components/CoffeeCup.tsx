@@ -59,7 +59,7 @@ const CoffeeCup = () => {
   useEffect(() => {
     let animationFrameId: number;
     const updatePhysics = () => {
-      const groundY = window.scrollY + window.innerHeight - FRAME_HEIGHT; // Use frame height
+      const groundY = window.scrollY + window.innerHeight - FRAME_HEIGHT;
       if (state === "falling") {
         setPosY(prev => {
           if (prev + physicsRef.current.fallSpeed >= groundY) {
@@ -69,7 +69,6 @@ const CoffeeCup = () => {
           return prev + physicsRef.current.fallSpeed;
         });
       } else if (state === "climbing") {
-        // This movement is handled by the climb logic useEffect
       } else {
         setPosY(groundY);
       }
@@ -125,7 +124,6 @@ const CoffeeCup = () => {
     return () => clearInterval(moveInterval);
   }, [state, direction]);
 
-  // Scroll handler to initiate falling (NO CHANGES)
   useEffect(() => {
     const onScroll = () => {
       const newScrollY = window.scrollY;

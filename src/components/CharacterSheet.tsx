@@ -14,19 +14,18 @@ import Tooltip from "./ToolTip.tsx";
 import { journeySteps } from './journey/journeyData';
 import type { Rarity, Difficulty, JourneyStep } from './journey/JourneyTypes';
 import spriteSheet from '/src/animation/quests/me-5frame.png';
-import { useMediaQuery } from "./useMediaQuery.tsx"; // Adjust path as needed
-import InteractivePaneGroup from "./InteractivePaneGroup.tsx"; // Adjust path as needed
+import { useMediaQuery } from "./useMediaQuery.tsx";
+import InteractivePaneGroup from "./InteractivePaneGroup.tsx";
 
 type FilterStatus = 'all' | 'achieved' | 'in-progress';
 type LogbookViewType = 'items' | 'encounters';
 
-// --- Data (Unchanged) ---
 const rarityColors: Record<Rarity, { border: string, bg: string, text: string }> = {
-    "Common": { border: "border-gray-400", bg: "bg-gray-500/20", text: "text-gray-300" },
-    "Uncommon": { border: "border-green-500", bg: "bg-green-500/20", text: "text-green-400" },
-    "Rare": { border: "border-blue-500", bg: "bg-blue-500/20", text: "text-blue-400" },
-    "Epic": { border: "border-purple-500", bg: "bg-purple-500/20", text: "text-purple-400" },
-    "Legendary": { border: "border-amber-500", bg: "bg-amber-500/20", text: "text-amber-400" },
+    "Common": { border: "border-gray-400", bg: "bg-gray-500/20", text: "text-gray-600" },
+    "Uncommon": { border: "border-green-500", bg: "bg-green-500/20", text: "text-green-500" },
+    "Rare": { border: "border-blue-500", bg: "bg-blue-500/20", text: "text-blue-500" },
+    "Epic": { border: "border-purple-500", bg: "bg-purple-500/20", text: "text-purple-500" },
+    "Legendary": { border: "border-amber-500", bg: "bg-amber-500/20", text: "text-amber-500" },
 };
 const difficultyColors: Record<Difficulty, { border: string, bg: string, text: string }> = {
     "Trivial": { border: "border-gray-400", bg: "bg-gray-500/20", text: "text-gray-300" },
@@ -44,12 +43,11 @@ const characterData = {
     types: [{ icon: <FaReact />, name: "React" }, { icon: <FaPython />, name: "Python" }, { icon: <SiTypescript />, name: "TypeScript" }, { icon: <SiCplusplus />, name: "C++" }],
     description: "3rd year Pure Mathematics student at Queen Mary University of London. Growing programmer, math practitioner. Aspiring to obtain job that uses mathematical and programming skills.",
     baseStats: [
-        { id: "head", label: "Intellect", value: "Pure Mathematics Fanatic", barPercentage: 90 },
-        { id: "arm-right", label: "Power", value: "Athlete", barPercentage: 60 },
-        { id: "chest", label: "Core", value: "Programmer", barPercentage: 70 },
-        { id: "legs", label: "Foundation", value: "Mathematician", barPercentage: 80 },
-        { id: "projects", label: "Stamina", value: "Growing portfolio", barPercentage: 50 },
-        { id: "social", label: "Charisma", value: "Team Player", barPercentage: 65 },
+        { id: "head", label: "Intelligence", value: "Pure Mathematics Fanatic", barPercentage: 90 },
+        { id: "chest", label: "Dexterity", value: "Adept Linux User", barPercentage: 70 },
+        { id: "legs", label: "Foundation", value: "Programming on Pi OS", barPercentage: 80 },
+        { id: "projects", label: "Wisdom", value: "Always Learning Stuff", barPercentage: 50 },
+        { id: "social", label: "Charisma", value: "Team Player & Strong Communicator", barPercentage: 65 },
     ],
     xp: 2316,
     xpToNextLevel: 10000,
@@ -76,7 +74,7 @@ const ResponsiveFilterControls = <T extends string>({ options, currentValue, onV
         const itemVariants = { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } };
         return (
             <div className={className}>
-                {groupLabel && <p className="text-xs font-semibold text-foreground/60 mb-2">{groupLabel}</p>}
+                {groupLabel && <p className="text-xs font-semibold">{groupLabel}</p>}
                 <motion.div className="flex items-center flex-wrap gap-2" variants={containerVariants} initial="hidden" animate="visible">
                     {options.map(option => (
                         <motion.button
@@ -131,7 +129,7 @@ const ResponsiveFilterControls = <T extends string>({ options, currentValue, onV
 
 interface LogbookViewProps { items: JourneyStep[]; renderItem: (item: JourneyStep) => ReactNode; emptyText: string; }
 const LogbookView: FC<LogbookViewProps> = ({ items, renderItem, emptyText }) => (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4 max-h-60 sm:max-h-80 overflow-y-auto pr-2 mt-4 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:lg:grid-cols-5 gap-2 sm:gap-4 max-h-90 sm:max-h-110 overflow-y-auto pr-2 mt-4 scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-background/30">
         {items.length > 0 ? items.map(item => renderItem(item)) : <p className="col-span-full text-center text-foreground/70 py-8">{emptyText}</p>}
     </div>
 );
@@ -165,10 +163,6 @@ const CharacterProfile: FC = () => {
             gradient: 'bg-gradient-to-r from-green-400 to-emerald-500' 
         },
         { 
-            label: 'Thinkpad Guild', 
-            gradient: 'bg-gradient-to-r from-sky-400 to-cyan-400' 
-        },
-        { 
             label: 'Arch Linux Loyalist', 
             gradient: 'bg-gradient-to-r from-blue-500 to-indigo-600' 
         },
@@ -178,7 +172,7 @@ const CharacterProfile: FC = () => {
         },
     ];
     const baseTagStyle = `
-        py-1.5 px-4 rounded-full text-white text-xs font-semibold shadow-md
+        py-1.5 px-4 rounded-full text-white text-sm font-semibold shadow-md
         transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg
         bg-[size:200%_auto]
     `;
@@ -186,14 +180,13 @@ const CharacterProfile: FC = () => {
     return (
         <div className="pr-2 flex-shrink-0 flex items-center justify-center">
             <GradientKeyframes />
-
             <div className="flex flex-col gap-4 w-full max-w-xs mx-auto">
                 <div 
                     className="relative bg-gradient-to-r from-rose-300 via-violet-300 to-purple-300 p-2 rounded-lg 
                                shadow-xl shadow-purple-500/20 transition-all duration-300 
-                               hover:shadow-purple-400/40 hover:scale-105 overflow-hidden aspect-square"
+                               hover:shadow-purple-400/40 hover:scale-105 overflow-hidden"
                 >
-                    <div className="flex justify-center items-center aspect-square">
+                    <div className="flex justify-center items-center">
                         <SpriteSheetAnimator 
                             spriteSheet={spriteSheet} 
                             frameCount={5} 
@@ -205,10 +198,10 @@ const CharacterProfile: FC = () => {
                 </div>
 
                 <div className="bg-background/60 backdrop-blur-sm p-4 rounded-lg text-center ring-1 ring-inset ring-white/10">
-                    <p className="text-xl sm:text-2xl font-bold text-foreground drop-shadow-sm">
+                    <p className="text-2xl font-bold text-foreground drop-shadow-sm">
                         {characterData.name}
                     </p>
-                    <p className="text-primary font-medium text-sm sm:text-base -mt-1 mb-4">
+                    <p className="text-primary font-medium text-base -mt-1 mb-4">
                         {characterData.title}
                     </p>
                     
@@ -256,7 +249,7 @@ const AnimatedXpBar: FC<AnimatedXpBarProps> = ({ currentXp, maxXp }) => {
     <>
       <XpBarKeyframes />
       <div className="left-0 w-full p-4 sm:px-6 sm:py-4">
-        <div className="flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm font-semibold text-foreground/80 mb-1 px-1 gap-1">
+        <div className="flex flex-col sm:flex-row justify-between items-center text-sm font-semibold text-foreground/80 mb-1 px-1 gap-1">
             <span>Experience</span>
             <span>{currentXp.toLocaleString()} / {maxXp.toLocaleString()}</span>
         </div>
@@ -335,8 +328,7 @@ const BaseStatsContent: FC = () => {
 };
 
 function CharacterSheet() {
-    const isLgScreen = useMediaQuery('(min-width: 1024px)');
-    const isMdScreen = useMediaQuery('(min-width: 768px)');
+    const isMdScreen = useMediaQuery('(min-width: 1024px)');
     const [logbookView, setLogbookView] = useState<LogbookViewType>('items');
     const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
     const [rarityFilter, setRarityFilter] = useState<Rarity | 'all'>('all');
@@ -364,7 +356,7 @@ function CharacterSheet() {
     }, [filterStatus, logbookView, rarityFilter, difficultyFilter]);
 
     const logbookOptions: ResponsiveFilterOption<LogbookViewType>[] = [ { value: 'items', label: 'Items' }, { value: 'encounters', label: 'Encounters' } ];
-    const itemStatusOptions: ResponsiveFilterOption<FilterStatus>[] = [ { value: 'all', label: 'All' }, { value: 'achieved', label: 'Obtained' }, { value: 'in-progress', label: 'In Progress' }];
+    const itemStatusOptions: ResponsiveFilterOption<FilterStatus>[] = [ { value: 'all', label: 'All' }, { value: 'achieved', label: 'Completed' }, { value: 'in-progress', label: 'In Progress' }];
     const encounterStatusOptions: ResponsiveFilterOption<FilterStatus>[] = [ { value: 'all', label: 'All' }, { value: 'achieved', label: 'Completed' }, { value: 'in-progress', label: 'In Progress' }];
     
     const rarityOptions: ResponsiveFilterOption<Rarity | 'all'>[] = [
@@ -401,7 +393,7 @@ function CharacterSheet() {
                         {characterData.types.map(type => <div key={type.name} className="px-3 py-2 sm:px-4 bg-primary/90 rounded-md text-background flex items-center justify-center" title={type.name}>{type.icon}</div>)}
                     </div>
                 </div>
-                <p className="text-foreground/90 text-center sm:text-left text-sm sm:text-base mt-4">{characterData.description}</p>
+                <p className="text-foreground/90 text-center text-base mt-4">{characterData.description}</p>
             </div>
             <AnimatedXpBar 
                 currentXp={characterData.xp} 
@@ -409,8 +401,8 @@ function CharacterSheet() {
             />
 
             <div className="flex flex-col gap-2 sm:gap-8">
-                <div className="flex flex-row ">
-                    <div className="w-full lg:w-1/3 self-start"><CharacterProfile /></div>
+                <div className="flex flex-row">
+                    <div className="w-full lg:w-1/3 self-center"><CharacterProfile /></div>
                     <div className="w-full lg:w-2/3 bg-background/40 rounded-lg p-4">
                         <p className="text-md sm:text-xl font-bold text-foreground mb-4">Logbook</p>
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
@@ -490,31 +482,16 @@ function CharacterSheet() {
                         </AnimatePresence>
                     </div>
                 </div>
-                {isLgScreen ? (
-                    <>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div>
-                                <BaseStatsContent />
-                            </div>
-                            <Attributes />
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <SkillRadar />
-                            <ActivityFeed />
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <InteractivePaneGroup
-                            leftPane={{ title: 'Base Stats', content: <BaseStatsContent />, key: 'base-stats' }}
-                            rightPane={{ title: 'Attributes', content: <Attributes />, key: 'attributes' }}
-                        />
-                        <InteractivePaneGroup
-                            leftPane={{ title: 'Skill Radar', content: <SkillRadar />, key: 'skill-radar' }}
-                            rightPane={{ title: 'Activity Feed', content: <ActivityFeed />, key: 'activity-feed' }}
-                        />
-                    </>
-                )}
+                <InteractivePaneGroup
+                    leftPane={{ title: 'Base Stats', content: <BaseStatsContent />, key: 'base-stats' }}
+                    rightPane={{ title: 'Attributes', content: <Attributes />, key: 'attributes' }}
+                    defaultActive="left"
+                />
+                <InteractivePaneGroup
+                    leftPane={{ title: 'Skill Radar', content: <SkillRadar />, key: 'skill-radar' }}
+                    rightPane={{ title: 'Activity Feed', content: <ActivityFeed />, key: 'activity-feed' }}
+                    defaultActive="right"
+                />
             </div>
         </motion.div>
     );

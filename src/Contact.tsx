@@ -8,7 +8,7 @@ function Contact() {
     <div className="flex flex-col items-center text-center mt-54 px-4" id="contact">
       <AnimatedText 
         text="Get In Touch" 
-        className="text-4xl sm:text-5xl font-bold chango-regular knewave-shadow" 
+        className="text-4xl sm:text-5xl font-bold chango-regular text-background knewave-shadow" 
       />
       <div className="mt-8 w-full max-w-5xl">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10">

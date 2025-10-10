@@ -1,9 +1,6 @@
-// InteractivePaneGroup.tsx
-
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, type FC, type ReactNode } from 'react';
 
-// --- Prop Types ---
 interface PaneProps {
     title: string;
     content: ReactNode;
@@ -13,6 +10,7 @@ interface PaneProps {
 interface InteractivePaneGroupProps {
     leftPane: PaneProps;
     rightPane: PaneProps;
+    defaultActive?: 'left' | 'right';
 }
 
 interface InternalPaneComponentProps {
@@ -20,17 +18,13 @@ interface InternalPaneComponentProps {
     isActive: boolean;
     onClick: () => void;
 }
-
-// --- Sub-Component: Moved outside for better performance and readability ---
 const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) => {
     
-    // Variants for the content area
     const contentVariants = {
         hidden: { opacity: 0, y: 15, transition: { duration: 0.2 } },
         visible: { opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.3 } },
     };
     
-    // Variants for the vertical title
     const titleVariants = {
         hidden: { opacity: 0, x: -10, transition: { duration: 0.2 } },
         visible: { opacity: 1, x: 0, transition: { delay: 0.3, duration: 0.3 } },
@@ -79,8 +73,8 @@ const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) =
     );
 };
 
-const InteractivePaneGroup: FC<InteractivePaneGroupProps> = ({ leftPane, rightPane }) => {
-    const [activePane, setActivePane] = useState<'left' | 'right'>('left');
+const InteractivePaneGroup: FC<InteractivePaneGroupProps> = ({ leftPane, rightPane, defaultActive = 'left' }) => {
+    const [activePane, setActivePane] = useState<'left' | 'right'>(defaultActive);
 
     return (
         <div className="flex w-full gap-2 h-100">
