@@ -17,8 +17,10 @@ interface InternalPaneComponentProps {
     paneData: PaneProps;
     isActive: boolean;
     onClick: () => void;
+    side: 'left' | 'right';
 }
-const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) => {
+
+const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick, side }) => {
     
     const contentVariants = {
         hidden: { opacity: 0, y: 15, transition: { duration: 0.2 } },
@@ -35,9 +37,11 @@ const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) =
             layout
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={`group relative rounded-lg h-full transition-colors duration-200
-                ${isActive ? ' cursor-default' : 'cursor-pointer bg-background/40'}
+                ${isActive 
+                    ? 'flex-[1_1_100%] cursor-default' 
+                    : 'cursor-pointer bg-background/40 basis-12 sm:basis-16 md:basis-20 lg:basis-24'
+                }
             `}
-            style={{ flexBasis: isActive ? 'calc(100%)' : '3rem' }}
             onClick={onClick}
         >
             <div className="w-full h-full overflow-hidden">
@@ -62,9 +66,16 @@ const Pane: FC<InternalPaneComponentProps> = ({ paneData, isActive, onClick }) =
                             exit="hidden"
                             className="absolute inset-0 flex items-center justify-center"
                         >
-                            <h3 className="text-xl font-bold text-foreground/60 transition-colors duration-200 group-hover:text-foreground/90 [writing-mode:vertical-rl] rotate-180 tracking-wider select-none">
+                            <p
+                                className={`text-xl sm:text-2xl font-bold text-foreground/60 transition-colors duration-200 
+                                group-hover:text-foreground/90 tracking-wider select-none
+                                ${side === 'left'
+                                    ? '[writing-mode:vertical-rl] rotate-180'
+                                    : '[writing-mode:vertical-lr]'
+                                }`}
+                            >
                                 {paneData.title}
-                            </h3>
+                            </p>
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -82,11 +93,13 @@ const InteractivePaneGroup: FC<InteractivePaneGroupProps> = ({ leftPane, rightPa
                 paneData={leftPane} 
                 isActive={activePane === 'left'}
                 onClick={() => setActivePane('left')}
+                side="left"
             />
             <Pane 
                 paneData={rightPane} 
                 isActive={activePane === 'right'}
                 onClick={() => setActivePane('right')}
+                side="right"
             />
         </div>
     );
