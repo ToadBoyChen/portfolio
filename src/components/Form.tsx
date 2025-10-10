@@ -44,27 +44,22 @@ function Contact() {
   };
 
   return (
-    <div className="flex flex-col items-center text-center text-lg" id="contact">
+    <div className="flex flex-col items-center text-center" id="contact">
         <div className="max-w-xl mx-auto p-4 text-left">
-          <p className="text-foreground/80 mb-6 text-center">
+          <p className="mb-6 text-center text-lg">
             Have a question or want to work together? Leave your details and I'll get back to you!
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Name Field */}
             <div>
               <label htmlFor="from_name" className="block text-sm font-medium text-primary mb-1">Your Name</label>
               <input type="text" {...register('from_name')} className="w-full p-3 bg-background/50 rounded-md border border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-foreground" />
               {errors.from_name && <p className="text-red-500 text-sm mt-1">{errors.from_name.message}</p>}
             </div>
-
-            {/* Email Field */}
             <div>
               <label htmlFor="from_email" className="block text-sm font-medium text-primary mb-1">Your Email</label>
               <input type="email" {...register('from_email')} className="w-full p-3 bg-background/50 rounded-md border border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-foreground" />
               {errors.from_email && <p className="text-red-500 text-sm mt-1">{errors.from_email.message}</p>}
             </div>
-
-            {/* Message Field */}
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-primary mb-1">Message</label>
               <textarea {...register('message')} rows={5} className="w-full p-3 bg-background/50 rounded-md border border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-foreground" />

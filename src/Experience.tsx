@@ -21,7 +21,7 @@ function Experience(): JSX.Element {
       />
       <div className="mt-6">
         <SectionCard>
-          <p className="text-base sm:text-lg text-center sm:text-left">
+          <p className="text-lg text-center">
             I'm always doing stuff, whether that's personal projects, studying or work experience. Maybe you want to see what I've been up to. Enter the Quest Universe Below.
           </p>
         </SectionCard>
@@ -59,12 +59,12 @@ function Experience(): JSX.Element {
       />
       <div className="mt-6">
         <SectionCard>
-          <p className="text-center sm:text-left text-lg">
+          <p className="text-center text-lg">
             I'm currently looking for work! if you think I would be a good fit for your team, feel free to download my CV below and reach out to me.
           </p>
           <div className="flex justify-center">
             <Button
-              className="hover:bg-primary text-primary hover:text-background shadow-md border-0 bg-background hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out font-bold py-4 px-8 sm:p-8 sm:px-16 text-lg sm:text-xl rounded-full mt-6"
+              className="hover:bg-primary text-primary hover:text-background shadow-md border-0 bg-background hover:shadow-lg active:scale-90 transition-all duration-300 ease-in-out font-bold py-4 px-8 text-xl rounded-full mt-6"
             >
               <a href={cvFile} download="Toby_Chen_CV.pdf">
                 Download Here

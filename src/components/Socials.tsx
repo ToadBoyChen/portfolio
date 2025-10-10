@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Hamburger from 'hamburger-react';
@@ -19,6 +19,11 @@ const socialItems = [
 ];
 
 const Socials: React.FC<SocialsProps> = ({ open, onOpenChange }) => {
+    useEffect(() => {
+      const img = new Image();
+      img.src = mePhoto;
+    }, []);
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent

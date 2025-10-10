@@ -11,7 +11,6 @@ function Navbar() {
 
   return (
     <nav className="top-0 left-0 right-0 fixed bg-accent shadow-md z-50 mx-8 lg:mt-12 md:mt-8 mt-4 flex items-center justify-center rounded-full h-16">
-      {/* large screens */}
       <div className="hidden lg:flex w-full justify-between px-4">
         <NavButtonLeft
           label="Socials"
@@ -32,10 +31,7 @@ function Navbar() {
           onClick={() => setShowSections(prev => !prev)}
         />
       </div>
-
-      {/* medium and small screens */}
       <>
-        {/* Socials button bottom left */}
         <div className="lg:hidden fixed bottom-4 left-4 z-50">
           <NavButtonLeft
             label="Socials"
@@ -43,7 +39,6 @@ function Navbar() {
             onClick={() => setShowSocials(prev => !prev)}
           />
         </div>
-        {/* Navigation button bottom right */}
         <div className="lg:hidden fixed bottom-4 right-4 z-50">
           <NavButtonRight
             label="Navigation"
@@ -51,7 +46,6 @@ function Navbar() {
             onClick={() => setShowSections(prev => !prev)}
           />
         </div>
-        {/* Centered name for small screens */}
         <div className="lg:hidden w-full flex justify-center items-center absolute top-2 left-0 select-none">
           <AnimatedText
             className="z-[101] text-background font-semibold chango-regular knewave-shadow text-5xl sm:text-6xl md:text-7xl tracking-wide -translate-y-5 sm:-translate-y-8 md:-translate-y-10"
@@ -61,8 +55,6 @@ function Navbar() {
           />
         </div>
       </>
-
-      {/* Panels */}
       <Socials open={showSocials} onOpenChange={setShowSocials} />
       <Sections open={showSections} onOpenChange={setShowSections} />
     </nav>

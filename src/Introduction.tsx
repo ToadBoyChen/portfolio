@@ -17,7 +17,10 @@ function Introduction() {
             <span className="mr-0 sm:mr-2">I'm a</span> <AnimatedRoles />
           </p>
           <p className="text-lg sm:text-2xl lg:text-4xl font-semibold mt-6 sm:mt-8">
-            Driven by the discipline of an athlete and the mind of a mathematician. I build solutions with code. This portfolio is a glimpse into what I can create.
+            Where an Athletics drive meets mathematical precision.
+          </p>
+          <p className="text-lg sm:text-2xl lg:text-4xl font-semibold">
+            Always evolving. Always improving.
           </p>
           <div className="self-center mt-16 sm:mt-24 z-10">
             <ScrollDownButton />

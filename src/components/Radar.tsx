@@ -6,7 +6,6 @@ import { RiTeamFill } from "react-icons/ri";
 import { TbMathFunction } from 'react-icons/tb';
 import type { FC } from 'react';
 
-// Data remains the same
 const radarData = [
     { subject: 'WebDev', A: 75, icon: FaReact },
     { subject: 'Trading', A: 95, icon: FaMoneyBill },
@@ -20,7 +19,6 @@ const nivoData = radarData.map(item => ({
   Proficiency: item.A,
 }));
 
-// The CustomGridLabel component is correct and does not need changes.
 const CustomGridLabel: FC<any> = ({ id, x, y }) => {
   const dataPoint = radarData.find(d => d.subject === id);
   if (!dataPoint) return null;
@@ -39,10 +37,8 @@ const CustomGridLabel: FC<any> = ({ id, x, y }) => {
 
 
 const SkillRadar: FC = () => {
-  // --- FIX #1: Define the gradient as a Nivo-native object ---
-  // This is a cleaner, more declarative way than writing raw SVG in JSX.
   const gradientDef = {
-    id: 'gradient', // The ID we will reference later
+    id: 'gradient',
     type: 'linearGradient',
     colors: [
       { offset: 0, color: '#5A67D8', opacity: 0.5 },
@@ -52,7 +48,6 @@ const SkillRadar: FC = () => {
 
   return (
     <div className="w-full h-auto rounded-lg bg-background/40 p-2">
-      {/* Header and Legend */}
       <div>
         <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 text-center">
           Skill Proficiency
@@ -88,8 +83,8 @@ const SkillRadar: FC = () => {
             defs={[gradientDef]}
             fill={[
               {
-                match: { id: 'Proficiency' }, // Match the key from `keys` prop
-                id: 'gradient', // Apply the gradient with this ID
+                match: { id: 'Proficiency' },
+                id: 'gradient',
               },
             ]}
 
